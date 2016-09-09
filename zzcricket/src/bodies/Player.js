@@ -9,6 +9,25 @@ Player = function(game, x, y) {
   var playerSpeed = 150;
   var jumpHeight = 800;
   var jumpTimer = 0;
+  
+  var shootTime = 0;
+
+  // To store the projectiles fired from the player
+  var projectiles;
+  
+  projectiles = game.add.group();
+  projectiles.enableBody = true;
+  projectiles.physicsBodyType = Phaser.Physics.ARCADE;
+  projectiles.createMultiple(5, 'projectile');
+  projectiles.setAll('anchor.x', 0.5);
+  projectiles.setAll('anchor.y', 0.5);
+
+  projectiles.setAll('scale.x', 5);
+  projectiles.setAll('scale.y', 5);
+
+  projectiles.setAll('outOfBoundsKill', true);
+  projectiles.setAll('checkWorldBounds', true);
+  
   this.player = game.add.sprite(x, y, 'player');
   this.player.anchor.setTo(0.5, 0.5);
 
@@ -52,6 +71,19 @@ Player = function(game, x, y) {
       // TODO: Error handling  
     }
     
+  },
+  
+  this.player.shoot = function(game) {
+    if (game.time.now > shootTime) {
+      projectile = projectiles.getFirstExists(false);
+      if (projectile) {
+        projectile.reset(player.x, player.y);
+        projectile.body.velocity.y = -700;
+        shootTime = game.time.now + 600;
+        
+      }
+    }
+    return projectiles;
   },
   
   // TODO: Comment, explain in-parameters and default values

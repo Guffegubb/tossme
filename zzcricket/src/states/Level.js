@@ -8,24 +8,19 @@ var layer;
 
 var player;
 var controls = {};
-var playerSpeed = 150;
-
 
 var button;
 var drag;
 
-var shootTime = 0;
-var nuts;
+var projectiles;
 
+// TODO: Do we need this? Other ways of implementing?
 var respawn;
-
-var playerXP = 0;
-var gameXPsteps = 15;
-var playerLevel = 0;
 
 Game.Level.prototype = {
 
-  // in tutorial 9 he adds game as a parameter to create:function, something with being able to use both game and this. "sometiumes it doesnt work"..
+  // in tutorial 9 he adds game as a parameter to create:function, 
+  //something with being able to use both game and this. "sometiumes it doesnt work"..
   create: function(game) {
     this.stage.backgroundColor = '#3A5963';
 
@@ -79,22 +74,7 @@ Game.Level.prototype = {
     drag.input.enableDrag(true);
 
 
-    enemy1 = new EnemyBird(0, game, player.x + 400, player.y - 200);
-
-
-    nuts = game.add.group();
-    nuts.enableBody = true;
-    nuts.physicsBodyType = Phaser.Physics.ARCADE;
-    nuts.createMultiple(5, 'nut');
-    nuts.setAll('anchor.x', 0.5);
-    nuts.setAll('anchor.y', 0.5);
-
-    nuts.setAll('scale.x', 0.5);
-    nuts.setAll('scale.y', 0.5);
-
-    nuts.setAll('outOfBoundsKill', true);
-    nuts.setAll('checkWorldBounds', true);
-
+    enemy1 = new EnemyBird(0, game, player.x + 400, player.y);
   },
 
   update: function() {
@@ -104,9 +84,6 @@ Game.Level.prototype = {
 
 
     player.move("stop");
-
-    playerLevel = Math.log(playerXP, gameXPsteps);
-    console.log('Level: ' + Math.floor(playerLevel));
 
     if (controls.right.isDown) {
       player.move("right");
@@ -119,27 +96,26 @@ Game.Level.prototype = {
     if (controls.up.isDown) {
       player.move("jump");
     }
-
-
-
-    //vid 10
-    // this creates a bug when shooting is introduced, can get killed when touching where the bird used to be before dying
-    //commented this and added the fix further up. commented as vid 12, top of update function. 
-    //if(checkOverlap(player,enemy1.bird)){
-    //  
-    //  this.resetPlayer();
-    //}
-
-
     if (controls.shoot.isDown) {
-      this.shootNut();
+      projectiles = player.shoot(this);
     }
 
-    if (checkOverlap(nuts, enemy1.bird)) {
-      enemy1.bird.kill();
+  
+    if (projectiles) {
+      for (i in projectiles.children) {
+        if (checkOverlap(projectiles.children[i], enemy1.bird)) {
+          enemy1.bird.kill();
+        }
+      }  
     }
+   
 
   },
+  
+  killbird: function() {
+    console.log("they collided");
+  },
+  
   resetPlayer: function() {
     player.reset(100, 560)
   },
@@ -147,8 +123,6 @@ Game.Level.prototype = {
   spawn: function() {
 
     respawn.forEach(function(spawnPoint) {
-
-
 
       player.reset(spawnPoint.x, spawnPoint.y);
 
@@ -161,7 +135,6 @@ Game.Level.prototype = {
   getCoin: function() {
     map.putTile(-1, layer.getTileX(player.x), layer.getTileY(player.y));
 
-    playerXP += 15;
   },
 
   speedPowerup: function() {
@@ -170,8 +143,6 @@ Game.Level.prototype = {
     
     player.speedBoost(this, speedFactor = 1.3, 5); // Add duration : 3 after testing default parameters
     
-    //playerSpeed += 50;
-
     // create a timer for 2 seconds, after which speed will decrease to return to normal
     /*this.time.events.add(Phaser.Timer.SECOND * 2, function() {
       playerSpeed -= 50;
@@ -179,7 +150,7 @@ Game.Level.prototype = {
     */
   },
 
-
+/*
   shootNut: function() {
     if (this.time.now > shootTime) {
       nut = nuts.getFirstExists(false);
@@ -188,18 +159,14 @@ Game.Level.prototype = {
         nut.body.velocity.y = -700;
         shootTime = this.time.now + 600;
 
-        // vid 15. For testing purposes, should not get xp just for shooting normally.
-        playerXP += 15;
-
       }
     }
-  }
+  } */
 
 }
 
 // vid 10
 function checkOverlap(spriteA, spriteB) {
-
   var boundsA = spriteA.getBounds();
   var boundsB = spriteB.getBounds();
   return Phaser.Rectangle.intersects(boundsA, boundsB);

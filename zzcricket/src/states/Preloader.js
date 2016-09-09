@@ -21,7 +21,7 @@ Game.Preloader.prototype = {
         this.load.spritesheet('buttons', 'assets/buttons.png', 193,71);
         this.load.image('drag', 'assets/drag.png');
         this.load.image('bird', 'assets/bird.png');
-        this.load.image('nut', 'assets/nut.png');
+        this.load.image('projectile', 'assets/nut.png');
         this.load.image('titlescreen', 'assets/titlescreen.png');
         this.load.image('button', 'assets/button.png');
     },
