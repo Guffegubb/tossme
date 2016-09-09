@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        
+        <meta charset="utf-8"/>
+        <title> Cricket </title>
+        
+        <!-- load phaser first! -->
+        <script type="text/javascript" src="src/phaser/phaser.min.js"></script>
+        
+        <script type="text/javascript" src="src/bodies/Player.js"></script>
+        <script type="text/javascript" src="src/bodies/EnemyBird.js"></script>
+        <script type="text/javascript" src="src/states/Boot.js"></script>
+        <script type="text/javascript" src="src/states/Preloader.js"></script>
+        <script type="text/javascript" src="src/states/MainMenu.js"></script>
+        <script type="text/javascript" src="src/states/Level.js"></script>
+    
+    </head>
+    
+    <body>
+        
+       <script type="text/javascript">
+        
+        window.onload = function() {
+            var game = new Phaser.Game(800, 600, Phaser.CANVAS);
+            
+            game.state.add('Boot', Game.Boot);
+            game.state.add('Preloader', Game.Preloader);
+            game.state.add('MainMenu', Game.MainMenu);
+            game.state.add('Level', Game.Level);
+            
+            game.state.start('Boot');
+       
+        }
+        
+       </script> 
+    </<body>
+</html>
