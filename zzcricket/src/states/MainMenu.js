@@ -1,5 +1,3 @@
-//this file used in vid 13 for the first time
-
 Game.MainMenu = function(game) {
   // "here we will hold all of our global variables"  
 };

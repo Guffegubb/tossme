@@ -19,8 +19,6 @@ var respawn;
 
 Game.Level.prototype = {
 
-  // in tutorial 9 he adds game as a parameter to create:function, 
-  //something with being able to use both game and this. "sometiumes it doesnt work"..
   create: function(game) {
     this.stage.backgroundColor = '#3A5963';
 
@@ -38,6 +36,7 @@ Game.Level.prototype = {
 
     map.setCollisionBetween(0, 4);
 
+    // Set a function call when object collides with this tile
     map.setTileIndexCallback(7, this.getCoin, this);
     map.setTileIndexCallback(6, this.spawn, this);
 
@@ -48,9 +47,6 @@ Game.Level.prototype = {
     player = new Player(game, 200, 200);
     this.physics.arcade.enable(player);
     this.camera.follow(player);
-
-    // ugly code that solves spawn problem yaaaay
-    //this.spawn();
 
     controls = {
       right: this.input.keyboard.addKey(Phaser.Keyboard.D),
@@ -82,9 +78,8 @@ Game.Level.prototype = {
 
     this.physics.arcade.collide(player, enemy1.bird, this.resetPlayer);
 
-
     player.move("stop");
-
+    
     if (controls.right.isDown) {
       player.move("right");
     }
@@ -106,7 +101,7 @@ Game.Level.prototype = {
         if (checkOverlap(projectiles.children[i], enemy1.bird)) {
           enemy1.bird.kill();
         }
-      }  
+      }
     }
    
 
@@ -150,22 +145,8 @@ Game.Level.prototype = {
     */
   },
 
-/*
-  shootNut: function() {
-    if (this.time.now > shootTime) {
-      nut = nuts.getFirstExists(false);
-      if (nut) {
-        nut.reset(player.x, player.y);
-        nut.body.velocity.y = -700;
-        shootTime = this.time.now + 600;
-
-      }
-    }
-  } */
-
 }
 
-// vid 10
 function checkOverlap(spriteA, spriteB) {
   var boundsA = spriteA.getBounds();
   var boundsB = spriteB.getBounds();

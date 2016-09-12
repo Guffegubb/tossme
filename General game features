@@ -1,0 +1,16 @@
+Interatction with abilities:
+
+-When moving over an an ability, you get to choose which button to put the ability on by pressing coresponding key. 
+The available keys will show when moving over the ability.
+
+-If switching abilities the old one will be placed where the new one was picked up
+
+-Amount of abilities will vary according to the map
+
+-Start with implementing player being able to have 2 abilities
+
+Abilities:
+-High jump
+-Long jump
+-Stomp
+-shoot (crick)

@@ -9,6 +9,7 @@
         <!-- load phaser first! -->
         <script type="text/javascript" src="src/phaser/phaser.min.js"></script>
         
+        <!-- Check which scripts should still be here -->
         <script type="text/javascript" src="src/bodies/Player.js"></script>
         <script type="text/javascript" src="src/bodies/EnemyBird.js"></script>
         <script type="text/javascript" src="src/bodies/Coin.js"></script>
@@ -24,7 +25,7 @@
        <script type="text/javascript">
         
         window.onload = function() {
-            var game = new Phaser.Game(800, 600, Phaser.CANVAS);
+            var game = new Phaser.Game(1200, 600, Phaser.CANVAS);
             
             game.state.add('Boot', Game.Boot);
             game.state.add('Preloader', Game.Preloader);

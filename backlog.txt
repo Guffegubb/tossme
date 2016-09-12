@@ -1,0 +1,20 @@
+
+
+Features:
+
+-Create coins via object layer
+-Connect coins from .json file to Coin.js
+-Trigger event when crossing invisible line from json file
+
+
+
+
+Bugs: 
+
+Player.js:
+-Player doesn't collide with world (code says he should)
+
+
+
+Other:
+-List which images we need for our game

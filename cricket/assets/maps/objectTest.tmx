@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="64" tileheight="64" nextobjectid="11">
+ <tileset firstgid="1" name="tileset" tilewidth="64" tileheight="64" tilecount="72" columns="8">
+  <image source="../../../Downloads/tileset_newnew.png" width="512" height="576"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="10">
+  <data encoding="csv">
+3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <objectgroup name="spawn">
+  <object id="8" gid="8" x="72" y="578" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="coins">
+  <object id="9" gid="7" x="384" y="568" width="64" height="64"/>
+  <object id="10" gid="7" x="572" y="572" width="64" height="64"/>
+ </objectgroup>
+</map>

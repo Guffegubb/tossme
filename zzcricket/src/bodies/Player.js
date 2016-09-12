@@ -44,21 +44,25 @@ Player = function(game, x, y) {
   // TODO: Comment this function
   this.player.move = function(direction) {
 
+  // TODO: Player is not playing run animation on the grund due to this if-statement
+  // without if statement run animation is played in the air. 
+  if (player.body.velocity.x == 0 && player.body.velocity.y == 0)
+        player.animations.play('idle');
+
     if (direction == "stop") {
       player.body.velocity.x = 0;
-
-      if (player.body.velocity.x == 0 && player.body.velocity.y == 0)
-        player.animations.play('idle');
     }
     else if (direction == "right") {
       player.scale.setTo(1, 1);
       player.body.velocity.x += playerSpeed;
-      player.animations.play('run');
+      if (player.body.velocity.y == 0)
+        player.animations.play('run');
     }
     else if (direction == "left") {
       player.scale.setTo(-1, 1);
       player.body.velocity.x -= playerSpeed;
-      player.animations.play('run');
+      if (player.body.velocity.y == 0)
+        player.animations.play('run');
     }
     else if (direction == "jump") {
       if (player.body.onFloor() || player.body.touching.down) {
