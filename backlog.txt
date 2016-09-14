@@ -2,6 +2,17 @@
 
 Features:
 
+-Add the "super power" functions in Player (that are called from Level)
+-Display on camera the "super powers" (Think about that if we had graphics for
+super powers on map we need to create some extra layers on bottom of screen
+so they are not in the way), alternatively move camera
+-One object for all different "super powers" : read what type from 'name' in .json, if it doesn't work,
+use gid.
+-Make it possible to drop old "super powers" where new one was picked up (if it was exchanged)
+-Create menu to choose map from
+-Create 'goal' on map
+-Create victory screen?
+-Add enemies or something to break
 -Trigger event when crossing invisible line from json file
 
 
@@ -17,3 +28,11 @@ Player.js:
 Other:
 -List which images we need for our game
 -Can not read spawn from .json file (hardcoded) at the moment
+
+Extras:
+-Add timer
+-Add extra things to pick up?
+-Easter egg?
+-Make the sprite move in some kind of way, maybe just rotate when jumping, maybe 
+make it toggle between two sprite
+-Add animation for dying

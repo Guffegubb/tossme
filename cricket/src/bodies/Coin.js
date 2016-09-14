@@ -1,7 +1,6 @@
 
 Coin = function(game, properties) {
     
-    
     this.coin  = game.add.sprite(properties.x, properties.y - properties.height, 'bird');
     this.coin.anchor.setTo(0.5, 0.5);
     game.physics.enable(this.coin, Phaser.Physics.ARCADE);

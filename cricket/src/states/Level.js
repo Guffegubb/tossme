@@ -63,6 +63,8 @@ Game.Level.prototype = {
             right: this.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
             left: this.input.keyboard.addKey(Phaser.Keyboard.LEFT),
             up: this.input.keyboard.addKey(Phaser.Keyboard.UP),
+            abilityOne: this.input.keyboard.addKey(Phaser.Keyboard.Z),
+            abilityTwo: this.input.keyboard.addKey(Phaser.Keyboard.X),
         };
     
     },
@@ -96,6 +98,15 @@ Game.Level.prototype = {
         if (controls.up.isDown) {
           player.move("jump");
         }
+        
+        if (controls.abilityOne.isDown) {
+            player.callAbility(1);
+        }
+        
+        if (controls.abilityTwo.isDown) {
+            player.callAbility(2);
+        }
+        
         
         // EndOf checking player movement
         
