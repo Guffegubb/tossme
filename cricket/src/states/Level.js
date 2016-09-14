@@ -3,66 +3,52 @@ Game.Level = function(game) {};
 
 var map;
 var layer;
-var layer2;
 
 var player;
 
-var respawn;
-var coins;
 
-var power;
+// Groups and object readers
+var respawn;
+var coinGroup;
+
+var coinReader;
 
 Game.Level.prototype = {
 
     
     create: function(game) {
         
-        // Object layers
-        var coinGroup = game.add.group();
-        // End of object layers
+        //
+        coinReader = game.add.group();
+        coinGroup = game.add.group();
+        var singleCoin;
         
-        this.stage.backgroundColor = '#3A5963';
         
-        // ...
-        respawn = game.add.group();
-        coins = game.add.group();
-        power = game.add.group();
         
-       
         // Initialize map and tilesets
+        this.stage.backgroundColor = '#3A5963';
+      
         map = this.add.tilemap('map');
         map.addTilesetImage('tileset', 'tileset');
         layer = map.createLayer('Tile Layer 1');
         
-        // Object layers
-        //map.createFromObjects('coins', 9, 'tileset', 0, true, false, coinGroup);
-        //coinGroup.callAll('animations.add', 'animations', 'spin', [6], 10, true);
-        //coinGroup.callAll('animations.play', 'animatons', 'spin');
-        // End of object layers
-        
-        
         layer.resizeWorld();
         map.setCollisionBetween(0, 4);
-        //map.createFromObjects('Object Layer 1', 8, '', 0, true, false, respawn);
-        //map.createFromObjects('Object Layer 1', 7, '', 0, true, false, coins);
-        //map.createFromObjects('Object Layer 1', 9, '', 0, true, false, power);
         
-        // Object layers
         map.createFromObjects('spawn', 8, '', 0, true, false, respawn);
-        map.createFromObjects('coins', 7, '', 0, true, false, coinGroup);
+        map.createFromObjects('coins', 7, '', 0, true, false, coinReader);
         
-        coinGroup.forEach(function(item) {
-           //item.visible = true;
-           //console.log(item.x);
-           item = game.add.sprite(item.x, item.y, 'bird');
-            //item.body.velocity.x = -120;
+        // the so called ful-lösning
+        coinReader.forEach(function(item) {
+            singleCoin = new Coin(game, item);
+            coinGroup.add(singleCoin);
         }, this);
         
-        // End of object layers
+        
         
         
         this.physics.arcade.gravity.y = 1000;
-        var properties = {
+        var playerProperties = {
             // TODO: implement without hardcoded number
             x : 122,
             y : 500,
@@ -70,7 +56,7 @@ Game.Level.prototype = {
             jumpHeight : 600,
         }
         
-        player = new Player(game, properties);
+        player = new Player(game, playerProperties);
         this.camera.follow(player);
         
         controls = {
@@ -82,9 +68,20 @@ Game.Level.prototype = {
     },
     
     
-    update: function() {
+    update: function(game) {
+        
+        // Adding all collisions
         this.physics.arcade.collide(player, layer);
         
+        coinGroup.forEach(function(item) {
+            game.physics.arcade.overlap(player, item, function() { item.destroySprite() });
+        }, this);
+        
+        
+        // EndOf adding all collisions
+        
+        
+        // Checking for player movement
         
         player.move("stop");
         
@@ -100,6 +97,12 @@ Game.Level.prototype = {
           player.move("jump");
         }
         
+        // EndOf checking player movement
+        
+    
+        
     },
+    
+   
 }
 

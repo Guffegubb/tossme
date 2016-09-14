@@ -13,7 +13,7 @@ Player = function(game, properties) {
   
   game.physics.enable(this.player, Phaser.Physics.ARCADE);
   
-  this.player.body.colldeWorldBounds = true;
+  this.player.body.collideWorldBounds = true;
   this.player.body.allowGravity = true;
   
   // TODO: Comment this function
