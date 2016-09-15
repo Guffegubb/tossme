@@ -2,7 +2,8 @@
 
 Features:
 
--Add the "super power" functions in Player (that are called from Level)
+-Add the rest of the "super powers" functions in Player (that are called from Level)
+-Fix high jump
 -Display on camera the "super powers" (Think about that if we had graphics for
 super powers on map we need to create some extra layers on bottom of screen
 so they are not in the way), alternatively move camera
@@ -36,3 +37,4 @@ Extras:
 -Make the sprite move in some kind of way, maybe just rotate when jumping, maybe 
 make it toggle between two sprite
 -Add animation for dying
+-Make right/left movement a non linear function for special jumps

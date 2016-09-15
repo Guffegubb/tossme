@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="64" tileheight="64" nextobjectid="15">
+ <tileset firstgid="1" name="tileset" tilewidth="64" tileheight="64" tilecount="9" columns="3">
+  <image source="../../../Documents/kurser/tddd23/assets/betaTileset.png" width="192" height="192"/>
+ </tileset>
+ <tileset firstgid="10" name="tileset2" tilewidth="64" tileheight="64" tilecount="72" columns="8">
+  <image source="../../../Documents/kurser/tddd23/assets/tileset_newnew.png" width="512" height="576"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="30" height="20">
+  <data encoding="csv">
+7,7,7,7,7,7,7,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,7,7,0,7,
+7,0,0,0,0,0,0,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+7,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,7,
+7,0,0,7,7,0,0,0,0,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+7,0,0,7,7,0,0,0,0,0,7,7,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,7,
+7,0,0,0,0,0,0,0,0,0,0,7,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,7,
+7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,7,
+7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,7,0,0,0,0,0,0,0,0,0,7,
+7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,0,0,7,
+7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,
+7,7,7,7,7,7,7,7,7,0,0,0,7,7,7,7,7,7,7,7,7,7,7,0,0,0,0,7,7,7,
+7,7,7,7,7,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+7,7,7,7,7,7,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+7,7,7,7,7,7,7,7,7,7,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,
+7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
+</data>
+ </layer>
+ <objectgroup name="coin">
+  <object id="1" gid="1" x="196" y="830" width="64" height="64"/>
+  <object id="2" gid="1" x="512" y="184" width="64" height="64"/>
+  <object id="3" gid="1" x="1216" y="1078" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="breakable">
+  <object id="4" gid="6" x="1470" y="896" width="64" height="64"/>
+  <object id="5" gid="6" x="1538" y="896" width="64" height="64"/>
+  <object id="6" gid="6" x="1602" y="898" width="64" height="64"/>
+  <object id="7" gid="6" x="1662" y="898" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="supers">
+  <object id="10" name="longJump" gid="5" x="514" y="828" width="64" height="64"/>
+  <object id="11" name="stomp" gid="2" x="1736" y="832" width="64" height="64"/>
+  <object id="12" name="shoot" gid="4" x="68" y="830" width="64" height="64"/>
+  <object id="13" name="highJump" gid="3" x="1024" y="832" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="spawn">
+  <object id="14" gid="19" x="384" y="832" width="64" height="64"/>
+ </objectgroup>
+</map>
