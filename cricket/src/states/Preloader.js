@@ -18,17 +18,37 @@ Game.Preloader.prototype = {
         // Load all assets
         //TODO: Double-check that all assets are used
 
-        this.load.tilemap('map', 'assets/maps/objectTest.json', null, Phaser.Tilemap.TILED_JSON);
-        this.load.image('tileset', 'assets/tileset.png');
-
+        // load assets for main menu
+        this.load.image('playButton', 'assets/player/pinkPlayerJump.png'); // this one should be changed
+        this.load.image('titlescreen', 'assets/menu/titlescreen.png');
+        
+        // load maps and tilesets
+        this.load.tilemap('map', 'assets/maps/level1.1.json', null, Phaser.Tilemap.TILED_JSON);
+        this.load.image('tileset', 'assets/spritesheets/TileSpritesheet.png');
+        this.load.image('enemyTileset', 'assets/spritesheets/EnemySpritesheet.png')
+        
+        // load abilities
+        this.load.image('highJump', 'assets/abilities/highJump.png');
+        this.load.image('longJump', 'assets/abilities/longJump.png');
+        this.load.image('shoot', 'assets/abilities/shoot.png');
+        this.load.image('stomp', 'assets/abilities/stomp.png');
+        
+        // load blocks
+        this.load.image('breakable', 'assets/blocks/breakable.png');
+        this.load.image('lava', 'assets/blocks/lava.png');
+        this.load.image('water', 'assets/blocks/water.png');
+        this.load.image('cactus', 'assets/blocks/cactus.png');
+        // this.load.image('platform', 'assets/blocks/platform.png');
+        
+        // load items
+        this.load.image('diamond', 'assets/items/diamond.png');
+        this.load.image('star', 'assets/items/star.png');
+        this.load.image('spawn', 'assets/items/spawnFlag.png');
+        this.load.image('goal', 'assets/items/goalFlag.png');
+        
+        // load player
         this.load.image('player', 'assets/player/pinkPlayer1.png');
-        this.load.image('playButton', 'assets/player/pinkPlayerJump.png');
-        //this.load.spritesheet('buttons', 'assets/buttons.png', 193,71);
-        // this.load.image('drag', 'assets/drag.png');
-        this.load.image('bird', 'assets/bird.png');
-        this.load.image('projectile', 'assets/nut.png');
-        this.load.image('titlescreen', 'assets/titlescreen.png');
-        //this.load.image('button', 'assets/button.png');
+        
     },
 
     create: function() {

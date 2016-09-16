@@ -14,3 +14,30 @@ Abilities:
 -Long jump
 -Stomp
 -shoot (crick)
+
+
+
+TILES:
+
+Index:  Description
+0       ground tile/basic tile 1
+1       ground tile/basic tile 2
+2       ground tile/basic tile 3
+3       background tile (plain or transparent) - to avoid annoying behaviour.
+4       breakable tile
+5       highJump tile
+6       longJump tile
+7       stomp tile
+8       shoot tile
+                        x       enemy1
+                        y      enemy2
+                        z      enemy3
+9      lethal block 1
+10      lethal block 2
+11      lethal block 3
+12      coin
+13      easter egg
+14      platform tile
+15      spawn
+16      goal
+17      goal 2

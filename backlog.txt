@@ -4,11 +4,6 @@ Features:
 
 -Add the rest of the "super powers" functions in Player (that are called from Level)
 -Fix high jump
--Display on camera the "super powers" (Think about that if we had graphics for
-super powers on map we need to create some extra layers on bottom of screen
-so they are not in the way), alternatively move camera
--One object for all different "super powers" : read what type from 'name' in .json, if it doesn't work,
-use gid.
 -Make it possible to drop old "super powers" where new one was picked up (if it was exchanged)
 -Create menu to choose map from
 -Create 'goal' on map
@@ -22,12 +17,11 @@ use gid.
 Bugs: 
 
 Player.js:
--Player can bounce/jump on Coin (objects)
-
+-player can currently use high jump to jump outside of map (will then automatically
+be moved into the map again)
 
 
 Other:
--List which images we need for our game
 -Can not read spawn from .json file (hardcoded) at the moment
 
 Extras:
@@ -37,4 +31,8 @@ Extras:
 -Make the sprite move in some kind of way, maybe just rotate when jumping, maybe 
 make it toggle between two sprite
 -Add animation for dying
--Make right/left movement a non linear function for special jumps
+- Countdown timer for when ability is available for use again (display)
+
+
+Refactoring:
+Loading objects using only the map.createFromObjects function (without having to use readers)

@@ -17,7 +17,7 @@ Game.Boot.prototype = {
     preload:function() {
         
         // TODO: Change this image
-        this.load.image('preloaderBar', 'assets/preloader.png');
+        this.load.image('preloaderBar', 'assets/menu/preloader.png');
     },
     
     create:function() {

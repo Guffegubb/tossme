@@ -14,6 +14,7 @@ Player = function(game, properties) {
   this.player.body.collideWorldBounds = true;
   this.player.body.allowGravity = true;
 
+  this.player.originalSpeed = properties.playerSpeed;
   this.player.playerSpeed = properties.playerSpeed;
   this.player.jumpHeight = properties.jumpHeight;
   this.player.abilityOne = 'highJump';
@@ -32,8 +33,11 @@ Player = function(game, properties) {
         player.body.velocity.x -= player.playerSpeed / 5;
       else if (player.body.velocity.x < 0)
         player.body.velocity.x += player.playerSpeed / 5;
-      if (player.body.onFloor())
+      if (player.body.onFloor() || player.body.touching.down) {
         player.setMoveLock(false);
+        player.playerSpeed = player.originalSpeed;
+      }
+        
     }
 
     if (!player.hasMoveLock()) {
@@ -46,7 +50,7 @@ Player = function(game, properties) {
         player.body.velocity.x = -player.playerSpeed;
       }
       else if (direction == "jump") {
-        if (player.body.onFloor()) {
+        if (player.body.onFloor() || player.body.touching.down) {
           player.body.velocity.y -= player.jumpHeight;
         }
       }
@@ -90,21 +94,11 @@ Player = function(game, properties) {
   };
 
   this.player.highJump = function() {
-    if (!player.hasCoolDown() && player.body.onFloor()) {
-      this.duration = 0.6;
-      player.body.velocity.y -= player.jumpHeight * 2;
+    if (!player.hasCoolDown() && (player.body.onFloor() || player.body.touching.down)) {
 
-      // This timer is used to create a smoother animation when using high jump
-      // movement in x-axis does not start until the player has reached a higher height.
-      game.time.events.add(Phaser.Timer.SECOND * this.duration, function() {
-        var playerTween = game.add.tween(player).to({
-          x: player.x + player.direction() * 150
-        }, 1000, 'Linear', true);
-
-      });
-
+      player.body.velocity.y -= player.jumpHeight * 1.9;
+      player.playerSpeed /= 2;
       player.setCoolDown();
-      player.setMoveLock(true);
     }
 
   };
