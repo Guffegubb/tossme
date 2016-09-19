@@ -1,4 +1,5 @@
 
+/*
 Breakable = function(game, properties) {
     
     
@@ -16,3 +17,5 @@ Breakable = function(game, properties) {
     
     return this.ability;
 }
+
+*/

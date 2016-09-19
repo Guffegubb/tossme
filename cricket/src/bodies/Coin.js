@@ -1,4 +1,6 @@
 
+
+/*
 Coin = function(game, properties) {
     
     this.coin  = game.add.sprite(properties.x, properties.y, 'diamond');
@@ -12,3 +14,4 @@ Coin = function(game, properties) {
     
     return this.coin;
 }
+*/

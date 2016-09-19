@@ -35,3 +35,11 @@ make it toggle between two sprite
 
 
 Refactoring:
+
+Polish:
+-Make cactus kill you when touching the cactus and not only overlaping the square
+-Make you stomp on the block you have biggest part of your body on
+-Look on shaken
+-Maybe polish how stomp is interacting with velocity, height and stuff to make it
+look more natural/better
+-Make the long jump not give height if touching on side

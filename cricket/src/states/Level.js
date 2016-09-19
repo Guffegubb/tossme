@@ -45,9 +45,9 @@ Game.Level.prototype = {
         spawnGroup = game.add.group();
         lethalGroup = game.add.group();
         goalGroup = game.add.group();
-        
-         // groups need to have the groups in the same order as the
-         // objectLayers array above for this solution to work.
+
+        // groups need to have the groups in the same order as the
+        // objectLayers array above for this solution to work.
         groups = [
             spawnGroup,
             coinGroup,
@@ -76,7 +76,7 @@ Game.Level.prototype = {
         ];
 
 
-       
+
 
         // TODO: Comment this
         for (var i = 0; i < objectLayers.length; i++) {
@@ -111,7 +111,7 @@ Game.Level.prototype = {
 
         this.physics.arcade.gravity.y = 1000;
         var playerProperties = {
-            // TODO: implement without hardcoded number
+            // TODO: implement without hardcoded numbers
             x: 122,
             y: 500,
             playerSpeed: 200,
@@ -128,6 +128,7 @@ Game.Level.prototype = {
             up: this.input.keyboard.addKey(Phaser.Keyboard.UP),
             abilityOne: this.input.keyboard.addKey(Phaser.Keyboard.Z),
             abilityTwo: this.input.keyboard.addKey(Phaser.Keyboard.X),
+            abilityThree: this.input.keyboard.addKey(Phaser.Keyboard.C),
         };
 
         // Shows current abilities
@@ -151,17 +152,22 @@ Game.Level.prototype = {
 
 
     update: function(game) {
-
         // Adding all collisions
         this.physics.arcade.collide(player, layer);
-        this.physics.arcade.collide(player, breakableGroup);
+
+        breakableGroup.forEach(function(item) {
+                game.physics.arcade.collide(player, item, function() {
+                    if (player.isStomping) {
+                        destroySprite(item);
+                    }
+                })
+            })
+            //  this.physics.arcade.collide(player, breakableGroup;)
 
 
         coinGroup.forEach(function(item) {
             game.physics.arcade.overlap(player, item, function() {
-                //item.destroySprite()
-                // could probably work by created destroySprite(item) function, not nested inside Coin = function..
-                item.kill();
+                destroySprite(item);
             });
         }, this);
 
@@ -172,6 +178,16 @@ Game.Level.prototype = {
                 console.log("victory?");
             });
         });
+
+        abilityGroup.forEach(function(item) {
+            game.physics.arcade.overlap(player, item, function() {
+                player.setAbilitySwap(item);
+            });
+        });
+
+        // Do something with this in another function to change the sprites when 
+        // picking up a new ability
+        //abilityOneSprite = game.add.sprite(abilityOneSprite.x, abilityOneSprite.y, player.abilityOne);
 
         // EndOf adding all collisions
 
@@ -193,19 +209,37 @@ Game.Level.prototype = {
         }
 
         if (controls.abilityOne.isDown) {
-            player.callAbility(1);
+            player.callAbility(1, function() {
+                abilityOneSprite = game.add.sprite(10, 500, player.abilityOne);
+                abilityOneSprite.fixedToCamera = true;
+            });
         }
 
         if (controls.abilityTwo.isDown) {
-            player.callAbility(2);
+            player.callAbility(2, function() {
+                abilityTwoSprite = game.add.sprite(100, 500, player.abilityTwo);
+                abilityTwoSprite.fixedToCamera = true;
+            });
+        }
+
+        if (controls.abilityThree.isDown) {
+            player.callAbility(3, function() {});
         }
 
 
         // EndOf checking player movement
 
 
+        // Trying a callback function for changing sprites
+
+        //this.something();
+
 
     },
+
+    something: function() {
+        console.log("callback is working");
+    }
 
 
 }

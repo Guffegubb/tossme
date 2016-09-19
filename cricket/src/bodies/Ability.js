@@ -1,4 +1,5 @@
 
+/*
 Ability = function(game, properties) {
     
     
@@ -15,3 +16,4 @@ Ability = function(game, properties) {
     
     return this.ability;
 }
+*/
