@@ -180,6 +180,7 @@ Game.Level.prototype = {
 
         player = new Player(game, playerProperties);
         this.camera.follow(player);
+        player.spawn();
 
         controls = {
             right: this.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
@@ -224,10 +225,18 @@ Game.Level.prototype = {
         coinGroup.forEach(function(item) {
             game.physics.arcade.overlap(player, item, function() {
                 //item.destroySprite()
+                // could probably work by created destroySprite(item) function, not nested inside Coin = function..
                 item.kill();
             });
         }, this);
 
+        this.physics.arcade.collide(player, lethalGroup, player.death);
+        
+        goalGroup.forEach(function(item) {
+           game.physics.arcade.overlap(player, item, function() {
+             console.log("victory?");  
+           }); 
+        });
 
         // EndOf adding all collisions
 

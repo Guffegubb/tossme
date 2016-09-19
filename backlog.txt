@@ -22,7 +22,7 @@ be moved into the map again)
 
 
 Other:
--Can not read spawn from .json file (hardcoded) at the moment
+-Can not read spawn from .json file (hardcoded) at the moment (can use the spawn point but have to call player.reset function)
 
 Extras:
 -Add timer
@@ -35,4 +35,3 @@ make it toggle between two sprite
 
 
 Refactoring:
-Loading objects using only the map.createFromObjects function (without having to use readers)

@@ -141,10 +141,28 @@ Player = function(game, properties) {
 
   this.player.direction = function() {
     return (player.scale.x / Math.abs(player.scale.x));
-  }
+  };
 
+// says spawngroup is not defined but it works, it finds the group (defined globally in Level.js). 
+  this.player.death = function(){
+    
+    // TODO: Add death animations/events
+    player.spawn();
+   
+  };
 
+  this.player.spawn = function() {
+  
+   spawnGroup.forEach(function(spawnPoint) {
 
+      player.reset(spawnPoint.x, spawnPoint.y);
+
+    }, this);
+    
+  };
+  
+
+  
   return this.player;
 
 }
