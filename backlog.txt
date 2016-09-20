@@ -2,15 +2,11 @@
 
 Features:
 
--Add the rest of the "super powers" functions in Player (that are called from Level)
--Fix high jump
--Make it possible to drop old "super powers" where new one was picked up (if it was exchanged)
 -Create menu to choose map from
--Create 'goal' on map
--Create victory screen?
--Add enemies or something to break
+-Make goal actually trigge an event (goes to menu or something)
+-Add enemies
 -Trigger event when crossing invisible line from json file
-
+-Add animation for enemies
 
 
 
@@ -19,6 +15,9 @@ Bugs:
 Player.js:
 -player can currently use high jump to jump outside of map (will then automatically
 be moved into the map again)
+-if stomping and hits roof, you can stomp through the floor (gets too high
+velocity)
+- can use jump and high jump at the same time for super jump
 
 
 Other:
@@ -31,15 +30,19 @@ Extras:
 -Make the sprite move in some kind of way, maybe just rotate when jumping, maybe 
 make it toggle between two sprite
 -Add animation for dying
+-Add animation for player
 - Countdown timer for when ability is available for use again (display)
 
 
 Refactoring:
 
+
+
 Polish:
 -Make cactus kill you when touching the cactus and not only overlaping the square
 -Make you stomp on the block you have biggest part of your body on
--Look on shaken
--Maybe polish how stomp is interacting with velocity, height and stuff to make it
-look more natural/better
 -Make the long jump not give height if touching on side
+-Stop stomping ability if dying (continues through right now), that is 
+set velocity = 0 and don't do the shake
+-Look at the the cooldown for swap and ability (they are the same at the moment,
+implemented to make it able to use an ability while standing on a block)

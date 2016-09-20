@@ -21,10 +21,37 @@ var goalGroup;
 var groups;
 
 
+//
+
+var projectiles;
+  
+
+  
+//
+
 Game.Level.prototype = {
 
 
     create: function(game) {
+    	
+    	projectiles = declareProjectile(game, projectiles);
+    /*	projectiles = game.add.group();
+		projectiles.enableBody = true;
+		projectiles.physicsBodyType = Phaser.Physics.ARCADE;
+		projectiles.createMultiple(5, 'projectile');
+		projectiles.setAll('anchor.x', 0.5);
+		projectiles.setAll('anchor.y', 0.5);
+		
+		projectiles.setAll('scale.x', 1);
+		projectiles.setAll('scale.y', 1);
+		
+		projectiles.setAll('outOfBoundsKill', true);
+		projectiles.setAll('checkWorldBounds', true);
+		
+		projectiles.forEach(function(item) {
+			item.body.allowGravity = false;
+			//item.body.gravity.y = false;
+		});*/
 
         // Initialize map and tilesets
         this.stage.backgroundColor = '#9CD5E2';
@@ -128,7 +155,6 @@ Game.Level.prototype = {
             up: this.input.keyboard.addKey(Phaser.Keyboard.UP),
             abilityOne: this.input.keyboard.addKey(Phaser.Keyboard.Z),
             abilityTwo: this.input.keyboard.addKey(Phaser.Keyboard.X),
-            abilityThree: this.input.keyboard.addKey(Phaser.Keyboard.C),
         };
 
         // Shows current abilities
@@ -138,16 +164,10 @@ Game.Level.prototype = {
         abilityTwoSprite = game.add.sprite(100, 500, player.abilityTwo);
         abilityTwoSprite.fixedToCamera = true;
 
-        // Can also add style as last inparameter after (x, y, "text", 'style')
-        textOne = game.add.text(Math.floor(abilityOneSprite.x + abilityOneSprite.width / 2),
-            Math.floor(abilityOneSprite.y + abilityOneSprite.height / 2), "Z");
-        textOne.fixedToCamera = true;
-
-        textTwo = game.add.text(Math.floor(abilityTwoSprite.x + abilityTwoSprite.width / 2),
-            Math.floor(abilityTwoSprite.y + abilityTwoSprite.height / 2), "X");
-        textTwo.fixedToCamera = true;
-
-
+      
+        textOne = addAbilityText(this, abilityOneSprite, 'Z');
+        textTwo = addAbilityText(this, abilityTwoSprite, 'X');
+      
     },
 
 
@@ -157,7 +177,7 @@ Game.Level.prototype = {
 
         breakableGroup.forEach(function(item) {
                 game.physics.arcade.collide(player, item, function() {
-                    if (player.isStomping) {
+                    if (player.isStomping && !player.body.touching.up) {
                         destroySprite(item);
                     }
                 })
@@ -178,12 +198,23 @@ Game.Level.prototype = {
                 console.log("victory?");
             });
         });
-
+        var myTimer = 0;
+        
         abilityGroup.forEach(function(item) {
             game.physics.arcade.overlap(player, item, function() {
+                blink(player, item);
                 player.setAbilitySwap(item);
+                myTimer = game.time.now;
             });
         });
+        
+        if(game.time.now > myTimer) {
+            abilityTwoSprite.alpha = 1;
+            abilityOneSprite.alpha = 1;
+             abilityGroup.forEach(function(item) { 
+                 item.alpha = 1;
+             });
+        }
 
         // Do something with this in another function to change the sprites when 
         // picking up a new ability
@@ -210,36 +241,24 @@ Game.Level.prototype = {
 
         if (controls.abilityOne.isDown) {
             player.callAbility(1, function() {
-                abilityOneSprite = game.add.sprite(10, 500, player.abilityOne);
-                abilityOneSprite.fixedToCamera = true;
+                abilityOneSprite.loadTexture(player.abilityOne) // = game.add.sprite(10, 500, player.abilityOne);
+               
             });
         }
 
         if (controls.abilityTwo.isDown) {
             player.callAbility(2, function() {
-                abilityTwoSprite = game.add.sprite(100, 500, player.abilityTwo);
-                abilityTwoSprite.fixedToCamera = true;
+                abilityTwoSprite.loadTexture(player.abilityTwo);
             });
-        }
-
-        if (controls.abilityThree.isDown) {
-            player.callAbility(3, function() {});
         }
 
 
         // EndOf checking player movement
 
 
-        // Trying a callback function for changing sprites
-
-        //this.something();
-
-
     },
 
-    something: function() {
-        console.log("callback is working");
-    }
+   
 
 
 }

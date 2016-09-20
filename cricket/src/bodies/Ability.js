@@ -1,19 +1,28 @@
+var blinkSign = -1;
 
-/*
-Ability = function(game, properties) {
+var blink = function(player, item) {
     
-    
-    // TODO: Change the picture of bird
-    this.ability = game.add.sprite(properties.x + properties.width, properties.y, properties.name);
-    this.ability.anchor.setTo(0.5, 0.5);
-    game.physics.enable(this.ability, Phaser.Physics.ARCADE);
-    this.ability.body.allowGravity = false;
-    
-    this.ability.destroySprite = function() {
-        this.kill();
+    if (!(player.abilityOne == item.name || player.abilityTwo == item.name)) {
+        abilityOneSprite.alpha = abilityOneSprite.alpha + blinkSign * 0.015;
+        abilityTwoSprite.alpha = abilityTwoSprite.alpha + blinkSign * 0.015;
+        item.alpha = item.alpha + blinkSign * 0.015;
+
+        if (abilityOneSprite.alpha < 0.4) {
+            blinkSign = 1;
+            
+        }
+        if (abilityOneSprite.alpha >= 1) {
+            blinkSign = -1;
+        }
     }
     
-    
-    return this.ability;
 }
-*/
+
+ var addAbilityText = function(game, mySprite, text) {
+        var tempText;
+        tempText = game.add.text(Math.floor(mySprite.x + mySprite.width / 2 + 10),
+            Math.floor(mySprite.y + mySprite.height / 2), text);
+        tempText.fixedToCamera = true;
+        return tempText;
+
+    }
