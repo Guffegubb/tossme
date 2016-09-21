@@ -1,4 +1,6 @@
-Game.Level = function(game) {};
+Game.Level = function(game) {
+    this.game = game;
+};
 
 var map;
 var layer;
@@ -35,36 +37,19 @@ Game.Level.prototype = {
     create: function(game) {
     	
     	projectiles = declareProjectile(game, projectiles);
-    /*	projectiles = game.add.group();
-		projectiles.enableBody = true;
-		projectiles.physicsBodyType = Phaser.Physics.ARCADE;
-		projectiles.createMultiple(5, 'projectile');
-		projectiles.setAll('anchor.x', 0.5);
-		projectiles.setAll('anchor.y', 0.5);
-		
-		projectiles.setAll('scale.x', 1);
-		projectiles.setAll('scale.y', 1);
-		
-		projectiles.setAll('outOfBoundsKill', true);
-		projectiles.setAll('checkWorldBounds', true);
-		
-		projectiles.forEach(function(item) {
-			item.body.allowGravity = false;
-			//item.body.gravity.y = false;
-		});*/
-
+        
         // Initialize map and tilesets
         this.stage.backgroundColor = '#9CD5E2';
 
-        map = this.add.tilemap('map');
+        
+        map = this.add.tilemap(chosenMap);
         map.addTilesetImage('tileset', 'tileset');
         map.addTilesetImage('enemyTileset', 'enemyTileset');
         layer = map.createLayer('Tile Layer 1');
         // backgroundLayer = map.createLayer('Background Layer');
 
         layer.resizeWorld();
-        map.setCollisionBetween(2, 4);
-
+        map.setCollisionBetween(2, 4, true, layer);
 
         coinGroup = game.add.group();
         breakableGroup = game.add.group();
@@ -111,19 +96,10 @@ Game.Level.prototype = {
             for (var j = 0; j < objectsInLayer[i].length; j++) {
 
                 map.createFromObjects(objectLayers[i], objectsInLayer[i][j], objectsInLayer[i][j], 0, true, false, groups[i]);
+            
             }
         }
 
-        /* TODO: Implement custom class? May be useful to connect the objects to their respective .js class file.
-        
-        // Phaser.Tilemap.createFromObjects(name, gid, key, frame, 
-                                    exists, autoCull, group, CustomClass, adjustY)
-        // arg object CustomClass (optional) = Phaser.Sprite
-            If you wish to create your own class, rather than Phaser.Sprite, 
-            pass the class here. Your class must extend Phaser.Sprite and have 
-            the same constructor parameters.
-        */
-        // http://phaser.io/examples/v2/sprites/extending-sprite-demo-1
 
         // removes gravity and makes immovable for all objects created.
         for (var g = 0; g < groups.length; g++) {
@@ -158,16 +134,23 @@ Game.Level.prototype = {
         };
 
         // Shows current abilities
-        abilityOneSprite = game.add.sprite(10, 500, player.abilityOne);
+        // TODO: Look at this, the reason why a picture is loaded in and then
+        // later set to a picture from the player is because if it is empty
+        // we need to create a texture to get the text to be on the correct place
+        abilityOneSprite = game.add.sprite(10, 500, 'shoot');
         abilityOneSprite.fixedToCamera = true;
 
-        abilityTwoSprite = game.add.sprite(100, 500, player.abilityTwo);
+        abilityTwoSprite = game.add.sprite(100, 500, 'shoot');
         abilityTwoSprite.fixedToCamera = true;
 
       
         textOne = addAbilityText(this, abilityOneSprite, 'Z');
         textTwo = addAbilityText(this, abilityTwoSprite, 'X');
-      
+        
+        // Playing around up here
+        abilityOneSprite.loadTexture(player.abilityOne);
+        abilityTwoSprite.loadTexture(player.abilityTwo);
+        
     },
 
 
@@ -182,7 +165,6 @@ Game.Level.prototype = {
                     }
                 })
             })
-            //  this.physics.arcade.collide(player, breakableGroup;)
 
 
         coinGroup.forEach(function(item) {
@@ -196,6 +178,11 @@ Game.Level.prototype = {
         goalGroup.forEach(function(item) {
             game.physics.arcade.overlap(player, item, function() {
                 console.log("victory?");
+                /*game.time.events.add(Phaser.Timer.SECOND * 2, function() {
+                    // Second parameter clears out the buttons (or when switching to Levels rather)
+                    // setting it to false fills up graphics memory though and can see the game running in the background
+                    game.state.start('MainMenu', true, false);
+                })*/
             });
         });
         var myTimer = 0;
@@ -208,7 +195,7 @@ Game.Level.prototype = {
             });
         });
         
-        if(game.time.now > myTimer) {
+        if (game.time.now > myTimer) {
             abilityTwoSprite.alpha = 1;
             abilityOneSprite.alpha = 1;
              abilityGroup.forEach(function(item) { 
@@ -216,9 +203,7 @@ Game.Level.prototype = {
              });
         }
 
-        // Do something with this in another function to change the sprites when 
-        // picking up a new ability
-        //abilityOneSprite = game.add.sprite(abilityOneSprite.x, abilityOneSprite.y, player.abilityOne);
+    
 
         // EndOf adding all collisions
 
@@ -240,16 +225,11 @@ Game.Level.prototype = {
         }
 
         if (controls.abilityOne.isDown) {
-            player.callAbility(1, function() {
-                abilityOneSprite.loadTexture(player.abilityOne) // = game.add.sprite(10, 500, player.abilityOne);
-               
-            });
+            player.callAbility(1);
         }
 
         if (controls.abilityTwo.isDown) {
-            player.callAbility(2, function() {
-                abilityTwoSprite.loadTexture(player.abilityTwo);
-            });
+            player.callAbility(2);
         }
 
 

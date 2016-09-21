@@ -15,7 +15,6 @@ function declareProjectile(game, projectiles) {
     projectiles.forEach(function(item) {
         item.body.allowGravity = false;
     });
-    //console.log(projectiles);
 
     return projectiles;
 }

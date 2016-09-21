@@ -1,35 +1,33 @@
 Game.MainMenu = function(game) {
 
+this.game = game;
 };
 
+var chosenMap; 
 
 Game.MainMenu.prototype = {
     create: function(game) {
-        
-        var titlescreen = game.add.sprite(game.world.centerX, game.world.centerY-192, 'titlescreen');
+
+        var titlescreen = game.add.sprite(game.world.centerX, game.world.centerY - 192, 'titlescreen');
         titlescreen.anchor.setTo(0.5, 0.5);
-        
-        // TODO: second inparameter is name on button, change when implementing a new button image.
-        this.createButton(game, '', game.world.centerX, game.world.centerY+150,
-            300, 100, function() {
-           this.state.start('Level'); 
-        });
-        
+        // TODO: Implement for several rows when too many maps are added
+        for (var map in maps) {
+
+            this.createButton(game, map, 200 + 200 * map, game.world.centerY + 150);
+        }
     },
 
     update: function(game) {
 
     },
 
-    createButton: function(game, string, x, y, w, h, callback) {
-        var playButton = game.add.button(x, y, 'playButton', callback, this, 2, 1, 0);
+    createButton: function(game, index, x, y) {
+            game.add.button(x, y, 'playButton', function() {
+                chosenMap = maps[index];
+                console.log("map chosen: " + maps[index]);
+                // console.log(game.state.states['Level']).chosenMap = maps[map];
+                game.state.start('Level');
+            });
+        }
         
-        playButton.anchor.setTo(0.5, 0.5);
-       //playButton.width = w;
-    //playButton.height = h;
-        
-        
-        
-    }
-
 }

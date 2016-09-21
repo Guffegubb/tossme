@@ -1,9 +1,10 @@
 Game.Preloader = function(game) {
 
-    // Can the code run properly without this line? 
-    // this.preloadBar = null;
+this.game = game;    
+    
 };
 
+var maps = [];
 
 Game.Preloader.prototype = {
     preload: function() {
@@ -24,8 +25,16 @@ Game.Preloader.prototype = {
         
         // load maps and tilesets
         this.load.tilemap('map', 'assets/maps/level1.1.json', null, Phaser.Tilemap.TILED_JSON);
+        this.load.tilemap('map2', 'assets/maps/level1.2.json', null, Phaser.Tilemap.TILED_JSON);
+        this.load.tilemap('map3', 'assets/maps/level2.json', null, Phaser.Tilemap.TILED_JSON);
+        this.load.tilemap('map4', 'assets/maps/level3.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.image('tileset', 'assets/spritesheets/TileSpritesheet.png');
         this.load.image('enemyTileset', 'assets/spritesheets/EnemySpritesheet.png')
+        
+        maps.push('map');
+        maps.push('map2');
+        maps.push('map3');
+        maps.push('map4');
         
         // load abilities
         this.load.image('highJump', 'assets/abilities/highJump.png');

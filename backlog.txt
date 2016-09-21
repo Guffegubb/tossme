@@ -2,7 +2,7 @@
 
 Features:
 
--Create menu to choose map from
+-Make it possible to go back to main menu
 -Make goal actually trigge an event (goes to menu or something)
 -Add enemies
 -Trigger event when crossing invisible line from json file
@@ -46,3 +46,4 @@ Polish:
 set velocity = 0 and don't do the shake
 -Look at the the cooldown for swap and ability (they are the same at the moment,
 implemented to make it able to use an ability while standing on a block)
+-Make the menu automatically be able to adjust with 'infinite' amount of maps

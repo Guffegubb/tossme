@@ -20,8 +20,9 @@ Player = function(game, properties) {
 	this.player.originalSpeed = properties.playerSpeed;
 	this.player.playerSpeed = properties.playerSpeed;
 	this.player.jumpHeight = properties.jumpHeight;
-	this.player.abilityOne = 'highJump';
-	this.player.abilityTwo = 'longJump';
+	this.player.abilityOne = null;
+	this.player.abilityTwo = null;
+	this.player.amountOfAbilities = 2;
 	this.player.newAbility = '';
 	this.player.onAbility = false;
 
@@ -73,13 +74,14 @@ Player = function(game, properties) {
 	};
 
 
-	this.player.callAbility = function(key, callback) {
+	this.player.callAbility = function(key, callback, sprite, textureName) {
 
 		var ability;
 
 		if (player.canSwap()) {
 			player.swapAbility(key);
-			callback();
+			//player.swapAbility(key, callback, sprite, textureName);
+			//allback(abilitySprite, textureName);
 		}
 
 		else if (key == 1) {
@@ -121,8 +123,9 @@ Player = function(game, properties) {
 		// TODO: Do we want to have the body.onFloor condition here as well? 
 		if (!player.hasCoolDown()) {
 			player.body.velocity.y = -player.jumpHeight * 0.9;
-			player.body.velocity.x = player.direction() * player.playerSpeed * 4;
-
+			player.body.velocity.x = player.direction() * player.originalSpeed * 4;
+			//player.body.velocity.x = player.direction() *
+			
 			player.setCoolDown();
 			player.setMoveLock(true);
 		}
@@ -172,10 +175,31 @@ Player = function(game, properties) {
 
 	this.player.hasAbilitySwap = function() {
 		return game.physics.arcade.overlap(player, player.newAbility);
+	};
+	
+	this.player.hasFreeAbilitySlot = function() {
+		if (player.abilityOne == null)
+			return true;
+		else if (player.abilityTwo == null && player.amountOfAbilities == 2)
+			return true;
+		else
+			return false;
+	};
+	
+	/**
+	 * Returns 0 if no empty slot 
+	 */
+	this.player.getFirstEmptyAbility = function() {
+		if (player.abilityOne == null)
+			return 1;
+		else if (player.abilityTwo == null && player.amountOfAbilities == 2)
+			return 2;
+		else
+			return 0;
 	}
 
-	this.player.setCoolDown = function() {
-		player.abilityCooldown = game.time.now + player.coolDownTime;
+	this.player.setCoolDown = function(factor = 1) {
+		player.abilityCooldown = game.time.now + player.coolDownTime * factor;
 	};
 
 	this.player.setMoveLock = function(bool) {
@@ -184,12 +208,14 @@ Player = function(game, properties) {
 
 	this.player.setAbilitySwap = function(ability) {
 		player.newAbility = ability;
+		if (player.hasFreeAbilitySlot())
+			player.swapAbility(player.getFirstEmptyAbility());
 	};
 
 	this.player.swapAbility = function(key) {
 		// TODO: Change how swapping works?
 		// At the moment we can't swap any ability if one button has it already
-		player.setCoolDown();
+		player.setCoolDown(0.5);
 		var tempAbility;
 		if (key == 1) {
 			tempAbility = player.abilityOne;
@@ -199,13 +225,21 @@ Player = function(game, properties) {
 			tempAbility = player.abilityTwo;
 			player.abilityTwo = player.newAbility.name;
 		}
+		
+		//Updating the buttons shown on screen through the callback function
+		updateAbilityTexture(key, player.newAbility.name);
    
-   
-		player.newAbility.loadTexture(tempAbility);
-		player.newAbility.name = tempAbility;
-		player.newAbility.key = tempAbility;
- 
-
+		if (tempAbility == null) {
+			player.newAbility.kill();
+		}
+		else {
+			player.newAbility.loadTexture(tempAbility);
+			player.newAbility.name = tempAbility;
+			player.newAbility.key = tempAbility;	
+		}
+		
+		
+		
 		player.swapCooldown = game.time.now + player.coolDownTime * 0.5;
 
 	};
