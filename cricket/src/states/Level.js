@@ -23,25 +23,22 @@ var goalGroup;
 var groups;
 
 
-//
 
 var projectiles;
-  
 
-  
-//
+
 
 Game.Level.prototype = {
 
 
     create: function(game) {
-    	
-    	projectiles = declareProjectile(game, projectiles);
-        
+
+        projectiles = declareProjectile(game, projectiles);
+
         // Initialize map and tilesets
         this.stage.backgroundColor = '#9CD5E2';
 
-        
+
         map = this.add.tilemap(chosenMap);
         map.addTilesetImage('tileset', 'tileset');
         map.addTilesetImage('enemyTileset', 'enemyTileset');
@@ -96,7 +93,7 @@ Game.Level.prototype = {
             for (var j = 0; j < objectsInLayer[i].length; j++) {
 
                 map.createFromObjects(objectLayers[i], objectsInLayer[i][j], objectsInLayer[i][j], 0, true, false, groups[i]);
-            
+
             }
         }
 
@@ -115,8 +112,8 @@ Game.Level.prototype = {
         this.physics.arcade.gravity.y = 1000;
         var playerProperties = {
             // TODO: implement without hardcoded numbers
-            x: 122,
-            y: 500,
+            x: -100,
+            y: -100,
             playerSpeed: 200,
             jumpHeight: 400,
         }
@@ -143,14 +140,15 @@ Game.Level.prototype = {
         abilityTwoSprite = game.add.sprite(100, 500, 'shoot');
         abilityTwoSprite.fixedToCamera = true;
 
-      
+
         textOne = addAbilityText(this, abilityOneSprite, 'Z');
         textTwo = addAbilityText(this, abilityTwoSprite, 'X');
-        
-        // Playing around up here
+
         abilityOneSprite.loadTexture(player.abilityOne);
         abilityTwoSprite.loadTexture(player.abilityTwo);
-        
+
+        createExitButton(game);
+
     },
 
 
@@ -159,12 +157,12 @@ Game.Level.prototype = {
         this.physics.arcade.collide(player, layer);
 
         breakableGroup.forEach(function(item) {
-                game.physics.arcade.collide(player, item, function() {
-                    if (player.isStomping && !player.body.touching.up) {
-                        destroySprite(item);
-                    }
-                })
+            game.physics.arcade.collide(player, item, function() {
+                if (player.isStomping && !player.body.touching.up) {
+                    destroySprite(item);
+                }
             })
+        })
 
 
         coinGroup.forEach(function(item) {
@@ -178,15 +176,13 @@ Game.Level.prototype = {
         goalGroup.forEach(function(item) {
             game.physics.arcade.overlap(player, item, function() {
                 console.log("victory?");
-                /*game.time.events.add(Phaser.Timer.SECOND * 2, function() {
-                    // Second parameter clears out the buttons (or when switching to Levels rather)
-                    // setting it to false fills up graphics memory though and can see the game running in the background
-                    game.state.start('MainMenu', true, false);
-                })*/
+                // TODO: Add call to some function that adds victory screen before returning to menu.
+                exitToMenu(game); // game.state.start('MainMenu');
+
             });
         });
         var myTimer = 0;
-        
+
         abilityGroup.forEach(function(item) {
             game.physics.arcade.overlap(player, item, function() {
                 blink(player, item);
@@ -194,16 +190,16 @@ Game.Level.prototype = {
                 myTimer = game.time.now;
             });
         });
-        
+
         if (game.time.now > myTimer) {
             abilityTwoSprite.alpha = 1;
             abilityOneSprite.alpha = 1;
-             abilityGroup.forEach(function(item) { 
-                 item.alpha = 1;
-             });
+            abilityGroup.forEach(function(item) {
+                item.alpha = 1;
+            });
         }
 
-    
+
 
         // EndOf adding all collisions
 
@@ -238,7 +234,7 @@ Game.Level.prototype = {
 
     },
 
-   
+
 
 
 }

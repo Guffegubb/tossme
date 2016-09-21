@@ -60,7 +60,12 @@ Player = function(game, properties) {
 				player.body.velocity.x = -player.playerSpeed;
 			}
 			else if (direction == "jump") {
+				// TODO: fix so cant bounce on blocks
 				if (player.body.onFloor() || player.body.touching.down) {
+					
+					// the solution som fredrik hatar liksom,
+					// this prevents the super jump by pressing up + highJump. 
+					if(!(controls.abilityOne.isDown || controls.abilityTwo.isDown))
 					player.body.velocity.y -= player.jumpHeight;
 				}
 			}
@@ -215,7 +220,8 @@ Player = function(game, properties) {
 	this.player.swapAbility = function(key) {
 		// TODO: Change how swapping works?
 		// At the moment we can't swap any ability if one button has it already
-		player.setCoolDown(0.5);
+		if (!player.hasFreeAbilitySlot())
+			player.setCoolDown(0.5);
 		var tempAbility;
 		if (key == 1) {
 			tempAbility = player.abilityOne;

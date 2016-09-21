@@ -56,6 +56,8 @@ Game.Preloader.prototype = {
         this.load.image('goal', 'assets/items/goalFlag.png');
         this.load.image('projectile', 'assets/items/shot.png');
         
+        this.load.image('exit', 'assets/items/exit.png');
+        
         // load player
         this.load.image('player', 'assets/player/pinkPlayer1.png');
         
