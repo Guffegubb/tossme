@@ -37,3 +37,14 @@ var updateAbilityTexture = function(key, textureName) {
     else if (key == 2)
         abilityTwoSprite.loadTexture(textureName);
 }
+
+function resetAbilityAlpha() {
+
+    abilityTwoSprite.alpha = 1;
+    abilityOneSprite.alpha = 1;
+    // TODO: if we make groups not global, send in the specific ability 
+    // from the group to the function to set the alpha = 1
+    abilityGroup.forEach(function(item) {
+        item.alpha = 1;
+    });
+}

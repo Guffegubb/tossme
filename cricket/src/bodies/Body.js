@@ -14,8 +14,17 @@ function createExitButton(game) {
     exit.fixedToCamera = true;
     exit.inputEnabled = true;
     exit.events.onInputDown.add(function() {
-        exitToMenu(game)
+        
+        if (confirmExit()) {
+            exitToMenu(game) 
+            
+        }
     }, this);
 
 
+}
+// TODO: Implement this to give user the chance to confirm before exiting
+function confirmExit() {
+    
+    return true;
 }

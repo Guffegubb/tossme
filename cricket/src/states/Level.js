@@ -13,7 +13,8 @@ var abilityTwoSprite;
 var textOne;
 var textTwo;
 
-// Groups and object readers
+// Groups
+// TODO: Are these used outside of level at all? If not, dont have them global.
 var spawnGroup;
 var coinGroup;
 var breakableGroup;
@@ -23,7 +24,7 @@ var goalGroup;
 var groups;
 
 
-
+// TODO: has to be global? 
 var projectiles;
 
 
@@ -32,7 +33,7 @@ Game.Level.prototype = {
 
 
     create: function(game) {
-
+        
         projectiles = declareProjectile(game, projectiles);
 
         // Initialize map and tilesets
@@ -181,22 +182,19 @@ Game.Level.prototype = {
 
             });
         });
-        var myTimer = 0;
+        
+        var blinkTimer = 0;
 
         abilityGroup.forEach(function(item) {
             game.physics.arcade.overlap(player, item, function() {
                 blink(player, item);
                 player.setAbilitySwap(item);
-                myTimer = game.time.now;
+                blinkTimer = game.time.now;
             });
         });
 
-        if (game.time.now > myTimer) {
-            abilityTwoSprite.alpha = 1;
-            abilityOneSprite.alpha = 1;
-            abilityGroup.forEach(function(item) {
-                item.alpha = 1;
-            });
+        if (game.time.now > blinkTimer) {
+            resetAbilityAlpha();
         }
 
 

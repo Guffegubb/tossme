@@ -2,13 +2,12 @@
 
 Features:
 
--Pause menu button top right corner, option to go back to main menu (potentially show keys)
--Make it possible to go back to main menu, without reaching goal. 
--Make goal actually trigger an event (goes to menu or something)
--Add enemies
--Trigger event when crossing invisible line from json file
--Add animation for enemies
--Make shoot actually do something (can kill stuff)
+- Add enemies
+- Trigger event when crossing invisible line from json file
+- Add animation for enemies
+- Make shoot actually do something (can kill stuff)
+- Intro and credits necessary for higher grade (check course page) (tween and/or alpha can be useful)
+        - intro should maybe be done in PreLoader.JS file, or own state between preloader and main menu
 
 
 
@@ -16,10 +15,10 @@ Bugs:
 
 Player.js:
 -if stomping and hits roof, you can stomp through the floor (gets too high
-velocity)
-- can use jump and high jump at the same time for super jump
-- can bounce on blocks/flags/stuff from object layer, player.js row 63
-- Surpress errors when trying to crete objects that does not exist on map
+velocity) - Could we add an "ouch" sound and interrupt the stomp?
+
+- can bounce on blocks/flags/stuff from object layer, -- player.js row 63
+- Surpress errors when trying to create objects that does not exist on map
 
 
 Extras:
@@ -30,22 +29,25 @@ Extras:
 make it toggle between two sprite
 -Add animation for dying
 -Add animation for player
--Countdown timer for when ability is available for use again (display)
+-Countdown timer for when ability is available for use again (display) - could it be faded out and slowly fading back in?
+        (otherwise load texture with the kenney.nl numbers perhaps, animating between them?
+- add sounds
 
 
 Refactoring:
-
+- make as many variables as possible NOT global..
 
 
 Polish:
--Make cactus kill you when touching the cactus and not only overlaping the square
+-Make cactus kill you when touching the cactus and not only overlaping the square (collisioncheck optional parameter in collide/overlap may be able to help with this)
 -Make the stomp be able to destroy several blocks
 -Make the long jump not give height if touching on side
 -Stop stomping ability if dying (continues through right now), that is 
 set velocity = 0 and don't do the shake
--Make the menu automatically be able to adjust with 'infinite' amount of maps
+-Make the menu automatically be able to adjust with 'infinite' amount of maps - increase world size?
 -Add pause screen when clicked outside of game
 - Exit sign flashing when hovering over?
 - change the exit sign for something that doesnt upset the retarded user
 -Add "are you sure you want to exit?"
 -Fix size of player sprite
+- Add a bigger "whoop" for completing level, currently only returns us to main menu.
