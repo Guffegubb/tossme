@@ -13,28 +13,24 @@ var abilityTwoSprite;
 var textOne;
 var textTwo;
 
-// Groups
-// TODO: Are these used outside of level at all? If not, dont have them global.
+// Groups and object readers
 var spawnGroup;
 var coinGroup;
 var breakableGroup;
 var abilityGroup;
 var lethalGroup;
 var goalGroup;
+var enemyGroup;
 var groups;
 
 
-// TODO: has to be global? 
-var projectiles;
 
+var projectiles;
 
 
 Game.Level.prototype = {
 
-
     create: function(game) {
-        
-        projectiles = declareProjectile(game, projectiles);
 
         // Initialize map and tilesets
         this.stage.backgroundColor = '#9CD5E2';
@@ -55,6 +51,7 @@ Game.Level.prototype = {
         spawnGroup = game.add.group();
         lethalGroup = game.add.group();
         goalGroup = game.add.group();
+        enemyGroup = game.add.group();
 
         // groups need to have the groups in the same order as the
         // objectLayers array above for this solution to work.
@@ -64,7 +61,8 @@ Game.Level.prototype = {
             breakableGroup,
             lethalGroup,
             abilityGroup,
-            goalGroup
+            goalGroup,
+            enemyGroup
         ];
 
         var objectLayers = [
@@ -73,7 +71,8 @@ Game.Level.prototype = {
             'breakable',
             'lethalBlocks',
             'supers',
-            'goal'
+            'goal',
+            'enemies'
         ];
 
         var objectsInLayer = [
@@ -82,9 +81,9 @@ Game.Level.prototype = {
             ['breakable'],
             ['lava', 'water', 'cactus'],
             ['highJump', 'longJump', 'stomp', 'shoot'],
-            ['goal']
+            ['goal'],
+            ['frog']
         ];
-
 
 
 
@@ -105,10 +104,14 @@ Game.Level.prototype = {
                 item.body.allowGravity = false;
                 item.body.immovable = true;
             }, this);
+        
+            //groups[g].setAll('anchor', 0.5);
         }
         //;
-
-
+        
+        projectiles = declareProjectile(game, projectiles);
+        enemyGroup = initEnemyGroup(game, enemyGroup, null);
+        
 
         this.physics.arcade.gravity.y = 1000;
         var playerProperties = {
@@ -156,15 +159,14 @@ Game.Level.prototype = {
     update: function(game) {
         // Adding all collisions
         this.physics.arcade.collide(player, layer);
-
-        breakableGroup.forEach(function(item) {
-            game.physics.arcade.collide(player, item, function() {
-                if (player.isStomping && !player.body.touching.up) {
-                    destroySprite(item);
-                }
-            })
-        })
-
+        
+        // TODO: Move all the xGroup.forEach to respective JS files?
+       breakableGroup.forEach(function(item) {
+         game.physics.arcade.collide(player, item, function() {
+             checkDestruction(game, item);
+         })
+       })
+        
 
         coinGroup.forEach(function(item) {
             game.physics.arcade.overlap(player, item, function() {
@@ -176,28 +178,33 @@ Game.Level.prototype = {
 
         goalGroup.forEach(function(item) {
             game.physics.arcade.overlap(player, item, function() {
-                console.log("victory?");
+              //  console.log("victory?");
                 // TODO: Add call to some function that adds victory screen before returning to menu.
                 exitToMenu(game); // game.state.start('MainMenu');
 
             });
         });
-        
-        var blinkTimer = 0;
+        var myTimer = 0;
 
         abilityGroup.forEach(function(item) {
             game.physics.arcade.overlap(player, item, function() {
                 blink(player, item);
                 player.setAbilitySwap(item);
-                blinkTimer = game.time.now;
+                myTimer = game.time.now;
             });
         });
+        
+        enemyGroup.forEach(function(item) {
+           moveEnemy(item); 
+        });
 
-        if (game.time.now > blinkTimer) {
-            resetAbilityAlpha();
+        if (game.time.now > myTimer) {
+            abilityTwoSprite.alpha = 1;
+            abilityOneSprite.alpha = 1;
+            abilityGroup.forEach(function(item) {
+                item.alpha = 1;
+            });
         }
-
-
 
         // EndOf adding all collisions
 

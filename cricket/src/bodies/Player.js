@@ -37,19 +37,24 @@ Player = function(game, properties) {
 	this.player.move = function(direction) {
 
 		if (direction == "stop") {
+			
 			if (player.body.velocity.x > 0)
 				player.body.velocity.x -= player.playerSpeed / 10;
 			else if (player.body.velocity.x < 0)
 				player.body.velocity.x += player.playerSpeed / 10;
+			
+		
+		//	player.body.velocity.x += player.direction() * player.playerSpeed / 10;
 			if (player.body.onFloor() || player.body.touching.down) {
 				player.setMoveLock(false);
-				if (player.isStomping)
+				player.stopStomping();
+				/*if (player.isStomping)
 					game.camera.shake(0.02, 150, false, Phaser.Camera.SHAKE_HORIZONTAL);
-				player.isStomping = false;
+				player.isStomping = false; */
 				player.playerSpeed = player.originalSpeed;
 			}
 		}
-
+		 
 		if (!player.hasMoveLock()) {
 			if (direction == "right") {
 				player.scale.setTo(0.5, 0.5);
@@ -60,13 +65,13 @@ Player = function(game, properties) {
 				player.body.velocity.x = -player.playerSpeed;
 			}
 			else if (direction == "jump") {
-				// TODO: fix so cant bounce on blocks
-				if (player.body.onFloor() || player.body.touching.down) {
-					
+				// TODO: fix so cant bounce on ability blocks - right now only returns player.body.touching.down;
+				if (player.body.onFloor() || touchingBreakableBlock(game)) {
+
 					// the solution som fredrik hatar liksom,
 					// this prevents the super jump by pressing up + highJump. 
 					if(!(controls.abilityOne.isDown || controls.abilityTwo.isDown))
-					player.body.velocity.y -= player.jumpHeight;
+						player.body.velocity.y = -player.jumpHeight;
 				}
 			}
 			else {
@@ -138,15 +143,23 @@ Player = function(game, properties) {
 
 	// TODO: Do we want the stomp to act differentl used from the air and from the ground?
 	this.player.stomp = function() {
-		if (!player.hasCoolDown()) {
-			player.isStomping = true;
+		if (!player.hasCoolDown() && !player.isStomping) {
 			//  if(player.body.onFloor() || player.body.touching.down) {
 			player.body.velocity.y = -player.jumpHeight * 1.2;
 
 
 			game.time.events.add(Phaser.Timer.SECOND * 0.4, function() {
-				player.body.velocity.y = player.body.maxVelocity.y;
+				if(player.body.velocity.y < 0) {
+					player.isStomping = true;
 
+					player.body.velocity.y = player.body.maxVelocity.y;
+				}
+				else {
+					//player.isStomping = false;
+					// console.log("nämen" + player.isStomping);
+					
+				}
+				
 			});
 			//}
 			//else {
@@ -157,6 +170,13 @@ Player = function(game, properties) {
 			player.setMoveLock(true);
 		}
 	};
+	
+	this.player.stopStomping = function() {
+		if (player.isStomping) {
+				game.camera.shake(0.02, 150, false, Phaser.Camera.SHAKE_HORIZONTAL);
+		}
+		player.isStomping = false;
+	}
 
 	this.player.shoot = function() {
 		if (!player.hasCoolDown()) {

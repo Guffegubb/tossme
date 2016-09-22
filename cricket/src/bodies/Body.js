@@ -1,5 +1,5 @@
 function destroySprite(item) {
-    item.kill();
+    item.destroy();
 };
 
 
@@ -28,3 +28,4 @@ function confirmExit() {
     
     return true;
 }
+
