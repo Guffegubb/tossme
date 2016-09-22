@@ -285,7 +285,8 @@ Player = function(game, properties) {
 	this.player.death = function() {
 
 		// TODO: Add death animations/events
-		player.spawn();
+		game.state.restart();
+		//player.spawn();
 
 	};
 

@@ -55,6 +55,5 @@ set velocity = 0 and don't do the shake
 
 
 Gustafsaker:
-Gustaf vill använda state.restart sen
 OSSSAKER
 KOLLA KURSHEMSIDAN SEMINARIE X200 FIRE DRAGIJNSD
