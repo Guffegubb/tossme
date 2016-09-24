@@ -159,7 +159,7 @@ Game.Level.prototype = {
     update: function(game) {
         // Adding all collisions
         this.physics.arcade.collide(player, layer);
-        
+        this.physics.arcade.collide(enemyGroup, layer);
         // TODO: Move all the xGroup.forEach to respective JS files?
        breakableGroup.forEach(function(item) {
          game.physics.arcade.collide(player, item, function() {
@@ -194,8 +194,19 @@ Game.Level.prototype = {
             });
         });
         
-        enemyGroup.forEach(function(item) {
-           moveEnemy(item); 
+        // Trying collide with enemyGroup as with enemyTiles
+        this.physics.arcade.collide(player, enemyGroup, player.death);
+        
+        // TODO: Make this solution better if possible (maybe just check active 
+        // projectiles)
+        enemyGroup.forEach(function(enemyItem) {
+           moveEnemy(enemyItem);
+           projectiles.forEach(function(projectileItem) {
+              game.physics.arcade.overlap(enemyItem, projectileItem, function() {
+                  //destroySprite(enemyItem);
+                  killEnemy(enemyItem);
+              });
+           });
         });
 
         if (game.time.now > myTimer) {

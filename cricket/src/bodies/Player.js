@@ -2,7 +2,7 @@
 /*global player*/
 /*global Phaser*/
 
-Player = function(game, properties) {
+var Player = function(game, properties) {
 
 
 	this.player = game.add.sprite(properties.x, properties.y, 'player');

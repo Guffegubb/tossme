@@ -1,6 +1,5 @@
 
-
-var checkDestruction = function(game, item) {
+function checkDestruction(game, item) {
 
     if (player.isStomping && !player.body.touching.up) {
         destroySprite(item);
@@ -11,7 +10,7 @@ var checkDestruction = function(game, item) {
 
 var touchBool = false;
 // TODO: Can we refactor this / make it actually look halfway decent.
-var touchingBreakableBlock = function(game) {
+function touchingBreakableBlock(game) {
 
     breakableGroup.forEach(function(item) {
         

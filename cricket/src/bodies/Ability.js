@@ -1,6 +1,6 @@
 var blinkSign = -1;
 
-var blink = function(player, item) {
+function blink(player, item) {
 
     if (!(player.abilityOne == item.name || player.abilityTwo == item.name)) {
         abilityOneSprite.alpha = abilityOneSprite.alpha + blinkSign * 0.015;
@@ -18,7 +18,7 @@ var blink = function(player, item) {
 
 }
 
-var addAbilityText = function(game, mySprite, text) {
+function addAbilityText(game, mySprite, text) {
     var tempText;
     tempText = game.add.text(Math.floor(mySprite.x + mySprite.width / 2 + 10),
         Math.floor(mySprite.y + mySprite.height / 2), text);
@@ -31,7 +31,7 @@ var addAbilityText = function(game, mySprite, text) {
  * Implemented this through the global variables cause it became such 
  * a clusterfuck otherwise
  */
-var updateAbilityTexture = function(key, textureName) {
+function updateAbilityTexture(key, textureName) {
     if (key == 1)
         abilityOneSprite.loadTexture(textureName);
     else if (key == 2)
