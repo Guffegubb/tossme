@@ -38,19 +38,14 @@ var Player = function(game, properties) {
 
 		if (direction == "stop") {
 			
-			if (player.body.velocity.x > 0)
-				player.body.velocity.x -= player.playerSpeed / 10;
-			else if (player.body.velocity.x < 0)
-				player.body.velocity.x += player.playerSpeed / 10;
-			
+			// Gradually slows the player down to 0 speed. 
+			if (Math.abs(player.body.velocity.x != 0))
+				player.body.velocity.x -= ( player.direction() * player.playerSpeed / 10 ) ; 
 		
-		//	player.body.velocity.x += player.direction() * player.playerSpeed / 10;
+	
 			if (player.body.onFloor() || player.body.touching.down) {
 				player.setMoveLock(false);
 				player.stopStomping();
-				/*if (player.isStomping)
-					game.camera.shake(0.02, 150, false, Phaser.Camera.SHAKE_HORIZONTAL);
-				player.isStomping = false; */
 				player.playerSpeed = player.originalSpeed;
 			}
 		}
@@ -65,17 +60,17 @@ var Player = function(game, properties) {
 				player.body.velocity.x = -player.playerSpeed;
 			}
 			else if (direction == "jump") {
-				// TODO: fix so cant bounce on ability blocks - right now only returns player.body.touching.down;
 				if (player.body.onFloor() || touchingBreakableBlock(game)) {
 
-					// the solution som fredrik hatar liksom,
-					// this prevents the super jump by pressing up + highJump. 
+					
+					// this prevents the super jump by pressing up + highJump.
+					// TODO: Can we refactor to not use the global controls variable? Put the check in other function or so? 
 					if(!(controls.abilityOne.isDown || controls.abilityTwo.isDown))
 						player.body.velocity.y = -player.jumpHeight;
 				}
 			}
 			else {
-				// TODO: Error handling  
+				// TODO: Error handling?  
 			}
 		}
 
@@ -120,7 +115,7 @@ var Player = function(game, properties) {
 	};
 
 	this.player.highJump = function() {
-		if (!player.hasCoolDown() && (player.body.onFloor() || player.body.touching.down)) {
+		if (!player.hasCoolDown() && ( player.body.onFloor() || touchingBreakableBlock(game) )) {
 
 			player.body.velocity.y -= player.jumpHeight * 1.9;
 			player.playerSpeed /= 2;
@@ -134,7 +129,6 @@ var Player = function(game, properties) {
 		if (!player.hasCoolDown()) {
 			player.body.velocity.y = -player.jumpHeight * 0.9;
 			player.body.velocity.x = player.direction() * player.originalSpeed * 4;
-			//player.body.velocity.x = player.direction() *
 			
 			player.setCoolDown();
 			player.setMoveLock(true);
@@ -156,7 +150,6 @@ var Player = function(game, properties) {
 				}
 				else {
 					//player.isStomping = false;
-					// console.log("nämen" + player.isStomping);
 					
 				}
 				
@@ -272,7 +265,7 @@ var Player = function(game, properties) {
 
 	this.player.canSwap = function() {
 
-		if ((game.time.now > player.swapCooldown) && (player.hasAbilitySwap())) {
+		if ((game.time.now > player.swapCooldown) && ( player.hasAbilitySwap() )) {
 			if (!(player.abilityOne == player.newAbility.name || player.abilityTwo == player.newAbility.name)) {
 				return (player.body.onFloor());
 			}

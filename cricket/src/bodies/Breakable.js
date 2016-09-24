@@ -2,7 +2,18 @@
 function checkDestruction(game, item) {
 
     if (player.isStomping && !player.body.touching.up) {
+        
+        // this loop checks if several blocks should be destroyed. Does not help 
+        // against player standing halfway on normal ground though. 
+        // using player.x instead of item.x because of otherwise destroying 3 blocks.
+        breakableGroup.forEach(function(nearby) {
+            if ( item != nearby && (Math.abs(player.x - nearby.x) <= 64 ) ) {
+                destroySprite(nearby);
+            }
+        });
+        
         destroySprite(item);
+        
         player.stopStomping();
     }
 }

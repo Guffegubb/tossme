@@ -160,7 +160,10 @@ Game.Level.prototype = {
         // Adding all collisions
         this.physics.arcade.collide(player, layer);
         this.physics.arcade.collide(enemyGroup, layer);
+       
         // TODO: Move all the xGroup.forEach to respective JS files?
+       // TODO: we need to check if colliding with one block to the left or right
+       // if we want it to destroy when standing halfway on ground and halfway on breakable
        breakableGroup.forEach(function(item) {
          game.physics.arcade.collide(player, item, function() {
              checkDestruction(game, item);
