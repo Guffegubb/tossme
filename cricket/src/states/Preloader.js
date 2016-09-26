@@ -28,14 +28,19 @@ Game.Preloader.prototype = {
         this.load.tilemap('map2', 'assets/maps/level2.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('map3', 'assets/maps/level3.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('map4', 'assets/maps/level4.json', null, Phaser.Tilemap.TILED_JSON);
+        this.load.tilemap('map5', 'assets/maps/level6.json', null, Phaser.Tilemap.TILED_JSON);
+        this.load.tilemap('map6', 'assets/maps/level6.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.image('tileset', 'assets/spritesheets/TileSpritesheet.png');
         this.load.image('enemyTileset', 'assets/spritesheets/EnemySpritesheet.png')
         this.load.spritesheet('frog', 'assets/spritesheets/EnemySpritesheet.png', 64, 64, 6);
+        this.load.spritesheet('bee', 'assets/spritesheets/EnemySpritesheet.png', 64, 64, 6);
         
         maps.push('map');
         maps.push('map2');
         maps.push('map3');
         maps.push('map4');
+        maps.push('map5');
+        maps.push('map6');
         
         // load abilities
         this.load.image('highJump', 'assets/abilities/highJump.png');

@@ -31,6 +31,7 @@ var Player = function(game, properties) {
 	this.player.coolDownTime = 1000;
 	this.player.moveLock = false;
 	this.player.isStomping = false;
+	this.player.alive = true;
 
 
 	// TODO: Comment this function
@@ -39,9 +40,11 @@ var Player = function(game, properties) {
 		if (direction == "stop") {
 			
 			// Gradually slows the player down to 0 speed. 
-			if (Math.abs(player.body.velocity.x != 0))
-				player.body.velocity.x -= ( player.direction() * player.playerSpeed / 10 ) ; 
-		
+			if (player.body.velocity.x > 0)
+				player.body.velocity.x -= player.playerSpeed / 10; 
+			
+			else if (player.body.velocity.x < 0)
+				player.body.velocity.x += player.playerSpeed / 10;
 	
 			if (player.body.onFloor() || player.body.touching.down) {
 				player.setMoveLock(false);
@@ -278,7 +281,10 @@ var Player = function(game, properties) {
 	this.player.death = function() {
 
 		// TODO: Add death animations/events
-		game.state.restart();
+		
+		killEnemy(player);
+		//player.enableBody = false;
+		//game.state.restart();
 		//player.spawn();
 
 	};

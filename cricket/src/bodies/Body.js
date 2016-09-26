@@ -9,6 +9,7 @@ function exitToMenu(game) {
 
 }
 
+
 function createExitButton(game) {
     var exit = game.add.sprite(1120, 10, 'exit');
     exit.fixedToCamera = true;
@@ -29,3 +30,7 @@ function confirmExit() {
     return true;
 }
 
+
+function isAlive(body) {
+    return body.alive;
+};

@@ -1,0 +1,26 @@
+0. Utvecklar åt ett företag som vill ha ett spel på deras hemsida, därav HTML5, 
+ Phaser kändes naturligt
+1. Visa bana ett
+2. Ta sig från start till mål
+3. Till sin hjälp har man ett antal abilities man kan plocka upp (flika in grafik
+    ej klar ännu - företaget ska fixa ny)
+4. Man kan enbart ha ett begränsat antal abilites "på sig" samtidigt
+5. Progress genom att kombinera sina abilites på "rätt" sätt
+6. Spelar med piltangenter (intunitivt enligt dom som spelat) - vissa svårigheter
+ med z och x
+7. Vi tänker inte implementera fler "features" vid det här laget. Vi ska under
+    sista tiden fokusera främst på att "polera" spelet.
+    -Death Animation
+    -Fixa buggar
+    -Göra spelet tydligare
+8. Vi behöver även tid till att skapa banor
+9. Problem vi har stött på:
+    -Phsaers graviation (kan bli för hög så man trillar igenom block)
+        -Satt maxhastighet
+    -Hoppa och studsa på objekt (abiliteslådorna kunde man tex hoppa på förut
+    trots att man kunde gå igenom dom)
+        -Individuella checkar för denna typ av objekt
+    -Om man dödar en fiende så kan den fortfarande döda en
+    -Om man stompar och står lite på ett vanligt block så går inte "breakable"
+    sönder
+10. 

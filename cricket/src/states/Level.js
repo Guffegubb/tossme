@@ -1,5 +1,6 @@
 Game.Level = function(game) {
     this.game = game;
+    var originalTint;
 };
 
 var map;
@@ -21,8 +22,8 @@ var abilityGroup;
 var lethalGroup;
 var goalGroup;
 var enemyGroup;
+var enemyCollisionGroup;
 var groups;
-
 
 
 var projectiles;
@@ -30,6 +31,7 @@ var projectiles;
 
 Game.Level.prototype = {
 
+    
     create: function(game) {
 
         // Initialize map and tilesets
@@ -40,10 +42,12 @@ Game.Level.prototype = {
         map.addTilesetImage('tileset', 'tileset');
         map.addTilesetImage('enemyTileset', 'enemyTileset');
         layer = map.createLayer('Tile Layer 1');
+        collisionLayer = map.createLayer('enemyCollisionLayer');
         // backgroundLayer = map.createLayer('Background Layer');
 
         layer.resizeWorld();
         map.setCollisionBetween(2, 4, true, layer);
+        map.setCollisionBetween(0, 2, true, collisionLayer);
 
         coinGroup = game.add.group();
         breakableGroup = game.add.group();
@@ -52,6 +56,7 @@ Game.Level.prototype = {
         lethalGroup = game.add.group();
         goalGroup = game.add.group();
         enemyGroup = game.add.group();
+        enemyCollisionGroup = game.add.group();
 
         // groups need to have the groups in the same order as the
         // objectLayers array above for this solution to work.
@@ -62,7 +67,8 @@ Game.Level.prototype = {
             lethalGroup,
             abilityGroup,
             goalGroup,
-            enemyGroup
+            enemyGroup,
+            enemyCollisionGroup
         ];
 
         var objectLayers = [
@@ -72,7 +78,8 @@ Game.Level.prototype = {
             'lethalBlocks',
             'supers',
             'goal',
-            'enemies'
+            'enemies',
+            'enemyCollision'
         ];
 
         var objectsInLayer = [
@@ -82,7 +89,8 @@ Game.Level.prototype = {
             ['lava', 'water', 'cactus'],
             ['highJump', 'longJump', 'stomp', 'shoot'],
             ['goal'],
-            ['frog']
+            ['frog', 'bee'],
+            ['collision']
         ];
 
 
@@ -104,14 +112,14 @@ Game.Level.prototype = {
                 item.body.allowGravity = false;
                 item.body.immovable = true;
             }, this);
-        
+
             //groups[g].setAll('anchor', 0.5);
         }
         //;
-        
+
         projectiles = declareProjectile(game, projectiles);
         enemyGroup = initEnemyGroup(game, enemyGroup, null);
-        
+
 
         this.physics.arcade.gravity.y = 1000;
         var playerProperties = {
@@ -125,6 +133,7 @@ Game.Level.prototype = {
         player = new Player(game, playerProperties);
         this.camera.follow(player);
         player.spawn();
+        originalTint = player.tint;
 
         controls = {
             right: this.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
@@ -160,16 +169,21 @@ Game.Level.prototype = {
         // Adding all collisions
         this.physics.arcade.collide(player, layer);
         this.physics.arcade.collide(enemyGroup, layer);
-       
+        this.physics.arcade.collide(enemyGroup, collisionLayer);
+
         // TODO: Move all the xGroup.forEach to respective JS files?
-       // TODO: we need to check if colliding with one block to the left or right
-       // if we want it to destroy when standing halfway on ground and halfway on breakable
-       breakableGroup.forEach(function(item) {
+        // TODO: we need to check if colliding with one block to the left or right
+        // if we want it to destroy when standing halfway on ground and halfway on breakable
+        breakableGroup.forEach(function(item) {
+            checkBreakableCollision(game, player, item);
+            /*
          game.physics.arcade.collide(player, item, function() {
              checkDestruction(game, item);
-         })
-       })
-        
+         */
+
+            // })
+        })
+
 
         coinGroup.forEach(function(item) {
             game.physics.arcade.overlap(player, item, function() {
@@ -181,7 +195,7 @@ Game.Level.prototype = {
 
         goalGroup.forEach(function(item) {
             game.physics.arcade.overlap(player, item, function() {
-              //  console.log("victory?");
+                //  console.log("victory?");
                 // TODO: Add call to some function that adds victory screen before returning to menu.
                 exitToMenu(game); // game.state.start('MainMenu');
 
@@ -196,20 +210,23 @@ Game.Level.prototype = {
                 myTimer = game.time.now;
             });
         });
-        
-        // Trying collide with enemyGroup as with enemyTiles
+
+        // Trying collide with enemyGroup as we do with enemyTiles
         this.physics.arcade.collide(player, enemyGroup, player.death);
+       // this.physics.arcade.collide(enemyGroup, enemyCollisionGroup, changeDirectionX(enemyGroup.));
+       
         
+
         // TODO: Make this solution better if possible (maybe just check active 
         // projectiles)
         enemyGroup.forEach(function(enemyItem) {
-           moveEnemy(enemyItem);
-           projectiles.forEach(function(projectileItem) {
-              game.physics.arcade.overlap(enemyItem, projectileItem, function() {
-                  //destroySprite(enemyItem);
-                  killEnemy(enemyItem);
-              });
-           });
+            moveEnemy(enemyItem);
+            projectiles.forEach(function(projectileItem) {
+                game.physics.arcade.overlap(enemyItem, projectileItem, function() {
+                    projectileItem.kill();
+                    killEnemy(enemyItem);
+                });
+            });
         });
 
         if (game.time.now > myTimer) {
@@ -224,31 +241,45 @@ Game.Level.prototype = {
 
 
         // Checking for player movement
+     //   if (isAlive(player)) {
+            player.move("stop");
 
-        player.move("stop");
+            if (controls.right.isDown) {
+                player.move("right");
+            }
 
-        if (controls.right.isDown) {
-            player.move("right");
-        }
+            if (controls.left.isDown) {
+                player.move("left");
+            }
 
-        if (controls.left.isDown) {
-            player.move("left");
-        }
+            if (controls.up.isDown) {
+                player.move("jump");
+            }
 
-        if (controls.up.isDown) {
-            player.move("jump");
-        }
+            if (controls.abilityOne.isDown) {
+                player.callAbility(1);
+            }
 
-        if (controls.abilityOne.isDown) {
-            player.callAbility(1);
-        }
+            if (controls.abilityTwo.isDown) {
+                player.callAbility(2);
+            }
+            // TODO: Potentially implement so the same thing happens when touching breakableBlock above.
+            if( player.body.blocked.up) {
+                 
+                player.tint = 0xFF7171;
+                game.camera.shake(0.01, 150, false, Phaser.Camera.SHAKE_HORIZONTAL);
 
-        if (controls.abilityTwo.isDown) {
-            player.callAbility(2);
-        }
+                game.time.events.add(Phaser.Timer.SECOND * 0.1, function() {
+                    player.tint = originalTint;
+                });
+            }
+       // }
+
 
 
         // EndOf checking player movement
+
+
 
 
     },

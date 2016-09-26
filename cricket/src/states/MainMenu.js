@@ -30,8 +30,8 @@ Game.MainMenu.prototype = {
         // this.game.scale.setSize();
 
 
-        var titlescreen = game.add.sprite(game.world.centerX, game.world.centerY - 192, 'titlescreen');
-        titlescreen.anchor.setTo(0.5, 0.5);
+        //var titlescreen = game.add.sprite(game.world.centerX, game.world.centerY - 192, 'titlescreen');
+        //titlescreen.anchor.setTo(0.5, 0.5);
         // TODO: Implement for several rows when too many maps are added
         for (var map in maps) {
 

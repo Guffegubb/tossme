@@ -10,25 +10,44 @@ function initEnemyGroup(game, enemies, properties) {
     enemies.setAll('scale.x', 1);
     enemies.setAll('scale.y', 1);
 
-    enemies.forEach(function(item) {
-        item.speed = 200;
-        item.walkingDistance = 250;
-        item.previous_x = item.x
-        
-        //item.body.colldeWorldBounds = true;
-        item.body.allowGravity = true;
-        
-        //item = game.add.sprite(64, 64, 'enemyTileset');
+    enemies.setAll('outOfBoundsKill', true);
+    enemies.setAll('checkWorldBounds', true);
 
-        item.animations.add('walk', [0, 1]);
-        item.animations.add('die', [2]);
-        item.animations.play('walk', 5, true);
+    enemies.forEach(function(enemy) {
+        if (enemy.name == 'frog') {
+            enemy.body.allowGravity = true;
+            enemy.animations.add('walk', [0, 1]);
+            enemy.animations.add('die', [2]);
+        }
+        else if (enemy.name == 'bee') {
+            enemy.body.allowGravity = false;
+            enemy.animations.add('walk', [3, 4]);
+            enemy.animations.add('die', [5]);
+        }
+        
+        
+        enemy.speed = 200;
+        enemy.walkingDistance = 250;
+        enemy.previous_x = enemy.x
+
+        enemy.alive = true;
+
+        //enemy.body.colldeWorldBounds = true;
+        //enemy.body.allowGravity = true;
+        //enemy.body.bounce.setTo(1, 0);
+        //sprite3.body.bounce.setTo(1, 1);
+
+        //enemy = game.add.sprite(64, 64, 'enemyTileset');
+
+        
+
+        enemy.animations.play('walk', 5, true);
     });
 
     return enemies;
 };
 
-function initEnemy(game, enemy, properties) {
+/*function initEnemy(game, enemy, properties) {
 
     enemy.enableBody = true;
     enemy.physicsBodyType = Phaser.Physics.ARCADE;
@@ -40,15 +59,27 @@ function initEnemy(game, enemy, properties) {
 
 
     return enemy;
-};
+};*/
 
 function moveEnemy(enemy) {
     //enemy.animations.play('walk', 5, true);
-    enemy.body.velocity.x = enemy.speed * getDirectionX(enemy);
-    if (Math.abs(enemy.x - enemy.previous_x) >= enemy.walkingDistance) {
-        enemy.scale.x = enemy.scale.x * (-1);
-        enemy.previous_x = enemy.x;
+    //console.log(getDirectionX(enemy));
+    // Added so that it won't move if it's dead, this prevents it from changing
+    // direction when have been killed
+    if (isAlive(enemy)) {
+        // Added so that it changes direction when blocked on the side
+        if (enemy.body.blocked.left)
+            changeDirectionX(enemy);
+        else if (enemy.body.blocked.right)
+            changeDirectionX(enemy);
+            
+        enemy.body.velocity.x = enemy.speed * getDirectionX(enemy);
+        if (Math.abs(enemy.x - enemy.previous_x) >= enemy.walkingDistance) {
+            changeDirectionX(enemy);
+            enemy.previous_x = enemy.x;
+        }
     }
+
 };
 
 function getDirectionX(enemy) {
@@ -56,17 +87,26 @@ function getDirectionX(enemy) {
 };
 
 function changeDirectionX(enemy) {
-    enemy.setScale(enemy.scale.x * (-1), enemy.scale.y);
+    enemy.scale.setTo(enemy.scale.x * (-1), enemy.scale.y);
 };
 
 function changeDirectionY(enemy) {
-    enemy.setScale(enemy.scale.x, enemy.scale.y * (-1));
+    enemy.scale.setTo(enemy.scale.x, enemy.scale.y * (-1));
 };
 
+
 function killEnemy(enemy) {
-    console.log("killed an enemy");
+    // TODO: Fix so that the enemy is actually removed (At this point it doesn't
+    // check outOfWorld bounds and there it is never killed :()
+    enemy.enableBody = false;
+    enemy.body.allowGravity = true;
+    enemy.body.collideWorldBounds = false;
+    enemy.body.checkCollision = false;
+    enemy.alive = false;
     //enemy.anchor.setTo(enemy.anchor.x, 0.5);
     enemy.body.velocity.y = -200;
-    enemy.scale.setTo(enemy.scale.x, -1);
-    enemy.animations.play('die', 0, true);
-}
+    changeDirectionY(enemy);
+    // Add for death animation later
+    //enemy.animations.play('die', 0, true);
+
+};
