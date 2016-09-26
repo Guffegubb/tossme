@@ -20,7 +20,7 @@ Game.Preloader.prototype = {
         //TODO: Double-check that all assets are used
 
         // load assets for main menu
-        this.load.image('playButton', 'assets/player/pinkPlayerJump.png'); // this one should be changed
+        this.load.image('playButton', 'assets/abilities/longJump.png'); // this one should be changed
         this.load.image('titlescreen', 'assets/menu/titlescreen.png');
         
         // load maps and tilesets
@@ -66,6 +66,8 @@ Game.Preloader.prototype = {
         
         // load player
         this.load.image('player', 'assets/player/pinkPlayer1.png');
+        
+        
         
     },
 

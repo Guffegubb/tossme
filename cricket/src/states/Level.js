@@ -28,11 +28,11 @@ var groups;
 
 var projectiles;
 
-
 Game.Level.prototype = {
 
-    
+
     create: function(game) {
+
 
         // Initialize map and tilesets
         this.stage.backgroundColor = '#9CD5E2';
@@ -166,82 +166,94 @@ Game.Level.prototype = {
 
 
     update: function(game) {
-        // Adding all collisions
-        this.physics.arcade.collide(player, layer);
-        this.physics.arcade.collide(enemyGroup, layer);
-        this.physics.arcade.collide(enemyGroup, collisionLayer);
+        if (isAlive(player)) {
 
-        // TODO: Move all the xGroup.forEach to respective JS files?
-        // TODO: we need to check if colliding with one block to the left or right
-        // if we want it to destroy when standing halfway on ground and halfway on breakable
-        breakableGroup.forEach(function(item) {
-            checkBreakableCollision(game, player, item);
-            /*
+
+            // Adding all collisions
+            this.physics.arcade.collide(player, layer);
+            this.physics.arcade.collide(enemyGroup, layer);
+            this.physics.arcade.collide(enemyGroup, collisionLayer);
+
+            // TODO: Move all the xGroup.forEach to respective JS files?
+            // TODO: we need to check if colliding with one block to the left or right
+            // if we want it to destroy when standing halfway on ground and halfway on breakable
+            breakableGroup.forEach(function(item) {
+                checkBreakableCollision(game, player, item);
+                /*
          game.physics.arcade.collide(player, item, function() {
              checkDestruction(game, item);
          */
 
-            // })
-        })
+                // })
+            })
 
 
-        coinGroup.forEach(function(item) {
-            game.physics.arcade.overlap(player, item, function() {
-                destroySprite(item);
-            });
-        }, this);
+            coinGroup.forEach(function(item) {
+                game.physics.arcade.overlap(player, item, function() {
+                    destroySprite(item);
+                });
+            }, this);
 
-        this.physics.arcade.collide(player, lethalGroup, player.death);
+            this.physics.arcade.collide(player, lethalGroup, player.death);
 
-        goalGroup.forEach(function(item) {
-            game.physics.arcade.overlap(player, item, function() {
-                //  console.log("victory?");
-                // TODO: Add call to some function that adds victory screen before returning to menu.
-                exitToMenu(game); // game.state.start('MainMenu');
+            goalGroup.forEach(function(item) {
+                game.physics.arcade.overlap(player, item, function() {
+                    //  console.log("victory?");
+                    // TODO: Add call to some function that adds victory screen before returning to menu.
+                    exitToMenu(game); // game.state.start('MainMenu');
 
-            });
-        });
-        var myTimer = 0;
-
-        abilityGroup.forEach(function(item) {
-            game.physics.arcade.overlap(player, item, function() {
-                blink(player, item);
-                player.setAbilitySwap(item);
-                myTimer = game.time.now;
-            });
-        });
-
-        // Trying collide with enemyGroup as we do with enemyTiles
-        this.physics.arcade.collide(player, enemyGroup, player.death);
-       // this.physics.arcade.collide(enemyGroup, enemyCollisionGroup, changeDirectionX(enemyGroup.));
-       
-        
-
-        // TODO: Make this solution better if possible (maybe just check active 
-        // projectiles)
-        enemyGroup.forEach(function(enemyItem) {
-            moveEnemy(enemyItem);
-            projectiles.forEach(function(projectileItem) {
-                game.physics.arcade.overlap(enemyItem, projectileItem, function() {
-                    projectileItem.kill();
-                    killEnemy(enemyItem);
                 });
             });
-        });
+            var myTimer = 0;
 
-        if (game.time.now > myTimer) {
-            abilityTwoSprite.alpha = 1;
-            abilityOneSprite.alpha = 1;
             abilityGroup.forEach(function(item) {
-                item.alpha = 1;
+                game.physics.arcade.overlap(player, item, function() {
+                    blink(player, item);
+                    player.setAbilitySwap(item);
+                    myTimer = game.time.now;
+                });
             });
-        }
 
-        // EndOf adding all collisions
+            // Trying collide with enemyGroup as we do with enemyTiles
+            //this.physics.arcade.collide(player, enemyGroup, player.death);
+            //this.physics.arcade.collide(enemyGroup, enemyCollisionGroup, changeDirectionX(enemyGroup.));
+            //this.physics.arcade.collide(player, enemyGroup, player.death);
+            
 
 
-        // Checking for player movement
-     //   if (isAlive(player)) {
+            // TODO: Make this solution better if possible (maybe just check active 
+            // projectiles)
+            enemyGroup.forEach(function(enemyItem) {
+                moveEnemy(enemyItem);
+                
+                // Check collide with projectiles
+                projectiles.forEach(function(projectileItem) {
+                    game.physics.arcade.overlap(enemyItem, projectileItem, function() {
+                        projectileItem.kill();
+                        killEnemy(enemyItem);
+                    });
+                });
+                
+                // Check collide with player (if alive)
+                if (isAlive(enemyItem)) {
+                    game.physics.arcade.collide(player, enemyItem, player.death);
+                }
+                
+            });
+
+            if (game.time.now > myTimer) {
+                abilityTwoSprite.alpha = 1;
+                abilityOneSprite.alpha = 1;
+                abilityGroup.forEach(function(item) {
+                    item.alpha = 1;
+                });
+            }
+
+            // EndOf adding all collisions
+
+
+            // Checking for player movement
+            //   if (isAlive(player)) {
             player.move("stop");
 
             if (controls.right.isDown) {
@@ -264,16 +276,31 @@ Game.Level.prototype = {
                 player.callAbility(2);
             }
             // TODO: Potentially implement so the same thing happens when touching breakableBlock above.
-            if( player.body.blocked.up) {
-                 
+            if (player.body.blocked.up || touchingBreakableBlock(game, 'up')) {
+
                 player.tint = 0xFF7171;
-                game.camera.shake(0.01, 150, false, Phaser.Camera.SHAKE_HORIZONTAL);
+                game.camera.shake(0.01, 100, false, Phaser.Camera.SHAKE_HORIZONTAL);
 
                 game.time.events.add(Phaser.Timer.SECOND * 0.1, function() {
                     player.tint = originalTint;
                 });
             }
-       // }
+            // }
+
+        }
+        else {
+            grayfilter.gray = 0.6;
+            if (player.y > map.heightInPixels) {
+                game.state.restart();
+            }
+            
+            this.physics.arcade.collide(enemyGroup, layer);
+            this.physics.arcade.collide(enemyGroup, collisionLayer);
+            enemyGroup.forEach(function(enemyItem) {
+                moveEnemy(enemyItem);
+            });
+
+        }
 
 
 

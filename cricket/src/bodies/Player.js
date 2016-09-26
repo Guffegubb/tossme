@@ -55,15 +55,15 @@ var Player = function(game, properties) {
 		 
 		if (!player.hasMoveLock()) {
 			if (direction == "right") {
-				player.scale.setTo(0.5, 0.5);
+				player.scale.setTo(0.5, player.scale.y);
 				player.body.velocity.x = player.playerSpeed;
 			}
 			else if (direction == "left") {
-				player.scale.setTo(-0.5, 0.5);
+				player.scale.setTo(-0.5, player.scale.y);
 				player.body.velocity.x = -player.playerSpeed;
 			}
 			else if (direction == "jump") {
-				if (player.body.onFloor() || touchingBreakableBlock(game)) {
+				if (player.body.onFloor() || touchingBreakableBlock(game, 'down')) {
 
 					
 					// this prevents the super jump by pressing up + highJump.
@@ -118,7 +118,7 @@ var Player = function(game, properties) {
 	};
 
 	this.player.highJump = function() {
-		if (!player.hasCoolDown() && ( player.body.onFloor() || touchingBreakableBlock(game) )) {
+		if (!player.hasCoolDown() && ( player.body.onFloor() || touchingBreakableBlock(game, 'down') )) {
 
 			player.body.velocity.y -= player.jumpHeight * 1.9;
 			player.playerSpeed /= 2;
@@ -286,7 +286,10 @@ var Player = function(game, properties) {
 		//player.enableBody = false;
 		//game.state.restart();
 		//player.spawn();
-
+		
+		// check if this solves bug in backlog on stomping if dying.
+		player.isStomping = false; 
+		
 	};
 
 	this.player.spawn = function() {
@@ -298,8 +301,6 @@ var Player = function(game, properties) {
 		}, this);
 
 	};
-
-
 
 	return this.player;
 

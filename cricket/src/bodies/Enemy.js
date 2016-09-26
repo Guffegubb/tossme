@@ -105,8 +105,10 @@ function killEnemy(enemy) {
     enemy.alive = false;
     //enemy.anchor.setTo(enemy.anchor.x, 0.5);
     enemy.body.velocity.y = -200;
+    
     changeDirectionY(enemy);
-    // Add for death animation later
-    //enemy.animations.play('die', 0, true);
+    enemy.animations.play('die', 0, true);
+    
+    
 
 };

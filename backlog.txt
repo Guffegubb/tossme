@@ -2,8 +2,6 @@
 
 Features:
 
-- Implement flying enemies
-- Trigger event when crossing invisible line from json file?
 - Intro and credits necessary for higher grade (check course page) (tween and/or alpha can be useful)
         - intro should maybe be done in PreLoader.JS file, or own state between preloader and main menu
 - Implement 'unlocking' levels
@@ -17,7 +15,7 @@ Extras:
 -Add extra things to pick up?
 -Easter egg?
 -Make the sprite move in some kind of way, maybe just rotate when jumping, maybe 
-make it toggle between two sprite
+    make it toggle between two sprite
 -Add animation for dying
 -Countdown timer for when ability is available for use again (display) - could it be faded out and slowly fading back in?
         (otherwise load texture with the kenney.nl numbers perhaps, animating between them?
@@ -32,22 +30,15 @@ Refactoring:
 
 Polish:
 -Make cactus kill you when touching the cactus and not only overlaping the square (collisioncheck optional parameter in collide/overlap may be able to help with this)
--When using stomp and hitting head (use small camera shake, not as big as when hitting floor with stomp)
-    - alternatively change sprite colour / blink - IMPLEMENTED, BUT DOESNT WORK FOR BREAKABLEOBJECTS AT THE MOMENT
 -Make the long jump not give height if touching on side
--Stop stomping ability if dying (continues through right now), that is 
-    set velocity = 0 and don't do the shake - CANNOT RECREATE BUG WITH CURRENT LEVELS, ALWAYS ROOF ABOVE LETHAL BLOCKS WHICH STOPS STOMPS
--Make the menu automatically be able to adjust with 'infinite' amount of maps
 -Add pause screen when clicked outside of game
 - Exit sign flashing when hovering over?
 -Add "are you sure you want to exit?"
 -Fix size of player sprite
 - Add a bigger "whoop" for completing level, currently only returns us to main menu.
 - Add roof to every map
-- Add animation for player dying
 - Add animation for player
-- Change anchar of player?
+- Change anchor of player?
 - Make it possible to go up blocks if just a few pixels are not aligned
-- Change death animation on enemies?
-- Make enemies dead body not able to kill you?
 - Make shoot look nicer
+- Tween for when picking up ability for the first time

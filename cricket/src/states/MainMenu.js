@@ -33,10 +33,15 @@ Game.MainMenu.prototype = {
         //var titlescreen = game.add.sprite(game.world.centerX, game.world.centerY - 192, 'titlescreen');
         //titlescreen.anchor.setTo(0.5, 0.5);
         // TODO: Implement for several rows when too many maps are added
+        var row = 0;
+        var column = 0;
         for (var map in maps) {
-
+        
+        row = Math.floor(map/5);
+        column = map % 5;
+        
             // if remove game.world.centerY the buttons appear when returning, something referencing weirdly.
-            this.createButton(game, map, 200 + 200 * map, game.world.centerY + 150);
+            this.createButton(game, map, (300 - 64) + 150 * column, game.world.centerY + 150 * row);
         }
     },
 
@@ -48,6 +53,7 @@ Game.MainMenu.prototype = {
         game.add.button(x, y, 'playButton', function() {
             chosenMap = maps[index];
             // console.log("map chosen: " + maps[index]);
+            // TODO: Put this chosenMap variable in the top Level Function (above prototype) in Level state and see if it can be found.
             // console.log(game.state.states['Level']).chosenMap = maps[map];
             game.state.start('Level', true, false);
         });
