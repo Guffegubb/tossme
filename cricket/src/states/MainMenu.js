@@ -8,7 +8,6 @@ var chosenMap;
 Game.MainMenu.prototype = {
     create: function(game) {
 
-
         // this code block resizes the game back to original size 
         // when returning to main menu after playing a given level
         var width = 1200;
@@ -32,16 +31,24 @@ Game.MainMenu.prototype = {
 
         //var titlescreen = game.add.sprite(game.world.centerX, game.world.centerY - 192, 'titlescreen');
         //titlescreen.anchor.setTo(0.5, 0.5);
-        // TODO: Implement for several rows when too many maps are added
+
         var row = 0;
         var column = 0;
+        var mapCounter = 0;
+        var unlocked = parseInt(localStorage.getItem('unlockedMaps'));
+        if (unlocked == null)
+            unlocked = 0;
+
         for (var map in maps) {
-        
-        row = Math.floor(map/5);
-        column = map % 5;
-        
-            // if remove game.world.centerY the buttons appear when returning, something referencing weirdly.
-            this.createButton(game, map, (300 - 64) + 150 * column, game.world.centerY + 150 * row);
+
+            // checks how many maps should be unlocked
+            if (mapCounter <= unlocked) {
+
+                row = Math.floor(map / 5);
+                column = map % 5;
+                this.createButton(game, map, (300 - 64) + 150 * column, game.world.centerY + 150 * row);
+                mapCounter++;
+            }
         }
     },
 
@@ -52,6 +59,7 @@ Game.MainMenu.prototype = {
     createButton: function(game, index, x, y) {
         game.add.button(x, y, 'playButton', function() {
             chosenMap = maps[index];
+            console.log(chosenMap);
             // console.log("map chosen: " + maps[index]);
             // TODO: Put this chosenMap variable in the top Level Function (above prototype) in Level state and see if it can be found.
             // console.log(game.state.states['Level']).chosenMap = maps[map];

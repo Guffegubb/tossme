@@ -1,14 +1,10 @@
-
-
 Features:
-
 - Intro and credits necessary for higher grade (check course page) (tween and/or alpha can be useful)
         - intro should maybe be done in PreLoader.JS file, or own state between preloader and main menu
-- Implement 'unlocking' levels
-
+- Sound / Music
+- Make it mutable (start as muted)
 
 Bugs: 
-Player.js:
 - Supress errors when trying to create objects that does not exist on map
 
 Extras:
@@ -16,29 +12,27 @@ Extras:
 -Easter egg?
 -Make the sprite move in some kind of way, maybe just rotate when jumping, maybe 
     make it toggle between two sprite
--Add animation for dying
 -Countdown timer for when ability is available for use again (display) - could it be faded out and slowly fading back in?
         (otherwise load texture with the kenney.nl numbers perhaps, animating between them?
 - add sounds
 
 
 Refactoring:
-- make as many variables as possible NOT global.. - PUT INSIDE GAME.LEVEL.PROTOTYPE BEFORE CREATE
+- make as many variables as possible NOT global.. - PUT INSIDE GAME.LEVEL TOP OF FILE
 - touchingBreakableBlock function is filled with ugly code and så kallade nödlösningar. 
 - The code for projectiles and enemy meeting
 - repeated code that can be moved into own function. 
 
 Polish:
--Make cactus kill you when touching the cactus and not only overlaping the square (collisioncheck optional parameter in collide/overlap may be able to help with this)
--Make the long jump not give height if touching on side
--Add pause screen when clicked outside of game
+- Make cactus kill you when touching the cactus and not only overlaping the square (collisioncheck optional parameter in collide/overlap may be able to help with this)
+- Make the long jump not give height if touching on side
+- Add pause screen when clicked outside of game
 - Exit sign flashing when hovering over?
--Add "are you sure you want to exit?"
--Fix size of player sprite
-- Add a bigger "whoop" for completing level, currently only returns us to main menu.
-- Add roof to every map
+- Add "are you sure you want to exit?"
+- Victory screen polish.
 - Add animation for player
 - Change anchor of player?
 - Make it possible to go up blocks if just a few pixels are not aligned
 - Make shoot look nicer
 - Tween for when picking up ability for the first time
+- Make it not possible to shoot through walls

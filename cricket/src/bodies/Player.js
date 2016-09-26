@@ -247,9 +247,25 @@ var Player = function(game, properties) {
 			tempAbility = player.abilityTwo;
 			player.abilityTwo = player.newAbility.name;
 		}
+		/*
+		var tempX1;
+		var tempX2 = player.newAbility.x;
+		var tempY1;
+		var tempY2 = player.newAbility.y;
 		
-		//Updating the buttons shown on screen through the callback function
-		updateAbilityTexture(key, player.newAbility.name);
+		if (key == 1) {
+			tempX1 = abilityOneSprite.x;
+			tempY1 = abilityOneSprite.y;
+		}
+		else if (key == 2) {
+			tempX1 = abilityTwoSprite.x;
+			tempY1 = abilityTwoSprite.y;
+		}
+		//player.newAbility.fixedToCamera = true;
+		var tweenOne = game.add.tween(player.newAbility.cameraOffset).to( {x: tempX1, y: tempY1}, 1000, 'Linear');
+		tweenOne.onComplete.add(function() {
+			console.log("hej");
+			updateAbilityTexture(key, player.newAbility.name);
    
 		if (tempAbility == null) {
 			player.newAbility.kill();
@@ -259,8 +275,25 @@ var Player = function(game, properties) {
 			player.newAbility.name = tempAbility;
 			player.newAbility.key = tempAbility;	
 		}
+		})
+		tweenOne.start(); 
+		
+			*/	
 		
 		
+		//Updating the buttons shown on screen through the callback function
+		
+		updateAbilityTexture(key, player.newAbility.name);
+
+		
+		if (tempAbility == null) {
+			player.newAbility.kill();
+		}
+		else {
+			player.newAbility.loadTexture(tempAbility);
+			player.newAbility.name = tempAbility;
+			player.newAbility.key = tempAbility;	
+		}
 		
 		player.swapCooldown = game.time.now + player.coolDownTime * 0.5;
 

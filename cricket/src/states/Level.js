@@ -32,8 +32,10 @@ Game.Level.prototype = {
 
 
     create: function(game) {
-
-
+        // Start music
+        music = game.add.audio('backgroundMusic');
+        //music.play();
+        //music.loopFull();
         // Initialize map and tilesets
         this.stage.backgroundColor = '#9CD5E2';
 
@@ -200,8 +202,13 @@ Game.Level.prototype = {
                 game.physics.arcade.overlap(player, item, function() {
                     //  console.log("victory?");
                     // TODO: Add call to some function that adds victory screen before returning to menu.
-                    exitToMenu(game); // game.state.start('MainMenu');
-
+                    //exitToMenu(game); // game.state.start('MainMenu');
+                    //game.state.start('Level', true, false);
+                    //nextMap(game);
+                    //console.log(game.scale.viewportWidth);
+                    //console.log(window.innerHeight);
+                    //t.fixedToCamera = true;
+                    mapComplete(game);
                 });
             });
             var myTimer = 0;
@@ -289,7 +296,6 @@ Game.Level.prototype = {
 
         }
         else {
-            grayfilter.gray = 0.6;
             if (player.y > map.heightInPixels) {
                 game.state.restart();
             }

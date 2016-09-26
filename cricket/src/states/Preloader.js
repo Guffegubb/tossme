@@ -24,7 +24,7 @@ Game.Preloader.prototype = {
         this.load.image('titlescreen', 'assets/menu/titlescreen.png');
         
         // load maps and tilesets
-        this.load.tilemap('map', 'assets/maps/level1.1.json', null, Phaser.Tilemap.TILED_JSON);
+        this.load.tilemap('map1', 'assets/maps/level1.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('map2', 'assets/maps/level2.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('map3', 'assets/maps/level3.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('map4', 'assets/maps/level4.json', null, Phaser.Tilemap.TILED_JSON);
@@ -35,7 +35,7 @@ Game.Preloader.prototype = {
         this.load.spritesheet('frog', 'assets/spritesheets/EnemySpritesheet.png', 64, 64, 6);
         this.load.spritesheet('bee', 'assets/spritesheets/EnemySpritesheet.png', 64, 64, 6);
         
-        maps.push('map');
+        maps.push('map1');
         maps.push('map2');
         maps.push('map3');
         maps.push('map4');
@@ -67,7 +67,8 @@ Game.Preloader.prototype = {
         // load player
         this.load.image('player', 'assets/player/pinkPlayer1.png');
         
-        
+        // load music
+        this.load.audio('backgroundMusic', 'assets/sound/jingles_NES00.ogg');
         
     },
 
