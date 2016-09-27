@@ -32,10 +32,13 @@ Game.Level.prototype = {
 
 
     create: function(game) {
-        // Start music
-        music = game.add.audio('backgroundMusic');
-        //music.play();
-        //music.loopFull();
+        
+        // All the object music is created here for now
+        breakAudio = game.add.audio('breakAudio');
+        levelComplete = game.add.audio('levelCompleteAudio');
+        
+        levelComplete.volume = 0.6;
+        
         // Initialize map and tilesets
         this.stage.backgroundColor = '#9CD5E2';
 
@@ -171,10 +174,11 @@ Game.Level.prototype = {
         if (isAlive(player)) {
 
 
-            // Adding all collisions
+            // Adding all collisions with layer
             this.physics.arcade.collide(player, layer);
             this.physics.arcade.collide(enemyGroup, layer);
             this.physics.arcade.collide(enemyGroup, collisionLayer);
+            //this.physics.arcade.collide(projectiles, layer);
 
             // TODO: Move all the xGroup.forEach to respective JS files?
             // TODO: we need to check if colliding with one block to the left or right
@@ -235,6 +239,11 @@ Game.Level.prototype = {
                 
                 // Check collide with projectiles
                 projectiles.forEach(function(projectileItem) {
+                    // Before checking collide with enemy we check with the layer
+                    game.physics.arcade.collide(projectileItem, layer, function() {
+                        projectileItem.kill();
+                    });
+                    
                     game.physics.arcade.overlap(enemyItem, projectileItem, function() {
                         projectileItem.kill();
                         killEnemy(enemyItem);
@@ -283,15 +292,9 @@ Game.Level.prototype = {
                 player.callAbility(2);
             }
             // TODO: Potentially implement so the same thing happens when touching breakableBlock above.
-            if (player.body.blocked.up || touchingBreakableBlock(game, 'up')) {
-
-                player.tint = 0xFF7171;
-                game.camera.shake(0.01, 100, false, Phaser.Camera.SHAKE_HORIZONTAL);
-
-                game.time.events.add(Phaser.Timer.SECOND * 0.1, function() {
-                    player.tint = originalTint;
-                });
-            }
+            
+            player.checkRoofCollision(game);
+            
             // }
 
         }

@@ -36,11 +36,13 @@ Game.MainMenu.prototype = {
         var column = 0;
         var mapCounter = 0;
         var unlocked = parseInt(localStorage.getItem('unlockedMaps'));
-        if (unlocked == null)
-            unlocked = 0;
-
+        
+        if (isNaN(unlocked)) {
+        localStorage.setItem('unlockedMaps', 0);
+        unlocked = 0;
+        }
+        
         for (var map in maps) {
-
             // checks how many maps should be unlocked
             if (mapCounter <= unlocked) {
 

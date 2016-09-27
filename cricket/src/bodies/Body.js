@@ -10,6 +10,9 @@ function exitToMenu(game) {
 };
 
 function nextMap(game) {
+    
+    levelComplete.play();
+    
     var counter = chosenMap.slice(-1);
     // NumberSize is used if we have more than 9 maps
     // That is the number takes up more than 1 space
@@ -40,9 +43,9 @@ function mapComplete(game) {
 };
 
 // Updates localStorage on client browser to reflect map progress.
+// TODO: Removed || localStorage.getItem('unlockedMaps') == null from if-statement and moved it to MainMenu, if it bugs out put it back.
 function updateUnlockedMaps() {
-    if ( (parseInt(localStorage.getItem('unlockedMaps')) <= parseInt(chosenMap.slice(-1))) 
-            || localStorage.getItem('unlockedMaps') == null ){
+    if ( parseInt( localStorage.getItem('unlockedMaps') ) <= parseInt( chosenMap.slice(-1) ) ){
         localStorage.setItem('unlockedMaps', chosenMap.slice(-1));
     }
 }

@@ -1,7 +1,7 @@
 Features:
 - Intro and credits necessary for higher grade (check course page) (tween and/or alpha can be useful)
         - intro should maybe be done in PreLoader.JS file, or own state between preloader and main menu
-- Sound / Music
+- Music?
 - Make it mutable (start as muted)
 
 Bugs: 
@@ -35,4 +35,5 @@ Polish:
 - Make it possible to go up blocks if just a few pixels are not aligned
 - Make shoot look nicer
 - Tween for when picking up ability for the first time
-- Make it not possible to shoot through walls
+- Shot is less than 64 pixels now which can make it look weird since it gets 
+removed before it actually hits the wall

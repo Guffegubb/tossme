@@ -33,26 +33,34 @@ var Player = function(game, properties) {
 	this.player.isStomping = false;
 	this.player.alive = true;
 
+	// Loading audio specific for player
+	jumpAudio = game.add.audio('jumpAudio');
+	roofHitAudio = game.add.audio('roofHitAudio');
+	highJumpAudio = game.add.audio('highJumpAudio');
+	longJumpAudio = game.add.audio('longJumpAudio');
+	stompEndAudio = game.add.audio('stompEndAudio');
+	powerUpAudio = game.add.audio('powerUpAudio');
+	shootAudio = game.add.audio('shootAudio');
 
 	// TODO: Comment this function
 	this.player.move = function(direction) {
 
 		if (direction == "stop") {
-			
+
 			// Gradually slows the player down to 0 speed. 
 			if (player.body.velocity.x > 0)
-				player.body.velocity.x -= player.playerSpeed / 10; 
-			
+				player.body.velocity.x -= player.playerSpeed / 10;
+
 			else if (player.body.velocity.x < 0)
 				player.body.velocity.x += player.playerSpeed / 10;
-	
+
 			if (player.body.onFloor() || player.body.touching.down) {
 				player.setMoveLock(false);
 				player.stopStomping();
 				player.playerSpeed = player.originalSpeed;
 			}
 		}
-		 
+
 		if (!player.hasMoveLock()) {
 			if (direction == "right") {
 				player.scale.setTo(0.5, player.scale.y);
@@ -64,11 +72,11 @@ var Player = function(game, properties) {
 			}
 			else if (direction == "jump") {
 				if (player.body.onFloor() || touchingBreakableBlock(game, 'down')) {
+					jumpAudio.play();
 
-					
 					// this prevents the super jump by pressing up + highJump.
 					// TODO: Can we refactor to not use the global controls variable? Put the check in other function or so? 
-					if(!(controls.abilityOne.isDown || controls.abilityTwo.isDown))
+					if (!(controls.abilityOne.isDown || controls.abilityTwo.isDown))
 						player.body.velocity.y = -player.jumpHeight;
 				}
 			}
@@ -118,8 +126,9 @@ var Player = function(game, properties) {
 	};
 
 	this.player.highJump = function() {
-		if (!player.hasCoolDown() && ( player.body.onFloor() || touchingBreakableBlock(game, 'down') )) {
+		if (!player.hasCoolDown() && (player.body.onFloor() || touchingBreakableBlock(game, 'down'))) {
 
+			highJumpAudio.play();
 			player.body.velocity.y -= player.jumpHeight * 1.9;
 			player.playerSpeed /= 2;
 			player.setCoolDown();
@@ -130,9 +139,11 @@ var Player = function(game, properties) {
 	this.player.longJump = function() {
 		// TODO: Do we want to have the body.onFloor condition here as well? 
 		if (!player.hasCoolDown()) {
+
+			longJumpAudio.play();
 			player.body.velocity.y = -player.jumpHeight * 0.9;
 			player.body.velocity.x = player.direction() * player.originalSpeed * 4;
-			
+
 			player.setCoolDown();
 			player.setMoveLock(true);
 		}
@@ -146,16 +157,16 @@ var Player = function(game, properties) {
 
 
 			game.time.events.add(Phaser.Timer.SECOND * 0.4, function() {
-				if(player.body.velocity.y < 0) {
+				if (player.body.velocity.y < 0) {
 					player.isStomping = true;
 
 					player.body.velocity.y = player.body.maxVelocity.y;
 				}
 				else {
 					//player.isStomping = false;
-					
+
 				}
-				
+
 			});
 			//}
 			//else {
@@ -166,16 +177,31 @@ var Player = function(game, properties) {
 			player.setMoveLock(true);
 		}
 	};
-	
+
 	this.player.stopStomping = function() {
 		if (player.isStomping) {
-				game.camera.shake(0.02, 150, false, Phaser.Camera.SHAKE_HORIZONTAL);
+			stompEndAudio.play();
+			game.camera.shake(0.02, 150, false, Phaser.Camera.SHAKE_HORIZONTAL);
 		}
 		player.isStomping = false;
-	}
+	};
+
+	this.player.checkRoofCollision = function(game) {
+		if (player.body.blocked.up || touchingBreakableBlock(game, 'up')) {
+
+			roofHitAudio.play();
+			player.tint = 0xFF7171;
+			game.camera.shake(0.01, 100, false, Phaser.Camera.SHAKE_HORIZONTAL);
+
+			game.time.events.add(Phaser.Timer.SECOND * 0.1, function() {
+				player.tint = originalTint;
+			});
+		}
+	};
 
 	this.player.shoot = function() {
 		if (!player.hasCoolDown()) {
+			shootAudio.play();
 			shoot(game, player, projectiles);
 			player.setCoolDown();
 		}
@@ -197,7 +223,7 @@ var Player = function(game, properties) {
 	this.player.hasAbilitySwap = function() {
 		return game.physics.arcade.overlap(player, player.newAbility);
 	};
-	
+
 	this.player.hasFreeAbilitySlot = function() {
 		if (player.abilityOne == null)
 			return true;
@@ -206,7 +232,7 @@ var Player = function(game, properties) {
 		else
 			return false;
 	};
-	
+
 	/**
 	 * Returns 0 if no empty slot 
 	 */
@@ -234,6 +260,8 @@ var Player = function(game, properties) {
 	};
 
 	this.player.swapAbility = function(key) {
+		
+		powerUpAudio.play();
 		// TODO: Change how swapping works?
 		// At the moment we can't swap any ability if one button has it already
 		if (!player.hasFreeAbilitySlot())
@@ -278,30 +306,30 @@ var Player = function(game, properties) {
 		})
 		tweenOne.start(); 
 		
-			*/	
-		
-		
+			*/
+
+
 		//Updating the buttons shown on screen through the callback function
-		
+
 		updateAbilityTexture(key, player.newAbility.name);
 
-		
+
 		if (tempAbility == null) {
 			player.newAbility.kill();
 		}
 		else {
 			player.newAbility.loadTexture(tempAbility);
 			player.newAbility.name = tempAbility;
-			player.newAbility.key = tempAbility;	
+			player.newAbility.key = tempAbility;
 		}
-		
+
 		player.swapCooldown = game.time.now + player.coolDownTime * 0.5;
 
 	};
 
 	this.player.canSwap = function() {
 
-		if ((game.time.now > player.swapCooldown) && ( player.hasAbilitySwap() )) {
+		if ((game.time.now > player.swapCooldown) && (player.hasAbilitySwap())) {
 			if (!(player.abilityOne == player.newAbility.name || player.abilityTwo == player.newAbility.name)) {
 				return (player.body.onFloor());
 			}
@@ -314,15 +342,15 @@ var Player = function(game, properties) {
 	this.player.death = function() {
 
 		// TODO: Add death animations/events
-		
+
 		killEnemy(player);
 		//player.enableBody = false;
 		//game.state.restart();
 		//player.spawn();
-		
+
 		// check if this solves bug in backlog on stomping if dying.
-		player.isStomping = false; 
-		
+		player.isStomping = false;
+
 	};
 
 	this.player.spawn = function() {

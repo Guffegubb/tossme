@@ -67,8 +67,19 @@ Game.Preloader.prototype = {
         // load player
         this.load.image('player', 'assets/player/pinkPlayer1.png');
         
-        // load music
-        this.load.audio('backgroundMusic', 'assets/sound/jingles_NES00.ogg');
+        // load audio
+        // load Player audio
+        this.load.audio('jumpAudio', 'assets/audio/player/jump.mp3');
+        this.load.audio('roofHitAudio', 'assets/audio/player/roofHit.mp3');
+        this.load.audio('highJumpAudio', 'assets/audio/player/highJump.mp3');
+        this.load.audio('longJumpAudio', 'assets/audio/player/longJump.mp3');
+        this.load.audio('stompEndAudio', 'assets/audio/player/stompEnd.mp3');
+        this.load.audio('powerUpAudio', 'assets/audio/player/powerUp.mp3');
+        this.load.audio('shootAudio', 'assets/audio/player/shoot.mp3');
+        
+        // load Objects audio
+        this.load.audio('breakAudio', 'assets/audio/objects/break.ogg');
+        this.load.audio('levelCompleteAudio', 'assets/audio/objects/levelComplete.ogg')
         
     },
 

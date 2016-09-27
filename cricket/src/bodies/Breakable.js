@@ -9,7 +9,7 @@ function checkBreakableCollision(game, player, item) {
 
 // TODO: Check the numbers with new sprite implemented
 function checkDestruction(game, player, item) {
-
+    
     if (player.isStomping && !player.body.touching.up) {
 
         // this loop checks if several blocks should be destroyed. Does not help 
@@ -18,9 +18,11 @@ function checkDestruction(game, player, item) {
         breakableGroup.forEach(function(nearby) {
             if (item != nearby && (Math.abs(player.x - nearby.x) <= 50)) {
                 destroySprite(nearby);
+                
             }
         });
-
+        
+        breakAudio.play();
         destroySprite(item);
         player.stopStomping();
     }
