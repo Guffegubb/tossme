@@ -30,7 +30,7 @@ function exitToMenu(game) {
 
 
 function nextMap(game) {
-    
+    changingMap = false;
     //console.log("Look here");
     //console.log(maps.length);
     
@@ -57,6 +57,8 @@ function nextMap(game) {
 
 function mapComplete(game) {
     
+    changingMap = true;
+    
     updateUnlockedMaps();
     
     var style = {
@@ -68,9 +70,21 @@ function mapComplete(game) {
         "Level Complete!",
         style);
     t.fixedToCamera = true;
+    t.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
     
-    game.time.events.add(Phaser.Timer.SECOND * 2, function() {
-        nextMap(game);
+    var fadeScreen = game.add.sprite(0, 0, 'fadeScreen');
+    fadeScreen.fixedToCamera = true;
+    fadeScreen.alpha = 0;
+    
+    
+    
+    game.time.events.add(Phaser.Timer.SECOND * 1, function() {
+        fadeScreen = game.add.tween(fadeScreen).to( { alpha: 1 }, 
+        4000, Phaser.Easing.Linear.None, true, 0, 0, false);
+        fadeScreen.onComplete.add(function() {
+            nextMap(game);
+        }, this);
+        
     });
 };
 

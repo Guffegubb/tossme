@@ -16,7 +16,7 @@ function blink(player, item) {
         }
     }
 
-}
+};
 
 function addAbilityText(game, mySprite, text) {
     var tempText;
@@ -25,7 +25,7 @@ function addAbilityText(game, mySprite, text) {
     tempText.fixedToCamera = true;
     return tempText;
 
-}
+};
 
 /**
  * Implemented this through the global variables cause it became such 
@@ -36,7 +36,24 @@ function updateAbilityTexture(key, textureName) {
         abilityOneSprite.loadTexture(textureName);
     else if (key == 2)
         abilityTwoSprite.loadTexture(textureName);
-}
+};
+
+
+function displayAbilityCooldown(game, time) {
+
+  abilityFaderOne.alpha = 1;
+  abilityFaderTwo.alpha = 1;
+  
+  var tweenOne = game.add.tween(abilityFaderOne).to( {
+                alpha: 0
+            }, time, Phaser.Easing.Circular.In, true, 0, 0, false);
+  
+  var tweenTwo = game.add.tween(abilityFaderTwo).to( {
+                alpha: 0
+            }, time, Phaser.Easing.Circular.In, true, 0, 0, false);
+    
+};
+
 
 function resetAbilityAlpha() {
 
@@ -47,4 +64,4 @@ function resetAbilityAlpha() {
     abilityGroup.forEach(function(item) {
         item.alpha = 1;
     });
-}
+};

@@ -32,7 +32,8 @@ var Player = function(game, properties) {
 	this.player.moveLock = false;
 	this.player.isStomping = false;
 	this.player.alive = true;
-
+	this.player.originalTint = this.player.tint;
+	
 	// Loading audio specific for player
 	jumpAudio = game.add.audio('jumpAudio');
 	roofHitAudio = game.add.audio('roofHitAudio');
@@ -90,7 +91,7 @@ var Player = function(game, properties) {
 	};
 
 
-	this.player.callAbility = function(key, callback, sprite, textureName) {
+	this.player.callAbility = function(game, key) {
 
 		var ability;
 
@@ -118,7 +119,7 @@ var Player = function(game, properties) {
 				player.stomp();
 				break;
 			case 'shoot':
-				player.shoot();
+				player.shoot(game);
 				break;
 			default:
 		}
@@ -195,12 +196,12 @@ var Player = function(game, properties) {
 			game.camera.shake(0.01, 100, false, Phaser.Camera.SHAKE_HORIZONTAL);
 
 			game.time.events.add(Phaser.Timer.SECOND * 0.1, function() {
-				player.tint = originalTint;
+				player.tint = player.originalTint;
 			});
 		}
 	};
 
-	this.player.shoot = function() {
+	this.player.shoot = function(game) {
 		if (!player.hasCoolDown()) {
 			shootAudio.play();
 			shoot(game, player, projectiles);
@@ -255,6 +256,7 @@ var Player = function(game, properties) {
 
 	this.player.setCoolDown = function(factor = 1) {
 		player.abilityCooldown = game.time.now + player.coolDownTime * factor;
+		displayAbilityCooldown(game, player.coolDownTime * factor);
 	};
 
 	this.player.setMoveLock = function(bool) {

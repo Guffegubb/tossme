@@ -1,5 +1,5 @@
-function declareProjectile(game, projectiles) {
-    projectiles = game.add.group();
+function declareProjectile(game) {
+    var projectiles = game.add.group();
     projectiles.enableBody = true;
     projectiles.physicsBodyType = Phaser.Physics.ARCADE;
     projectiles.createMultiple(6, 'projectile');

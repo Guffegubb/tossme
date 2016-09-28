@@ -3,7 +3,8 @@ Game.MainMenu = function(game) {
     this.game = game;
 };
 
-var chosenMap;
+    var chosenMap;
+
 
 Game.MainMenu.prototype = {
     create: function(game) {
@@ -61,9 +62,8 @@ Game.MainMenu.prototype = {
     createButton: function(game, index, x, y) {
         game.add.button(x, y, 'playButton', function() {
             chosenMap = maps[index];
-            // console.log("map chosen: " + maps[index]);
-            // TODO: Put this chosenMap variable in the top Level Function (above prototype) in Level state and see if it can be found.
-            // console.log(game.state.states['Level']).chosenMap = maps[map];
+            
+//            game.state.states['Level'].chosenMap = maps[map];
             game.state.start('Level', true, false);
         });
     }

@@ -1,38 +1,46 @@
 Game.Level = function(game) {
     this.game = game;
-    var originalTint;
+  
+    var map;
+    var layer;
+    
+    var controls;
+    var player;
+    var projectiles;
+    
+    var textOne;
+    var textTwo;
+
+    var coinGroup;
+    var spawnGroup;
+    var goalGroup;
+    var lethalGroup;
+    var enemyGroup;
+    var enemyCollisionGroup;
+    var breakableGroup;
+    var abilityGroup;
+
+    var groups;
+    
+    var abilityOneSprite;
+    var abilityTwoSprite;
+    var abilityFaderOne;
+    var abilityFaderTwo;
+    
+    // Used to prevent death upon changing map
+    var changingMap;
+    
 };
 
-var map;
-var layer;
-// var backgroundLayer;
 
-var controls;
-var player;
-var abilityOneSprite;
-var abilityTwoSprite;
-var textOne;
-var textTwo;
-
-// Groups and object readers
-var spawnGroup;
-var coinGroup;
-var breakableGroup;
-var abilityGroup;
-var lethalGroup;
-var goalGroup;
-var enemyGroup;
-var enemyCollisionGroup;
-var groups;
-
-
-var projectiles;
 
 Game.Level.prototype = {
 
 
     create: function(game) {
-
+        
+        changingMap = false;
+        
         // All the object music is created here for now
         breakAudio = game.add.audio('breakAudio');
         levelComplete = game.add.audio('levelCompleteAudio');
@@ -44,17 +52,18 @@ Game.Level.prototype = {
         // Initialize map and tilesets
         this.stage.backgroundColor = '#9CD5E2';
 
-
+        
         map = this.add.tilemap(chosenMap);
         map.addTilesetImage('tileset', 'tileset');
         map.addTilesetImage('enemyTileset', 'enemyTileset');
         layer = map.createLayer('Tile Layer 1');
         collisionLayer = map.createLayer('enemyCollisionLayer');
-        // backgroundLayer = map.createLayer('Background Layer');
 
         layer.resizeWorld();
         map.setCollisionBetween(2, 4, true, layer);
         map.setCollisionBetween(0, 2, true, collisionLayer);
+        
+        
 
         coinGroup = game.add.group();
         breakableGroup = game.add.group();
@@ -124,7 +133,7 @@ Game.Level.prototype = {
         }
         //;
 
-        projectiles = declareProjectile(game, projectiles);
+        projectiles = declareProjectile(game);
         enemyGroup = initEnemyGroup(game, enemyGroup, null);
 
 
@@ -140,7 +149,6 @@ Game.Level.prototype = {
         player = new Player(game, playerProperties);
         this.camera.follow(player);
         player.spawn();
-        originalTint = player.tint;
 
         controls = {
             right: this.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
@@ -155,6 +163,7 @@ Game.Level.prototype = {
         // TODO: Look at this, the reason why a picture is loaded in and then
         // later set to a picture from the player is because if it is empty
         // we need to create a texture to get the text to be on the correct place
+        
         abilityOneSprite = game.add.sprite(10, 500, 'shoot');
         abilityOneSprite.fixedToCamera = true;
 
@@ -167,13 +176,30 @@ Game.Level.prototype = {
 
         abilityOneSprite.loadTexture(player.abilityOne);
         abilityTwoSprite.loadTexture(player.abilityTwo);
-
+        abilityFaderOne = game.add.sprite(abilityOneSprite.x, abilityOneSprite.y, 'abilityFade');
+        abilityFaderTwo = game.add.sprite(abilityTwoSprite.x, abilityTwoSprite.y, 'abilityFade');
+        abilityFaderOne.fixedToCamera = true; 
+        abilityFaderTwo.fixedToCamera = true;
+        abilityFaderOne.alpha = 0;
+        abilityFaderTwo.alpha = 0;
+        
         createExitButton(game);
+        
+        
+        var fadeScreen = game.add.sprite(0, 0, 'fadeScreen');
+        fadeScreen.fixedToCamera = true;
+        fadeScreen.alpha = 1;
+        fadeScreen = game.add.tween(fadeScreen).to( { alpha: 0 }, 
+        2000, Phaser.Easing.Linear.None, true, 0, 0, false);
 
     },
 
 
     update: function(game) {
+        //console.log(map.widthInPixels);
+        //console.log(window.screen.width);
+        //console.log(window.outerWidth);
+        
         if (isAlive(player)) {
 
 
@@ -202,8 +228,9 @@ Game.Level.prototype = {
                     destroySprite(item);
                 });
             }, this);
-
-            this.physics.arcade.collide(player, lethalGroup, player.death);
+            
+            if (!changingMap)
+                this.physics.arcade.collide(player, lethalGroup, player.death);
 
             goalGroup.forEach(function(item) {
                 game.physics.arcade.overlap(player, item, function() {
@@ -253,7 +280,7 @@ Game.Level.prototype = {
                         killEnemy(enemyItem);
                     });
 
-                    if (isAlive(enemyItem)) {
+                    if (isAlive(enemyItem) && !changingMap) {
                         game.physics.arcade.collide(player, enemyItem, player.death);
                     }
 
@@ -313,11 +340,11 @@ Game.Level.prototype = {
             }
 
             if (controls.abilityOne.isDown) {
-                player.callAbility(1);
+                player.callAbility(game, 1);
             }
 
             if (controls.abilityTwo.isDown) {
-                player.callAbility(2);
+                player.callAbility(game, 2);
             }
             
             if (controls.muteSound.isDown) {

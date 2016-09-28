@@ -18,6 +18,9 @@ Game.Preloader.prototype = {
         this.load.image('playButton', 'assets/abilities/longJump.png'); // this one should be changed
         this.load.image('titlescreen', 'assets/menu/titlescreen.png');
         
+        // load picture for fading
+        this.load.image('fadeScreen', 'assets/menu/fadeScreen.png');
+        
         // load maps and tilesets
         this.load.tilemap('map1', 'assets/maps/level1.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('map2', 'assets/maps/level2.json', null, Phaser.Tilemap.TILED_JSON);
@@ -35,13 +38,14 @@ Game.Preloader.prototype = {
         maps.push('map3');
         maps.push('map4');
         maps.push('map5');
-        maps.push('map6');
+        //maps.push('map6');
         
         // load abilities
         this.load.image('highJump', 'assets/abilities/highJump.png');
         this.load.image('longJump', 'assets/abilities/longJump.png');
         this.load.image('shoot', 'assets/abilities/shoot.png');
         this.load.image('stomp', 'assets/abilities/stomp.png');
+        this.load.image('abilityFade', 'assets/abilities/abilityFade.png');
         
         // load blocks
         this.load.image('breakable', 'assets/blocks/breakable.png');
@@ -79,7 +83,6 @@ Game.Preloader.prototype = {
     },
 
     create: function() {
-        console.log(this);
         this.intro = this.game.add.sprite(this.world.centerX, this.world.centerY, 'polarBear');
         this.intro.anchor.setTo(0.5);
         this.intro.alpha = 0;

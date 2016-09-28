@@ -6,9 +6,9 @@ Game.Credits = function(game) {
 
 Game.Credits.prototype = {
     create: function(game) {
-    
-    // TODO: move this and from mainmenu into separate function. 
-     var width = 1200;
+
+        // TODO: move this and from mainmenu into separate function. 
+        var width = 1200;
         var height = 600;
         this.stage.backgroundColor = '#000000'; // might have to change this later when switching titlescreen
         this.game.width = width;
@@ -21,23 +21,42 @@ Game.Credits.prototype = {
         this.game.camera.setSize(width, height);
         this.game.camera.setBoundsToWorld();
         this.game.renderer.resize(width, height);
-    
-     this.intro = this.game.add.sprite(this.world.centerX, this.world.centerY, 'polarBear');
+
+        this.intro = this.game.add.sprite(this.world.centerX, this.world.centerY, 'polarBear');
         this.intro.anchor.setTo(0.5);
         this.intro.alpha = 0;
-        this.introTween = this.game.add.tween(this.intro).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 0, false);
-        this.introTween.onComplete.add(function(Game) {
-           this.state.start('MainMenu');
-        }, this);
-        
-        this.creditsText;
-        // TODO: Implement same tween as above but with text.
-    
-        /*game.time.events.add(Phaser.Timer.SECOND * 3, function() {
-            console.log("nu har det gått 3 sekunder");
-            this.state.start('MainMenu');
-        }, this);
-    */
+        this.introTween = this.game.add.tween(this.intro).to({
+            alpha: 1
+        }, 2000, Phaser.Easing.Linear.None, true, 0, 0, false);
+        // this.introTween.onComplete.add(function(Game) {
+        //}, this);
+
+        this.textObj = "You beat all the levels!"
+        this.styleObj = {
+            font: "64px Comic Sans",
+            fill: "#413FAD",
+            align: "center"
+        };
+        this.creditsText = game.add.text(game.world.centerX - 300, game.world.centerY, 
+        this.textObj, this.styleObj);
+        this.creditsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+
+        this.creditsText.alpha = 0;
+        this.textTweenIn = this.game.add.tween(this.creditsText).to({
+            alpha: 1
+        }, 2000, Phaser.Easing.Linear.None, true, 0, 0, false);
+        this.textTweenIn.onComplete.add(function() {
+            this.textTweenOut = this.game.add.tween(this.creditsText).to({
+                alpha: 0
+            }, 2000, Phaser.Easing.Linear.None, true, 0, 0, false);
+            this.textTweenOut.onComplete.add(function() {
+                this.state.start('MainMenu');
+            }, this);
+        }, this)
+
+
+
+
     },
 
 }
