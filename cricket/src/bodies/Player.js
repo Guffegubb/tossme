@@ -141,9 +141,10 @@ var Player = function(game, properties) {
 		if (!player.hasCoolDown()) {
 
 			longJumpAudio.play();
+			
 			player.body.velocity.y = -player.jumpHeight * 0.9;
 			player.body.velocity.x = player.direction() * player.originalSpeed * 4;
-
+		
 			player.setCoolDown();
 			player.setMoveLock(true);
 		}
@@ -233,6 +234,13 @@ var Player = function(game, properties) {
 			return false;
 	};
 
+	this.player.hasSideBlocked = function() {
+		if (player.body.blocked.left || player.body.blocked.right)
+			return true;
+		else
+			return false;
+	};
+
 	/**
 	 * Returns 0 if no empty slot 
 	 */
@@ -260,7 +268,7 @@ var Player = function(game, properties) {
 	};
 
 	this.player.swapAbility = function(key) {
-		
+
 		powerUpAudio.play();
 		// TODO: Change how swapping works?
 		// At the moment we can't swap any ability if one button has it already

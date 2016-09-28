@@ -32,13 +32,15 @@ Game.Level.prototype = {
 
 
     create: function(game) {
-        
+
         // All the object music is created here for now
         breakAudio = game.add.audio('breakAudio');
         levelComplete = game.add.audio('levelCompleteAudio');
-        
+
         levelComplete.volume = 0.6;
         
+        game.sound.mute = true;
+
         // Initialize map and tilesets
         this.stage.backgroundColor = '#9CD5E2';
 
@@ -146,6 +148,7 @@ Game.Level.prototype = {
             up: this.input.keyboard.addKey(Phaser.Keyboard.UP),
             abilityOne: this.input.keyboard.addKey(Phaser.Keyboard.Z),
             abilityTwo: this.input.keyboard.addKey(Phaser.Keyboard.X),
+            muteSound: this.input.keyboard.addKey(Phaser.Keyboard.M),
         };
 
         // Shows current abilities
@@ -229,12 +232,37 @@ Game.Level.prototype = {
             //this.physics.arcade.collide(player, enemyGroup, player.death);
             //this.physics.arcade.collide(enemyGroup, enemyCollisionGroup, changeDirectionX(enemyGroup.));
             //this.physics.arcade.collide(player, enemyGroup, player.death);
-            
+
 
 
             // TODO: Make this solution better if possible (maybe just check active 
             // projectiles)
-            enemyGroup.forEach(function(enemyItem) {
+
+            projectiles.forEach(function(projectileItem) {
+                //console.log("projectile");
+                // Before checking collide with enemy we check with the layer
+                game.physics.arcade.collide(projectileItem, layer, function() {
+                    projectileItem.kill();
+                });
+
+                enemyGroup.forEach(function(enemyItem) {
+                    moveEnemy(enemyItem);
+
+                    game.physics.arcade.overlap(enemyItem, projectileItem, function() {
+                        projectileItem.kill();
+                        killEnemy(enemyItem);
+                    });
+
+                    if (isAlive(enemyItem)) {
+                        game.physics.arcade.collide(player, enemyItem, player.death);
+                    }
+
+                });
+
+            });
+
+
+            /*enemyGroup.forEach(function(enemyItem) {
                 moveEnemy(enemyItem);
                 
                 // Check collide with projectiles
@@ -255,7 +283,7 @@ Game.Level.prototype = {
                     game.physics.arcade.collide(player, enemyItem, player.death);
                 }
                 
-            });
+            });*/
 
             if (game.time.now > myTimer) {
                 abilityTwoSprite.alpha = 1;
@@ -291,10 +319,31 @@ Game.Level.prototype = {
             if (controls.abilityTwo.isDown) {
                 player.callAbility(2);
             }
+            
+            if (controls.muteSound.isDown) {
+                if (preventMultiMute) {
+                    game.sound.mute ^= true;
+                    preventMultiMute = false;
+                }
+                
+                    
+            }
+            
+            if (controls.muteSound.isUp) {
+                preventMultiMute = true;
+            }
+            
+            
+            
+            
+            /*if (controls.muteSound.justPressed()) {
+                console.log("muting sound");
+                //game.sound.mute ^= true;
+            }*/
             // TODO: Potentially implement so the same thing happens when touching breakableBlock above.
-            
+
             player.checkRoofCollision(game);
-            
+
             // }
 
         }
@@ -302,7 +351,7 @@ Game.Level.prototype = {
             if (player.y > map.heightInPixels) {
                 game.state.restart();
             }
-            
+
             this.physics.arcade.collide(enemyGroup, layer);
             this.physics.arcade.collide(enemyGroup, collisionLayer);
             enemyGroup.forEach(function(enemyItem) {

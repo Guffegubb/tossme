@@ -27,10 +27,10 @@ Game.MainMenu.prototype = {
         // Tell ScaleManager that we have changed sizes. 
         // this line gives en error, but seems to work without it. 
         // this.game.scale.setSize();
+        
+        var titlescreen = game.add.sprite(game.world.centerX, game.world.centerY, 'polarBear');
+        titlescreen.anchor.setTo(0.5);
 
-
-        //var titlescreen = game.add.sprite(game.world.centerX, game.world.centerY - 192, 'titlescreen');
-        //titlescreen.anchor.setTo(0.5, 0.5);
 
         var row = 0;
         var column = 0;
@@ -61,7 +61,6 @@ Game.MainMenu.prototype = {
     createButton: function(game, index, x, y) {
         game.add.button(x, y, 'playButton', function() {
             chosenMap = maps[index];
-            console.log(chosenMap);
             // console.log("map chosen: " + maps[index]);
             // TODO: Put this chosenMap variable in the top Level Function (above prototype) in Level state and see if it can be found.
             // console.log(game.state.states['Level']).chosenMap = maps[map];

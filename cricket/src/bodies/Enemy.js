@@ -68,16 +68,22 @@ function moveEnemy(enemy) {
     // direction when have been killed
     if (isAlive(enemy)) {
         // Added so that it changes direction when blocked on the side
-        if (enemy.body.blocked.left)
-            changeDirectionX(enemy);
-        else if (enemy.body.blocked.right)
-            changeDirectionX(enemy);
+        // Also checking direction it is facing to avoid a bug of changing
+        // direction before it has had time to move away from the blocked side
+        if (enemy.body.blocked.left && getDirectionX(enemy) == -1) {
+        	changeDirectionX(enemy);
+        }
+            
+        else if (enemy.body.blocked.right && getDirectionX(enemy) == 1) {
+        	changeDirectionX(enemy);
+        }
             
         enemy.body.velocity.x = enemy.speed * getDirectionX(enemy);
         if (Math.abs(enemy.x - enemy.previous_x) >= enemy.walkingDistance) {
             changeDirectionX(enemy);
             enemy.previous_x = enemy.x;
         }
+        
     }
 
 };

@@ -1,11 +1,10 @@
 Features:
-- Intro and credits necessary for higher grade (check course page) (tween and/or alpha can be useful)
-        - intro should maybe be done in PreLoader.JS file, or own state between preloader and main menu
+- End Credits
 - Music?
-- Make it mutable (start as muted)
 
 Bugs: 
 - Supress errors when trying to create objects that does not exist on map
+- Shots can maybe go through objects?
 
 Extras:
 -Add extra things to pick up?
@@ -27,7 +26,6 @@ Polish:
 - Make cactus kill you when touching the cactus and not only overlaping the square (collisioncheck optional parameter in collide/overlap may be able to help with this)
 - Make the long jump not give height if touching on side
 - Add pause screen when clicked outside of game
-- Exit sign flashing when hovering over?
 - Add "are you sure you want to exit?"
 - Victory screen polish.
 - Add animation for player
@@ -37,3 +35,4 @@ Polish:
 - Tween for when picking up ability for the first time
 - Shot is less than 64 pixels now which can make it look weird since it gets 
 removed before it actually hits the wall
+- Polish intro when new graphics arrive

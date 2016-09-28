@@ -7,14 +7,9 @@ this.game = game;
 var maps = [];
 
 Game.Preloader.prototype = {
+
     preload: function() {
-
-        // Change this image
-        this.preloadBar = this.add.sprite(this.world.centerX, this.world.centerY, 'preloaderBar');
-
-        this.preloadBar.anchor.setTo(0.5, 0.5);
-        this.time.advancedTiming = true;
-        this.load.setPreloadSprite(this.preloadBar);
+        
 
         // Load all assets
         //TODO: Double-check that all assets are used
@@ -84,8 +79,16 @@ Game.Preloader.prototype = {
     },
 
     create: function() {
-
-        this.state.start('MainMenu');
+        console.log(this);
+        this.intro = this.game.add.sprite(this.world.centerX, this.world.centerY, 'polarBear');
+        this.intro.anchor.setTo(0.5);
+        this.intro.alpha = 0;
+        this.introTween = this.game.add.tween(this.intro).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 0, false);
+        this.introTween.onComplete.add(function(Game) {
+           this.state.start('MainMenu');
+        }, this);
+        
+        
     }
 
 };
