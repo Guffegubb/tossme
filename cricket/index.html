@@ -22,7 +22,8 @@
         <script type="text/javascript" src="src/states/Preloader.js"></script>
         <script type="text/javascript" src="src/states/MainMenu.js"></script>
         <script type="text/javascript" src="src/states/Level.js"></script>
-    
+        <script type="text/javascript" src="src/states/Credits.js"></script>
+        
     </head>
     
     <body>
@@ -36,6 +37,7 @@
             game.state.add('Preloader', Game.Preloader);
             game.state.add('MainMenu', Game.MainMenu);
             game.state.add('Level', Game.Level);
+            game.state.add('Credits', Game.Credits);
             
             game.state.start('Boot');
        

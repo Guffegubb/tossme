@@ -36,3 +36,4 @@ Polish:
 - Shot is less than 64 pixels now which can make it look weird since it gets 
 removed before it actually hits the wall
 - Polish intro when new graphics arrive
+- Fade in/out of maps
