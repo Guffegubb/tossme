@@ -58,13 +58,16 @@ Game.Level.prototype = {
         map.addTilesetImage('enemyTileset', 'enemyTileset');
         layer = map.createLayer('Tile Layer 1');
         collisionLayer = map.createLayer('enemyCollisionLayer');
+        
+            
+        
+        
 
         layer.resizeWorld();
         map.setCollisionBetween(2, 4, true, layer);
         map.setCollisionBetween(0, 2, true, collisionLayer);
         
         
-
         coinGroup = game.add.group();
         breakableGroup = game.add.group();
         abilityGroup = game.add.group();
@@ -109,14 +112,18 @@ Game.Level.prototype = {
             ['collision']
         ];
 
-
-
+ 
         // TODO: Comment this
         for (var i = 0; i < objectLayers.length; i++) {
             groups[i].enableBody = true;
             for (var j = 0; j < objectsInLayer[i].length; j++) {
-
-                map.createFromObjects(objectLayers[i], objectsInLayer[i][j], objectsInLayer[i][j], 0, true, false, groups[i]);
+                
+                if (map.objects[objectLayers[i]]) {
+                    map.createFromObjects(objectLayers[i], objectsInLayer[i][j], 
+                    objectsInLayer[i][j], 0, true, false, groups[i]);    
+                }
+                
+                
 
             }
         }

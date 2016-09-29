@@ -3,8 +3,7 @@ Features:
 
 
 Bugs: 
-- Supress errors when trying to create objects that does not exist on map
-- Shots can maybe go through objects?
+
 
 
 Extras:
@@ -20,7 +19,6 @@ Refactoring:
 
 
 Polish:
-- Make cactus kill you when touching the cactus and not only overlaping the square (collisioncheck optional parameter in collide/overlap may be able to help with this)
 - Make the long jump not give height if touching on side
 - Add pause screen when clicked outside of game
 - Add "are you sure you want to exit?"
