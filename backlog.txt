@@ -3,7 +3,7 @@ Features:
 
 
 Bugs: 
-
+sound muted after every level (move mute implementation to other state?)
 
 
 Extras:
