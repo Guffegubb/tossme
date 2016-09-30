@@ -62,8 +62,6 @@ Game.MainMenu.prototype = {
     createButton: function(game, index, x, y) {
         game.add.button(x, y, 'playButton', function() {
             chosenMap = maps[index];
-            
-//            game.state.states['Level'].chosenMap = maps[map];
             game.state.start('Level', true, false);
         });
     }

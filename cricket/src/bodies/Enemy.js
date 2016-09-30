@@ -27,7 +27,7 @@ function initEnemyGroup(game, enemies, properties) {
         
         
         enemy.speed = 200;
-        enemy.walkingDistance = 250;
+        enemy.walkingDistance = 1000;
         enemy.previous_x = enemy.x
 
         enemy.alive = true;

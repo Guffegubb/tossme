@@ -39,10 +39,17 @@ function updateAbilityTexture(key, textureName) {
 };
 
 
-function displayAbilityCooldown(game, time) {
+/**
+ * Time checks how long the cooldown is and adjusts how long the ability is 
+ *  displayed as blocked.
+ * Bool checks if the player has picked up a second ability. Otherwise the
+ *  blocked ability will only display on ability one.
+ */
+function displayAbilityCooldown(game, time, bool) {
 
   abilityFaderOne.alpha = 1;
-  abilityFaderTwo.alpha = 1;
+  if (bool)
+    abilityFaderTwo.alpha = 1;
   
   var tweenOne = game.add.tween(abilityFaderOne).to( {
                 alpha: 0

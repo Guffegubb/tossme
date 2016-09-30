@@ -76,11 +76,9 @@ function mapComplete(game) {
     fadeScreen.fixedToCamera = true;
     fadeScreen.alpha = 0;
     
-    
-    
-    game.time.events.add(Phaser.Timer.SECOND * 1, function() {
+    game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {
         fadeScreen = game.add.tween(fadeScreen).to( { alpha: 1 }, 
-        4000, Phaser.Easing.Linear.None, true, 0, 0, false);
+        3000, Phaser.Easing.Circular.In, true, 0, 0, false);
         fadeScreen.onComplete.add(function() {
             nextMap(game);
         }, this);

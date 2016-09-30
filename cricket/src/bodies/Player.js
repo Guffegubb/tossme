@@ -7,7 +7,7 @@ var Player = function(game, properties) {
 
 	this.player = game.add.sprite(properties.x, properties.y, 'player');
 	this.player.anchor.setTo(0.5, 0.5);
-	this.player.scale.setTo(0.5, 0.5);
+	this.player.scale.setTo(0.65, 0.3);
 
 	game.physics.enable(this.player, Phaser.Physics.ARCADE);
 
@@ -15,7 +15,7 @@ var Player = function(game, properties) {
 	this.player.body.allowGravity = true;
 	// Setting the max velocity in y to avoid being able to fall through
 	// the world
-	this.player.body.maxVelocity.y = 1000;
+	this.player.body.maxVelocity.y = 995;
 
 	this.player.originalSpeed = properties.playerSpeed;
 	this.player.playerSpeed = properties.playerSpeed;
@@ -33,7 +33,7 @@ var Player = function(game, properties) {
 	this.player.isStomping = false;
 	this.player.alive = true;
 	this.player.originalTint = this.player.tint;
-	
+
 	// Loading audio specific for player
 	jumpAudio = game.add.audio('jumpAudio');
 	roofHitAudio = game.add.audio('roofHitAudio');
@@ -64,11 +64,11 @@ var Player = function(game, properties) {
 
 		if (!player.hasMoveLock()) {
 			if (direction == "right") {
-				player.scale.setTo(0.5, player.scale.y);
+				player.scale.setTo(Math.abs(player.scale.x), player.scale.y);
 				player.body.velocity.x = player.playerSpeed;
 			}
 			else if (direction == "left") {
-				player.scale.setTo(-0.5, player.scale.y);
+				player.scale.setTo(-Math.abs(player.scale.x), player.scale.y);
 				player.body.velocity.x = -player.playerSpeed;
 			}
 			else if (direction == "jump") {
@@ -81,13 +81,7 @@ var Player = function(game, properties) {
 						player.body.velocity.y = -player.jumpHeight;
 				}
 			}
-			else {
-				// TODO: Error handling?  
-			}
 		}
-
-
-
 	};
 
 
@@ -97,8 +91,6 @@ var Player = function(game, properties) {
 
 		if (player.canSwap()) {
 			player.swapAbility(key);
-			//player.swapAbility(key, callback, sprite, textureName);
-			//allback(abilitySprite, textureName);
 		}
 
 		else if (key == 1) {
@@ -140,23 +132,31 @@ var Player = function(game, properties) {
 	this.player.longJump = function() {
 		// TODO: Do we want to have the body.onFloor condition here as well? 
 		if (!player.hasCoolDown()) {
-
-			longJumpAudio.play();
 			
-			player.body.velocity.y = -player.jumpHeight * 0.9;
-			player.body.velocity.x = player.direction() * player.originalSpeed * 4;
-		
-			player.setCoolDown();
+			var longJumpSpeed = player.originalSpeed;
+			
+			if (player.playerSpeed != player.originalSpeed)
+				longJumpSpeed = player.originalSpeed * 0.75;
+			
+			longJumpAudio.play();
+
+			player.body.velocity.y = -player.jumpHeight * 0.8;
+			player.body.velocity.x = player.direction() * longJumpSpeed * 3;
+
+			// Gradually increase the x-velocity in order to avoid falling through tile layers (inherent Phaser problem)
+			for (var i = 1; i < 5; i++)
+				game.time.events.add(Phaser.Timer.SECOND * i * 0.1, function() {
+					player.body.velocity.x += player.direction() * longJumpSpeed / 2;
+				})
+
+			player.setCoolDown(1.5);
 			player.setMoveLock(true);
 		}
 	};
 
-	// TODO: Do we want the stomp to act differentl used from the air and from the ground?
 	this.player.stomp = function() {
 		if (!player.hasCoolDown() && !player.isStomping) {
-			//  if(player.body.onFloor() || player.body.touching.down) {
 			player.body.velocity.y = -player.jumpHeight * 1.2;
-
 
 			game.time.events.add(Phaser.Timer.SECOND * 0.4, function() {
 				if (player.body.velocity.y < 0) {
@@ -164,16 +164,8 @@ var Player = function(game, properties) {
 
 					player.body.velocity.y = player.body.maxVelocity.y;
 				}
-				else {
-					//player.isStomping = false;
-
-				}
 
 			});
-			//}
-			//else {
-			// player.body.velocity.y = player.body.maxVelocity.y;  
-			//}
 
 			player.setCoolDown();
 			player.setMoveLock(true);
@@ -256,7 +248,7 @@ var Player = function(game, properties) {
 
 	this.player.setCoolDown = function(factor = 1) {
 		player.abilityCooldown = game.time.now + player.coolDownTime * factor;
-		displayAbilityCooldown(game, player.coolDownTime * factor);
+		displayAbilityCooldown(game, player.coolDownTime * factor, player.abilityTwo != null);
 	};
 
 	this.player.setMoveLock = function(bool) {
@@ -285,38 +277,6 @@ var Player = function(game, properties) {
 			tempAbility = player.abilityTwo;
 			player.abilityTwo = player.newAbility.name;
 		}
-		/*
-		var tempX1;
-		var tempX2 = player.newAbility.x;
-		var tempY1;
-		var tempY2 = player.newAbility.y;
-		
-		if (key == 1) {
-			tempX1 = abilityOneSprite.x;
-			tempY1 = abilityOneSprite.y;
-		}
-		else if (key == 2) {
-			tempX1 = abilityTwoSprite.x;
-			tempY1 = abilityTwoSprite.y;
-		}
-		//player.newAbility.fixedToCamera = true;
-		var tweenOne = game.add.tween(player.newAbility.cameraOffset).to( {x: tempX1, y: tempY1}, 1000, 'Linear');
-		tweenOne.onComplete.add(function() {
-			console.log("hej");
-			updateAbilityTexture(key, player.newAbility.name);
-   
-		if (tempAbility == null) {
-			player.newAbility.kill();
-		}
-		else {
-			player.newAbility.loadTexture(tempAbility);
-			player.newAbility.name = tempAbility;
-			player.newAbility.key = tempAbility;	
-		}
-		})
-		tweenOne.start(); 
-		
-			*/
 
 
 		//Updating the buttons shown on screen through the callback function

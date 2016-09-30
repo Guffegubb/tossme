@@ -38,7 +38,7 @@ Game.Preloader.prototype = {
         maps.push('map3');
         maps.push('map4');
         maps.push('map5');
-        //maps.push('map6');
+        maps.push('map6');
         
         // load abilities
         this.load.image('highJump', 'assets/abilities/highJump.png');

@@ -2,7 +2,6 @@ function checkBreakableCollision(game, player, item) {
 
     if (game.physics.arcade.collide(player, item) || nextToBreakable(player, item)) {
         checkDestruction(game, player, item);
-        //checkDestruction(game, item);
     }
 
 }
@@ -26,6 +25,8 @@ function checkDestruction(game, player, item) {
         destroySprite(item);
         player.stopStomping();
     }
+    
+    
 }
 
 
