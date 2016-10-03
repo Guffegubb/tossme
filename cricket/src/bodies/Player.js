@@ -4,10 +4,11 @@
 
 var Player = function(game, properties) {
 
-
-	this.player = game.add.sprite(properties.x, properties.y, 'player');
+	
+	this.player = game.add.sprite(properties.x, properties.y, 'playerSpritesheet');
+	//this.player = game.add.sprite(properties.x, properties.y, 'player');
 	this.player.anchor.setTo(0.5, 0.5);
-	this.player.scale.setTo(0.65, 0.3);
+	this.player.scale.setTo(1, 1);
 
 	game.physics.enable(this.player, Phaser.Physics.ARCADE);
 
@@ -33,7 +34,14 @@ var Player = function(game, properties) {
 	this.player.isStomping = false;
 	this.player.alive = true;
 	this.player.originalTint = this.player.tint;
-
+	
+	// Loading animations for player
+	this.player.animations.add('stop', [0]);
+	this.player.animations.add('walk', [0, 1]);
+	this.player.animations.add('jump', [2]);
+	this.player.animations.add('die', [3]);
+	
+	
 	// Loading audio specific for player
 	jumpAudio = game.add.audio('jumpAudio');
 	roofHitAudio = game.add.audio('roofHitAudio');
@@ -45,7 +53,9 @@ var Player = function(game, properties) {
 
 	// TODO: Comment this function
 	this.player.move = function(direction) {
-
+		
+		player.setAnimation();
+		
 		if (direction == "stop") {
 
 			// Gradually slows the player down to 0 speed. 
@@ -81,6 +91,23 @@ var Player = function(game, properties) {
 						player.body.velocity.y = -player.jumpHeight;
 				}
 			}
+		}
+	};
+	
+	/**
+	 * Used to set the animation of the player based on whether it is 
+	 * in the air, on the ground or jumping
+	 * 
+	 */
+	this.player.setAnimation = function() {
+		if (!(player.body.onFloor() || touchingBreakableBlock(game, 'down'))) {
+			player.animations.play('jump', 1, true);
+		}
+		else if (player.body.velocity.x != 0) {
+			player.animations.play('walk', 7, true);
+		}
+		else {
+			player.animations.play('stop', 1, true);
 		}
 	};
 
@@ -130,7 +157,6 @@ var Player = function(game, properties) {
 	};
 
 	this.player.longJump = function() {
-		// TODO: Do we want to have the body.onFloor condition here as well? 
 		if (!player.hasCoolDown()) {
 			
 			var longJumpSpeed = player.originalSpeed;
@@ -280,7 +306,6 @@ var Player = function(game, properties) {
 
 
 		//Updating the buttons shown on screen through the callback function
-
 		updateAbilityTexture(key, player.newAbility.name);
 
 
@@ -312,7 +337,7 @@ var Player = function(game, properties) {
 	this.player.death = function() {
 
 		// TODO: Add death animations/events
-
+		player.animations.play('die', 1, true);
 		killEnemy(player);
 		//player.enableBody = false;
 		//game.state.restart();

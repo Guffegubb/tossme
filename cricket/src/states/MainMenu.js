@@ -4,15 +4,15 @@ Game.MainMenu = function(game) {
 };
 
     var chosenMap;
-
+     
 
 Game.MainMenu.prototype = {
     create: function(game) {
 
         // this code block resizes the game back to original size 
         // when returning to main menu after playing a given level
-        var width = 1200;
-        var height = 600;
+        var width = windowWidth;
+        var height = windowHeight;
         this.stage.backgroundColor = '#000000'; // might have to change this later when switching titlescreen
         this.game.width = width;
         this.game.height = height;
@@ -29,13 +29,23 @@ Game.MainMenu.prototype = {
         // this line gives en error, but seems to work without it. 
         // this.game.scale.setSize();
         
-        var titlescreen = game.add.sprite(game.world.centerX, game.world.centerY, 'polarBear');
+        var titlescreen = game.add.sprite(game.world.centerX, game.world.centerY, 'titlescreen');
         titlescreen.anchor.setTo(0.5);
 
 
-        var row = 0;
-        var column = 0;
+        var numberOfMaps = maps.length;
         var mapCounter = 0;
+        var levelButtons = [
+            'level1',
+            'level2',
+            'level3',
+            'level4',
+            'level5',
+            'level6',
+            'level7',
+            'level8',
+            'level9'
+            ]
         var unlocked = parseInt(localStorage.getItem('unlockedMaps'));
         
         if (isNaN(unlocked)) {
@@ -46,12 +56,15 @@ Game.MainMenu.prototype = {
         for (var map in maps) {
             // checks how many maps should be unlocked
             if (mapCounter <= unlocked) {
-
-                row = Math.floor(map / 5);
-                column = map % 5;
-                this.createButton(game, map, (300 - 64) + 150 * column, game.world.centerY + 150 * row);
+                
+                this.createButton(game, map, levelButtons[map], 128 + ( windowWidth - 192 ) / numberOfMaps * map, game.world.centerY + windowHeight / 7);
                 mapCounter++;
             }
+            else {
+                 this.createButton(game, map, 'lock', 128 + ( windowWidth - 192 ) / numberOfMaps * map, game.world.centerY +  windowHeight / 7 );
+            }
+            
+            
         }
     },
 
@@ -59,8 +72,8 @@ Game.MainMenu.prototype = {
 
     },
 
-    createButton: function(game, index, x, y) {
-        game.add.button(x, y, 'playButton', function() {
+    createButton: function(game, index, image, x, y) {
+        game.add.button(x, y, image, function() {
             chosenMap = maps[index];
             game.state.start('Level', true, false);
         });

@@ -1,6 +1,6 @@
 
 function createExitButton(game) {
-    var exit = game.add.sprite(1120, 10, 'exit');
+    var exit = game.add.sprite(windowWidth - 75, 10, 'exit');
     exit.fixedToCamera = true;
     exit.inputEnabled = true;
     exit.events.onInputDown.add(function() {
@@ -87,7 +87,6 @@ function mapComplete(game) {
 };
 
 // Updates localStorage on client browser to reflect map progress.
-// TODO: Removed || localStorage.getItem('unlockedMaps') == null from if-statement and moved it to MainMenu, if it bugs out put it back.
 function updateUnlockedMaps() {
     if ( parseInt( localStorage.getItem('unlockedMaps') ) <= parseInt( chosenMap.slice(-1) ) ){
         localStorage.setItem('unlockedMaps', chosenMap.slice(-1));

@@ -14,9 +14,20 @@ Game.Preloader.prototype = {
         // Load all assets
         //TODO: Double-check that all assets are used
 
-        // load assets for main menu
+        // load assets for main menu 
         this.load.image('playButton', 'assets/abilities/longJump.png'); // this one should be changed
-        this.load.image('titlescreen', 'assets/menu/titlescreen.png');
+       // this.load.image('titlescreen', 'assets/menu/titlescreen.png');
+       this.load.image('level1', 'assets/menu/1.png');
+       this.load.image('level2', 'assets/menu/2.png');
+       this.load.image('level3', 'assets/menu/3.png');
+       this.load.image('level4', 'assets/menu/4.png');
+       this.load.image('level5', 'assets/menu/5.png');
+       this.load.image('level6', 'assets/menu/6.png');
+       this.load.image('level7', 'assets/menu/7.png');
+       this.load.image('level8', 'assets/menu/8.png');
+       this.load.image('level9', 'assets/menu/9.png');
+       this.load.image('lock', 'assets/menu/lock.png');
+       
         
         // load picture for fading
         this.load.image('fadeScreen', 'assets/menu/fadeScreen.png');
@@ -26,7 +37,7 @@ Game.Preloader.prototype = {
         this.load.tilemap('map2', 'assets/maps/level2.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('map3', 'assets/maps/level3.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('map4', 'assets/maps/level4.json', null, Phaser.Tilemap.TILED_JSON);
-        this.load.tilemap('map5', 'assets/maps/level6.json', null, Phaser.Tilemap.TILED_JSON);
+        this.load.tilemap('map5', 'assets/maps/level5.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('map6', 'assets/maps/level6.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.image('tileset', 'assets/spritesheets/TileSpritesheet.png');
         this.load.image('enemyTileset', 'assets/spritesheets/EnemySpritesheet.png')
@@ -60,11 +71,12 @@ Game.Preloader.prototype = {
         this.load.image('spawn', 'assets/items/spawnFlag.png');
         this.load.image('goal', 'assets/items/goalFlag.png');
         this.load.image('projectile', 'assets/items/shot.png');
-        
+        this.load.spritesheet('shotSpritesheet', 'assets/items/shotSpritesheet.png', 36, 36, 2);
         this.load.image('exit', 'assets/items/exit.png');
         
         // load player
-        this.load.image('player', 'assets/player/pinkPlayer1.png');
+        this.load.image('player', 'assets/player/player1.png');
+        this.load.spritesheet('playerSpritesheet', 'assets/player/playerSpritesheet.png', 100, 64, 4);
         
         // load audio
         // load Player audio
@@ -83,7 +95,7 @@ Game.Preloader.prototype = {
     },
 
     create: function() {
-        this.intro = this.game.add.sprite(this.world.centerX, this.world.centerY, 'polarBear');
+        this.intro = this.game.add.sprite(this.world.centerX, this.world.centerY, 'titlescreen');
         this.intro.anchor.setTo(0.5);
         this.intro.alpha = 0;
         this.introTween = this.game.add.tween(this.intro).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 0, false);

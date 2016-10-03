@@ -2,7 +2,7 @@ function declareProjectile(game) {
     var projectiles = game.add.group();
     projectiles.enableBody = true;
     projectiles.physicsBodyType = Phaser.Physics.ARCADE;
-    projectiles.createMultiple(6, 'projectile');
+    projectiles.createMultiple(6, 'shotSpritesheet');
     projectiles.setAll('anchor.x', 0.5);
     projectiles.setAll('anchor.y', 0.5);
 
@@ -14,6 +14,7 @@ function declareProjectile(game) {
 
     projectiles.forEach(function(item) {
         item.body.allowGravity = false;
+        item.animations.add('shoot', [0, 1])
     });
 
     return projectiles;
@@ -26,8 +27,7 @@ function shoot(game, player, projectiles) {
             if (projectile) {
                 projectile.reset(player.x, player.y);
                 projectile.body.velocity.x = player.direction() * 500;
-
-
+                projectile.animations.play('shoot', 10, true);
             }
         });
     }

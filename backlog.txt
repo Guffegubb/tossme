@@ -7,8 +7,6 @@ sound muted after every level (move mute implementation to other state?)
 
 
 Extras:
--Make the sprite move in some kind of way, maybe just rotate when jumping, maybe 
-    make it toggle between two sprite
 - add more sounds?
 
 
@@ -23,16 +21,14 @@ Polish:
 - Add pause screen when clicked outside of game
 - Add "are you sure you want to exit?"
 - Victory screen polish.
-- Add animation for player
-- Make shoot look nicer
 - Tween for when picking up ability for the first time
 - Shot is less than 64 pixels now which can make it look weird since it gets 
 removed before it actually hits the wall
 - Polish intro when new graphics arrive
 - end credits when graphic etc
 - Make highJump have a cross over it if you can't use it (not on ground)
-- If you don't have a second ability, don't show a cross over it when you 
-have cooldown
+- lethalblocks should only be lethal from above!!
+- touching breakable code is a bit buggy
 
 IMPORTANT:
 - Make long jump 5 squares long

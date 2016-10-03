@@ -8,8 +8,8 @@ Game.Credits.prototype = {
     create: function(game) {
 
         // TODO: move this and from mainmenu into separate function. 
-        var width = 1200;
-        var height = 600;
+        var width = windowWidth;
+        var height = windowHeight;
         this.stage.backgroundColor = '#000000'; // might have to change this later when switching titlescreen
         this.game.width = width;
         this.game.height = height;
@@ -22,7 +22,7 @@ Game.Credits.prototype = {
         this.game.camera.setBoundsToWorld();
         this.game.renderer.resize(width, height);
 
-        this.intro = this.game.add.sprite(this.world.centerX, this.world.centerY, 'polarBear');
+        this.intro = this.game.add.sprite(this.world.centerX, this.world.centerY, 'titlescreen');
         this.intro.anchor.setTo(0.5);
         this.intro.alpha = 0;
         this.introTween = this.game.add.tween(this.intro).to({

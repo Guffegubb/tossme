@@ -38,6 +38,7 @@ Game.Level.prototype = {
 
     create: function(game) {
         
+        
         changingMap = false;
         
         // All the object music is created here for now
@@ -47,7 +48,7 @@ Game.Level.prototype = {
         game.sound.mute = true;
 
         // Initialize map and tilesets
-        this.stage.backgroundColor = '#9CD5E2';
+        this.stage.backgroundColor = '#FFFFFF';
         
         map = this.add.tilemap(chosenMap);
         map.addTilesetImage('tileset', 'tileset');
@@ -157,10 +158,10 @@ Game.Level.prototype = {
 
         // Shows current abilities
         
-        abilityOneSprite = game.add.sprite(10, 500, 'shoot');
+        abilityOneSprite = game.add.sprite(10, windowHeight - 100, 'shoot');
         abilityOneSprite.fixedToCamera = true;
 
-        abilityTwoSprite = game.add.sprite(100, 500, 'shoot');
+        abilityTwoSprite = game.add.sprite(100, windowHeight - 100, 'shoot');
         abilityTwoSprite.fixedToCamera = true;
 
 
@@ -184,7 +185,7 @@ Game.Level.prototype = {
         fadeScreen.alpha = 1;
         fadeScreen = game.add.tween(fadeScreen).to( { alpha: 0 }, 
         2000, Phaser.Easing.Linear.None, true, 0, 0, false);
-
+        
     },
 
 
@@ -308,5 +309,6 @@ Game.Level.prototype = {
                 moveEnemy(enemyItem);
             });
         }
+        
     },
 }

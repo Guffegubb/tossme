@@ -17,7 +17,7 @@ Game.Boot.prototype = {
     preload:function() {
         
         // TODO: Change this image
-        this.load.image('polarBear', 'assets/menu/polarbear.jpg');
+        this.load.image('titlescreen', 'assets/menu/titlescreen.png');
     },
     
     create:function() {

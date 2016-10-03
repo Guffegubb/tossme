@@ -20,17 +20,15 @@ function blink(player, item) {
 
 function addAbilityText(game, mySprite, text) {
     var tempText;
-    tempText = game.add.text(Math.floor(mySprite.x + mySprite.width / 2 + 10),
-        Math.floor(mySprite.y + mySprite.height / 2), text);
+    tempText = game.add.text(Math.floor(mySprite.x + mySprite.width / 2 - 10),
+        Math.floor(mySprite.y + mySprite.height), text);
     tempText.fixedToCamera = true;
     return tempText;
 
 };
 
-/**
- * Implemented this through the global variables cause it became such 
- * a clusterfuck otherwise
- */
+
+
 function updateAbilityTexture(key, textureName) {
     if (key == 1)
         abilityOneSprite.loadTexture(textureName);
@@ -66,8 +64,6 @@ function resetAbilityAlpha() {
 
     abilityTwoSprite.alpha = 1;
     abilityOneSprite.alpha = 1;
-    // TODO: if we make groups not global, send in the specific ability 
-    // from the group to the function to set the alpha = 1
     abilityGroup.forEach(function(item) {
         item.alpha = 1;
     });
