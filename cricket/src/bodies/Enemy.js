@@ -1,11 +1,6 @@
 function initEnemyGroup(game, enemies, properties) {
-    //enemies.enableBody = true;
-    //enemies.physicsBodyType = Phaser.Physics.ARCANDE;
-    //enemies.add.sprite(500, 500, 'enemyTileset');
-
-    //coins.create(game.world.randomX, game.world.randomY, 'coin', 0);
+	
     enemies.setAll('anchor.x', 0.5);
-    //enemies.setAll('anchor.y', 0.5);
 
     enemies.setAll('scale.x', 1);
     enemies.setAll('scale.y', 1);
@@ -32,38 +27,13 @@ function initEnemyGroup(game, enemies, properties) {
 
         enemy.alive = true;
 
-        //enemy.body.colldeWorldBounds = true;
-        //enemy.body.allowGravity = true;
-        //enemy.body.bounce.setTo(1, 0);
-        //sprite3.body.bounce.setTo(1, 1);
-
-        //enemy = game.add.sprite(64, 64, 'enemyTileset');
-
-        
-
         enemy.animations.play('walk', 5, true);
     });
 
     return enemies;
 };
 
-/*function initEnemy(game, enemy, properties) {
-
-    enemy.enableBody = true;
-    enemy.physicsBodyType = Phaser.Physics.ARCADE;
-    enemy.anchor.setTo(0.5);
-    enemy.scale.setTo(-1, 1);
-
-    enemy.speed = 200;
-    enemy.walkingDistance = 100;
-
-
-    return enemy;
-};*/
-
 function moveEnemy(enemy) {
-    //enemy.animations.play('walk', 5, true);
-    //console.log(getDirectionX(enemy));
     // Added so that it won't move if it's dead, this prevents it from changing
     // direction when have been killed
     if (isAlive(enemy)) {
@@ -98,23 +68,4 @@ function changeDirectionX(enemy) {
 
 function changeDirectionY(enemy) {
     enemy.scale.setTo(enemy.scale.x, enemy.scale.y * (-1));
-};
-
-
-function killEnemy(enemy) {
-    // TODO: Fix so that the enemy is actually removed (At this point it doesn't
-    // check outOfWorld bounds and there it is never killed :()
-    enemy.enableBody = false;
-    enemy.body.allowGravity = true;
-    enemy.body.collideWorldBounds = false;
-    enemy.body.checkCollision = false;
-    enemy.alive = false;
-    //enemy.anchor.setTo(enemy.anchor.x, 0.5);
-    enemy.body.velocity.y = -200;
-    
-    changeDirectionY(enemy);
-    enemy.animations.play('die', 0, true);
-    
-    
-
 };

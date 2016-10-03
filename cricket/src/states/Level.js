@@ -255,7 +255,7 @@ Game.Level.prototype = {
 
                     game.physics.arcade.overlap(enemyItem, projectileItem, function() {
                         projectileItem.kill();
-                        killEnemy(enemyItem);
+                        killBody(enemyItem);
                     });
 
                     if (isAlive(enemyItem) && !changingMap) {

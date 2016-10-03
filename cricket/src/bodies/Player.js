@@ -102,7 +102,7 @@ var Player = function(game, properties) {
 		if (!(player.body.onFloor() || touchingBreakableBlock(game, 'down'))) {
 			player.animations.play('jump', 1, true);
 		}
-		else if (player.body.velocity.x != 0) {
+		else if (Math.abs(player.body.velocity.x) > 5) {
 			player.animations.play('walk', 7, true);
 		}
 		else {
@@ -327,8 +327,6 @@ var Player = function(game, properties) {
 
 
 	this.player.hurt = function(intensity, duration) {
-		
-		//	player.tint = 0xFF7171;
 			
 		game.camera.shake(intensity, duration, false, Phaser.Camera.SHAKE_BOTH);
 			for (var temp = 0; temp < 4; temp++) {
@@ -337,17 +335,8 @@ var Player = function(game, properties) {
 					player.alpha = 0.2;
 				else
 					player.alpha = 1;
-				//player.alpha = Math.abs(player.alpha - 1);
-		
-		/*	if (sign == 1)
-				sign = 0;
-			else
-				sign = 1;
-			//	player.tint = player.originalTint;
-		*/	
 				
 			}, this); 
-//	}
 		
 	} 
 		
@@ -357,7 +346,7 @@ var Player = function(game, properties) {
 	this.player.death = function() {
 
 		player.animations.play('die', 1, true);
-		killEnemy(player);
+		killBody(player);
 		player.isStomping = false;
 
 	};

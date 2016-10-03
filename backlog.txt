@@ -22,5 +22,7 @@ Polish:
 - Tween for when picking up ability for the first time
 - Polish intro when new graphics arrive
 - end credits when graphic etc
-- Make highJump have a cross over it if you can't use it (not on ground)
 - touching breakable code is a bit buggy (stomp)
+
+Presentation:
+- byt till titlescreen med border (+ ändra till 1080x500)

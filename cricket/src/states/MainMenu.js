@@ -13,7 +13,7 @@ Game.MainMenu.prototype = {
         // when returning to main menu after playing a given level
         var width = windowWidth;
         var height = windowHeight;
-        this.stage.backgroundColor = '#000000'; // might have to change this later when switching titlescreen
+        this.stage.backgroundColor = '#FFFFFF'; // might have to change this later when switching titlescreen
         this.game.width = width;
         this.game.height = height;
         this.game.canvas.width = width;
@@ -46,6 +46,7 @@ Game.MainMenu.prototype = {
             'level8',
             'level9'
             ]
+        localStorage.setItem('unlockedMaps', 7)
         var unlocked = parseInt(localStorage.getItem('unlockedMaps'));
         
         if (isNaN(unlocked)) {
