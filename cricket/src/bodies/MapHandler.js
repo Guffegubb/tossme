@@ -51,6 +51,8 @@ function nextMap(game) {
         game.state.start('Level', true, false);    
     }
     
+    console.log(chosenMap);
+    
     
     
 };

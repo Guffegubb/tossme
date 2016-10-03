@@ -1,6 +1,6 @@
 Features:
 - Music?
-
+- credit kenney nl in readme file for enemies
 
 Bugs: 
 sound muted after every level (move mute implementation to other state?)
@@ -17,18 +17,10 @@ Refactoring:
 
 
 Polish:
-- Make the long jump not give height if touching on side
 - Add pause screen when clicked outside of game
-- Add "are you sure you want to exit?"
 - Victory screen polish.
 - Tween for when picking up ability for the first time
-- Shot is less than 64 pixels now which can make it look weird since it gets 
-removed before it actually hits the wall
 - Polish intro when new graphics arrive
 - end credits when graphic etc
 - Make highJump have a cross over it if you can't use it (not on ground)
-- lethalblocks should only be lethal from above!!
-- touching breakable code is a bit buggy
-
-IMPORTANT:
-- Make long jump 5 squares long
+- touching breakable code is a bit buggy (stomp)

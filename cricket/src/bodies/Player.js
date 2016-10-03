@@ -33,7 +33,7 @@ var Player = function(game, properties) {
 	this.player.moveLock = false;
 	this.player.isStomping = false;
 	this.player.alive = true;
-	this.player.originalTint = this.player.tint;
+//	this.player.originalTint = this.player.tint;
 	
 	// Loading animations for player
 	this.player.animations.add('stop', [0]);
@@ -86,7 +86,6 @@ var Player = function(game, properties) {
 					jumpAudio.play();
 
 					// this prevents the super jump by pressing up + highJump.
-					// TODO: Can we refactor to not use the global controls variable? Put the check in other function or so? 
 					if (!(controls.abilityOne.isDown || controls.abilityTwo.isDown))
 						player.body.velocity.y = -player.jumpHeight;
 				}
@@ -210,12 +209,8 @@ var Player = function(game, properties) {
 		if (player.body.blocked.up || touchingBreakableBlock(game, 'up')) {
 
 			roofHitAudio.play();
-			player.tint = 0xFF7171;
-			game.camera.shake(0.01, 100, false, Phaser.Camera.SHAKE_HORIZONTAL);
-
-			game.time.events.add(Phaser.Timer.SECOND * 0.1, function() {
-				player.tint = player.originalTint;
-			});
+			
+			player.hurt(0.02, 150);
 		}
 	};
 
@@ -290,8 +285,6 @@ var Player = function(game, properties) {
 	this.player.swapAbility = function(key) {
 
 		powerUpAudio.play();
-		// TODO: Change how swapping works?
-		// At the moment we can't swap any ability if one button has it already
 		if (!player.hasFreeAbilitySlot())
 			player.setCoolDown(0.5);
 		var tempAbility;
@@ -333,17 +326,38 @@ var Player = function(game, properties) {
 	};
 
 
+	this.player.hurt = function(intensity, duration) {
+		
+		//	player.tint = 0xFF7171;
+			
+		game.camera.shake(intensity, duration, false, Phaser.Camera.SHAKE_BOTH);
+			for (var temp = 0; temp < 4; temp++) {
+				game.time.events.add(Phaser.Timer.SECOND * 0.1 * temp, function() {
+				if (player.alpha == 1)
+					player.alpha = 0.2;
+				else
+					player.alpha = 1;
+				//player.alpha = Math.abs(player.alpha - 1);
+		
+		/*	if (sign == 1)
+				sign = 0;
+			else
+				sign = 1;
+			//	player.tint = player.originalTint;
+		*/	
+				
+			}, this); 
+//	}
+		
+	} 
+		
+	}
+
 
 	this.player.death = function() {
 
-		// TODO: Add death animations/events
 		player.animations.play('die', 1, true);
 		killEnemy(player);
-		//player.enableBody = false;
-		//game.state.restart();
-		//player.spawn();
-
-		// check if this solves bug in backlog on stomping if dying.
 		player.isStomping = false;
 
 	};

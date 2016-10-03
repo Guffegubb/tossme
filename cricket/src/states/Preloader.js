@@ -39,6 +39,7 @@ Game.Preloader.prototype = {
         this.load.tilemap('map4', 'assets/maps/level4.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('map5', 'assets/maps/level5.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.tilemap('map6', 'assets/maps/level6.json', null, Phaser.Tilemap.TILED_JSON);
+        this.load.tilemap('map7', 'assets/maps/level7.json', null, Phaser.Tilemap.TILED_JSON);
         this.load.image('tileset', 'assets/spritesheets/TileSpritesheet.png');
         this.load.image('enemyTileset', 'assets/spritesheets/EnemySpritesheet.png')
         this.load.spritesheet('frog', 'assets/spritesheets/EnemySpritesheet.png', 64, 64, 6);
@@ -50,6 +51,7 @@ Game.Preloader.prototype = {
         maps.push('map4');
         maps.push('map5');
         maps.push('map6');
+        maps.push('map7');
         
         // load abilities
         this.load.image('highJump', 'assets/abilities/highJump.png');
@@ -61,8 +63,10 @@ Game.Preloader.prototype = {
         // load blocks
         this.load.image('breakable', 'assets/blocks/breakable.png');
         this.load.image('lava', 'assets/blocks/lava.png');
-        this.load.image('water', 'assets/blocks/water.png');
-        this.load.image('cactus', 'assets/blocks/cactus.png');
+        // lava and water is the same tile with the current graphics, but here
+        // the source can be changed for a new image. 
+        this.load.image('water', 'assets/blocks/lava.png');
+        this.load.image('spike', 'assets/blocks/spike.png');
         // this.load.image('platform', 'assets/blocks/platform.png');
         
         // load items

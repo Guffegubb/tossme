@@ -27,6 +27,7 @@ function shoot(game, player, projectiles) {
             if (projectile) {
                 projectile.reset(player.x, player.y);
                 projectile.body.velocity.x = player.direction() * 500;
+                projectile.scale.setTo(player.direction(), 1);
                 projectile.animations.play('shoot', 10, true);
             }
         });

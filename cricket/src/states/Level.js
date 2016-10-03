@@ -99,7 +99,7 @@ Game.Level.prototype = {
             ['spawn'],
             ['diamond', 'star'],
             ['breakable'],
-            ['lava', 'water', 'cactus'],
+            ['lava', 'water', 'spike'],
             ['highJump', 'longJump', 'stomp', 'shoot'],
             ['goal'],
             ['frog', 'bee'],
@@ -210,9 +210,24 @@ Game.Level.prototype = {
                 });
             }, this);
             
-            if (!changingMap)
-                this.physics.arcade.collide(player, lethalGroup, player.death);
-
+            if (!changingMap) {
+                // this.physics.arcade.collide(player, lethalGroup, player.death);
+                
+                this.physics.arcade.collide(player, lethalGroup, function() {
+                    if (player.body.touching.down)
+                        player.death();
+                    else {
+                        player.hurt(0.02, 50);
+                        player.setMoveLock(true);
+                        game.time.events.add(Phaser.Timer.SECOND * 0.3, function() {
+                           player.setMoveLock(false); 
+                        });
+                        player.setCoolDown();
+                        player.body.velocity.x -= player.direction() * 400;
+                    }
+                }, null, this); 
+            }
+            
             goalGroup.forEach(function(item) {
                 game.physics.arcade.overlap(player, item, function() {
                     mapComplete(game);

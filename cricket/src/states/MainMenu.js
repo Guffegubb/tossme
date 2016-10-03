@@ -61,7 +61,7 @@ Game.MainMenu.prototype = {
                 mapCounter++;
             }
             else {
-                 this.createButton(game, map, 'lock', 128 + ( windowWidth - 192 ) / numberOfMaps * map, game.world.centerY +  windowHeight / 7 );
+                 this.add.sprite(128 + ( windowWidth - 192 ) / numberOfMaps * map, game.world.centerY +  windowHeight / 7, 'lock' );
             }
             
             
