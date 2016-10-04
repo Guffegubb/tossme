@@ -47,7 +47,7 @@ function overlapY(body, item, direction = 'over') {
     var overlapBool;
 
     if (direction == 'over') {
-        overlapBool = (item.y - body.y <= 64);
+        overlapBool = (item.y - body.y <= 64 );
     }
 
     else if (direction == 'under') {
