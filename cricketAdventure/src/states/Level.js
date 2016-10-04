@@ -197,12 +197,14 @@ Game.Level.prototype = {
             this.physics.arcade.collide(player, layer);
             this.physics.arcade.collide(enemyGroup, layer);
             this.physics.arcade.collide(enemyGroup, collisionLayer);
+            this.physics.arcade.collide(player, breakableGroup);
 
             // TODO: Move all the xGroup.forEach to respective JS files?
-            breakableGroup.forEach(function(item) {
-                checkBreakableCollision(game, player, item);
+  
+            if (player.isStomping)
+                checkBreakableCollision(player, breakableGroup);
 
-            })
+
 
             coinGroup.forEach(function(item) {
                 game.physics.arcade.overlap(player, item, function() {
@@ -211,7 +213,6 @@ Game.Level.prototype = {
             }, this);
             
             if (!changingMap) {
-                // this.physics.arcade.collide(player, lethalGroup, player.death);
                 
                 this.physics.arcade.collide(player, lethalGroup, function() {
                     if (player.body.touching.down)

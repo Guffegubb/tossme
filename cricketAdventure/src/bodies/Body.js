@@ -23,4 +23,8 @@ function killBody(body) {
     
     flip(body);
     body.animations.play('die', 0, true);
-}
+};
+
+function getObjectX(item) {
+    return ( item.x + item.width / 2 );
+};

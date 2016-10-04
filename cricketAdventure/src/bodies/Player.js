@@ -82,7 +82,7 @@ var Player = function(game, properties) {
 				player.body.velocity.x = -player.playerSpeed;
 			}
 			else if (direction == "jump") {
-				if (player.body.onFloor() || touchingBreakableBlock(game, 'down')) {
+				if (player.body.onFloor() || touchingBreakableBlock(player, 'over', breakableGroup)) {
 					jumpAudio.play();
 
 					// this prevents the super jump by pressing up + highJump.
@@ -99,7 +99,7 @@ var Player = function(game, properties) {
 	 * 
 	 */
 	this.player.setAnimation = function() {
-		if (!(player.body.onFloor() || touchingBreakableBlock(game, 'down'))) {
+		if (!(player.body.onFloor() || touchingBreakableBlock(player, 'over', breakableGroup))) {
 			player.animations.play('jump', 1, true);
 		}
 		else if (Math.abs(player.body.velocity.x) > 5) {
@@ -145,7 +145,7 @@ var Player = function(game, properties) {
 	};
 
 	this.player.highJump = function() {
-		if (!player.hasCoolDown() && (player.body.onFloor() || touchingBreakableBlock(game, 'down'))) {
+		if (!player.hasCoolDown() && (player.body.onFloor() || touchingBreakableBlock(player, 'over', breakableGroup))) {
 
 			highJumpAudio.play();
 			player.body.velocity.y -= player.jumpHeight * 1.9;
@@ -200,13 +200,13 @@ var Player = function(game, properties) {
 	this.player.stopStomping = function() {
 		if (player.isStomping) {
 			stompEndAudio.play();
-			game.camera.shake(0.02, 150, false, Phaser.Camera.SHAKE_HORIZONTAL);
+			game.camera.shake(0.03, 150, false, Phaser.Camera.SHAKE_BOTH);
 		}
 		player.isStomping = false;
 	};
 
 	this.player.checkRoofCollision = function(game) {
-		if (player.body.blocked.up || touchingBreakableBlock(game, 'up')) {
+		if (player.body.blocked.up || touchingBreakableBlock(player, 'under', breakableGroup)) {
 
 			roofHitAudio.play();
 			

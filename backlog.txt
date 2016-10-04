@@ -11,7 +11,6 @@ Extras:
 
 
 Refactoring:
-- touchingBreakableBlock function is filled with ugly code and så kallade nödlösningar. 
 - The code for projectiles and enemy meeting
 - repeated code that can be moved into own function (e.g credits/mainmenu).
 
@@ -22,7 +21,6 @@ Polish:
 - Tween for when picking up ability for the first time
 - Polish intro when new graphics arrive
 - end credits when graphic etc
-- touching breakable code is a bit buggy (stomp)
 
 Presentation:
 - byt till titlescreen med border (+ ändra till 1080x500)
