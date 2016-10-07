@@ -7,7 +7,7 @@ Game.Credits = function(game) {
 Game.Credits.prototype = {
     create: function(game) {
 
-        // TODO: move this and from mainmenu into separate function. 
+        // resizes the game to the original size. 
         var width = windowWidth;
         var height = windowHeight;
         this.stage.backgroundColor = '#000000'; // might have to change this later when switching titlescreen
@@ -22,14 +22,13 @@ Game.Credits.prototype = {
         this.game.camera.setBoundsToWorld();
         this.game.renderer.resize(width, height);
 
+        // fades in the title screen
         this.intro = this.game.add.sprite(this.world.centerX, this.world.centerY, 'titlescreen');
         this.intro.anchor.setTo(0.5);
         this.intro.alpha = 0;
         this.introTween = this.game.add.tween(this.intro).to({
             alpha: 1
         }, 2000, Phaser.Easing.Linear.None, true, 0, 0, false);
-        // this.introTween.onComplete.add(function(Game) {
-        //}, this);
 
         this.textObj = "You beat all the levels!"
         this.styleObj = {
@@ -40,7 +39,8 @@ Game.Credits.prototype = {
         this.creditsText = game.add.text(game.world.centerX - 300, game.world.centerY, 
         this.textObj, this.styleObj);
         this.creditsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-
+        
+        // fades in the credits text. After a few seconds, returns the player to the main menu
         this.creditsText.alpha = 0;
         this.textTweenIn = this.game.add.tween(this.creditsText).to({
             alpha: 1
@@ -53,9 +53,6 @@ Game.Credits.prototype = {
                 this.state.start('MainMenu');
             }, this);
         }, this)
-
-
-
 
     },
 

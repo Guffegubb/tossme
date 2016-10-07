@@ -66,7 +66,9 @@ function overlapX(body, item) {
     return ((diffX >= 0 && diffX <= bodyHalfWidth + item.width / 2));
 };
 
-
+/**
+ * Checks if the player is touching a breakable block
+ */
 function touchingBreakableBlock(player, direction, breakables) {
     var touching = false;
     breakables.forEach(function(item) {

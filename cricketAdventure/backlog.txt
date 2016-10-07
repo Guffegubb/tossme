@@ -1,26 +1,20 @@
 Features:
-- Music?
-- credit kenney nl in readme file for enemies
+- Music/other sound
 
 Bugs: 
-sound muted after every level (move mute implementation to other state?)
-
-
-Extras:
-- add more sounds?
+- sound muted after every level (move mute implementation to other state?)
 
 
 Refactoring:
-- The code for projectiles and enemy meeting
-- repeated code that can be moved into own function (e.g credits/mainmenu).
-
+- The code is perfect
 
 Polish:
-- Add pause screen when clicked outside of game
 - Victory screen polish.
-- Tween for when picking up ability for the first time
 - Polish intro when new graphics arrive
 - end credits when graphic etc
 
 Presentation:
 - byt till titlescreen med border (+ ändra till 1080x500)
+
+
+

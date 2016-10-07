@@ -1,5 +1,8 @@
 var blinkSign = -1;
-
+/**
+ * Makes the abilitysprite shown in the left down corner of the game blink when 
+ * player is standing on top of another ability
+ */
 function blink(player, item) {
 
     if (!(player.abilityOne == item.name || player.abilityTwo == item.name)) {
@@ -18,6 +21,9 @@ function blink(player, item) {
 
 };
 
+/**
+ * Adds a text over a sprite
+ */
 function addAbilityText(game, mySprite, text) {
     var tempText;
     tempText = game.add.text(Math.floor(mySprite.x + mySprite.width / 2 - 10),
@@ -27,8 +33,9 @@ function addAbilityText(game, mySprite, text) {
 
 };
 
-
-
+/**
+ * Updates the texture the sprite shown in the left down corner
+ */
 function updateAbilityTexture(key, textureName) {
     if (key == 1)
         abilityOneSprite.loadTexture(textureName);
@@ -59,11 +66,15 @@ function displayAbilityCooldown(game, time, bool) {
     
 };
 
-
+/**
+ * Resets the alpha value of the abilities shown in the left down corner
+ * Used for example when moving away from another ability and it should stop
+ * blinking
+ */
 function resetAbilityAlpha() {
-
-    abilityTwoSprite.alpha = 1;
+    
     abilityOneSprite.alpha = 1;
+    abilityTwoSprite.alpha = 1;
     abilityGroup.forEach(function(item) {
         item.alpha = 1;
     });

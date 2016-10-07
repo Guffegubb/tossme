@@ -1,3 +1,7 @@
+
+/**
+ * Initializes the shots shot by the player in a group of 6
+ */
 function declareProjectile(game) {
     var projectiles = game.add.group();
     projectiles.enableBody = true;
@@ -20,9 +24,12 @@ function declareProjectile(game) {
     return projectiles;
 }
 
+/**
+ * Creates a shot drawing it to game and giving it movement in the same
+ * direction as the player sent in
+ */
 function shoot(game, player, projectiles) {
-    for (var i = 0; i <= 0; i++) {
-        game.time.events.add(Phaser.Timer.SECOND * i * 0.1, function() {
+        game.time.events.add(Phaser.Timer.SECOND * 0.1, function() {
             projectile = projectiles.getFirstExists(false);
             if (projectile) {
                 projectile.reset(player.x, player.y);
@@ -31,5 +38,4 @@ function shoot(game, player, projectiles) {
                 projectile.animations.play('shoot', 10, true);
             }
         });
-    }
 }

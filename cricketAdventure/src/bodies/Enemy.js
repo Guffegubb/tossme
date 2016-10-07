@@ -1,3 +1,7 @@
+
+/**
+ * Initializes the enemy group giving properties according to the enemy
+ */
 function initEnemyGroup(game, enemies, properties) {
 	
     enemies.setAll('anchor.x', 0.5);
@@ -33,11 +37,14 @@ function initEnemyGroup(game, enemies, properties) {
     return enemies;
 };
 
+/**
+ * Move the enemy accordingly to its direction
+ */
 function moveEnemy(enemy) {
     // Added so that it won't move if it's dead, this prevents it from changing
-    // direction when have been killed
+    // direction when it has been killed
     if (isAlive(enemy)) {
-        // Added so that it changes direction when blocked on the side
+        // Changes direction when blocked on the side
         // Also checking direction it is facing to avoid a bug of changing
         // direction before it has had time to move away from the blocked side
         if (enemy.body.blocked.left && getDirectionX(enemy) == -1) {
@@ -49,6 +56,7 @@ function moveEnemy(enemy) {
         }
             
         enemy.body.velocity.x = enemy.speed * getDirectionX(enemy);
+        
         if (Math.abs(enemy.x - enemy.previous_x) >= enemy.walkingDistance) {
             changeDirectionX(enemy);
             enemy.previous_x = enemy.x;
@@ -58,14 +66,31 @@ function moveEnemy(enemy) {
 
 };
 
+/**
+ * Returns the X-direction of the object sent in. Negative value used due to 
+ * enemy sprites drawn facing left. 
+ */
 function getDirectionX(enemy) {
     return -(enemy.scale.x / Math.abs(enemy.scale.x));
 };
 
+/**
+ * Returns the Y-direction of the object sent in
+ */
+function getDirectionY(enemy) {
+    return (enemy.scale.y / Math.abs(enemy.scale.y));
+};
+
+/**
+ * Changes the X-direction of the object sent in
+ */
 function changeDirectionX(enemy) {
     enemy.scale.setTo(enemy.scale.x * (-1), enemy.scale.y);
 };
 
+/**
+ * Changes the Y-direction of the object sent in
+ */
 function changeDirectionY(enemy) {
     enemy.scale.setTo(enemy.scale.x, enemy.scale.y * (-1));
 };

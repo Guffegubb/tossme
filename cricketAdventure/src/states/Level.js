@@ -11,7 +11,6 @@ Game.Level = function(game) {
     var textOne;
     var textTwo;
 
-    var coinGroup;
     var spawnGroup;
     var goalGroup;
     var lethalGroup;
@@ -28,13 +27,12 @@ Game.Level = function(game) {
     var abilityFaderTwo;
     
     // Used to prevent death upon changing map
-    var changingMap;
+    var changingMap
     
 };
 
 
 Game.Level.prototype = {
-
 
     create: function(game) {
         
@@ -62,7 +60,6 @@ Game.Level.prototype = {
         map.setCollisionBetween(2, 4, true, layer);
         map.setCollisionBetween(0, 2, true, collisionLayer);
         
-        coinGroup = game.add.group();
         breakableGroup = game.add.group();
         abilityGroup = game.add.group();
         spawnGroup = game.add.group();
@@ -71,11 +68,10 @@ Game.Level.prototype = {
         enemyGroup = game.add.group();
         enemyCollisionGroup = game.add.group();
 
-        // groups need to have the groups in the same order as the
-        // objectLayers array above for this solution to work.
+        // variable groups need to have th phaser groups in the same order as the
+        // objectLayers array below for this solution to work.
         groups = [
             spawnGroup,
-            coinGroup,
             breakableGroup,
             lethalGroup,
             abilityGroup,
@@ -86,7 +82,6 @@ Game.Level.prototype = {
 
         var objectLayers = [
             'spawn',
-            'pickups',
             'breakable',
             'lethalBlocks',
             'supers',
@@ -97,7 +92,6 @@ Game.Level.prototype = {
 
         var objectsInLayer = [
             ['spawn'],
-            ['diamond', 'star'],
             ['breakable'],
             ['lava', 'water', 'spike'],
             ['highJump', 'longJump', 'stomp', 'shoot'],
@@ -107,7 +101,10 @@ Game.Level.prototype = {
         ];
 
  
-        // TODO: Comment this
+        // Code block to create all the objects from the imported map json file.
+        // loops over the different groups, and for each
+        // creates the different subelements. For example in the group of lethalblocks
+        // the spike, lava, and water objects will be created. 
         for (var i = 0; i < objectLayers.length; i++) {
             groups[i].enableBody = true;
             for (var j = 0; j < objectsInLayer[i].length; j++) {
@@ -116,7 +113,6 @@ Game.Level.prototype = {
                     map.createFromObjects(objectLayers[i], objectsInLayer[i][j], 
                     objectsInLayer[i][j], 0, true, false, groups[i]);    
                 }
-                
             }
         }
 
@@ -134,8 +130,9 @@ Game.Level.prototype = {
         enemyGroup = initEnemyGroup(game, enemyGroup, null);
 
         
-        // Sets the properties for the player
+        // sets the gravity for the game world.
         this.physics.arcade.gravity.y = 1000;
+        // Sets the properties for the player
         var playerProperties = {
             x: -100,
             y: -100,
@@ -147,6 +144,7 @@ Game.Level.prototype = {
         this.camera.follow(player);
         player.spawn();
 
+
         controls = {
             right: this.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
             left: this.input.keyboard.addKey(Phaser.Keyboard.LEFT),
@@ -156,6 +154,7 @@ Game.Level.prototype = {
             muteSound: this.input.keyboard.addKey(Phaser.Keyboard.M),
         };
 
+       
         // Shows current abilities
         
         abilityOneSprite = game.add.sprite(10, windowHeight - 100, 'shoot');
@@ -199,18 +198,8 @@ Game.Level.prototype = {
             this.physics.arcade.collide(enemyGroup, collisionLayer);
             this.physics.arcade.collide(player, breakableGroup);
 
-            // TODO: Move all the xGroup.forEach to respective JS files?
-  
             if (player.isStomping)
                 checkBreakableCollision(player, breakableGroup);
-
-
-
-            coinGroup.forEach(function(item) {
-                game.physics.arcade.overlap(player, item, function() {
-                    destroySprite(item);
-                });
-            }, this);
             
             if (!changingMap) {
                 
@@ -225,6 +214,7 @@ Game.Level.prototype = {
                         });
                         player.setCoolDown();
                         player.body.velocity.x -= player.direction() * 400;
+                        player.body.velocity.y -= 70;
                     }
                 }, null, this); 
             }
@@ -234,16 +224,23 @@ Game.Level.prototype = {
                     mapComplete(game);
                 });
             });
-            var myTimer = 0;
-
+            
+            var abilityTimer = 0;
             abilityGroup.forEach(function(item) {
                 game.physics.arcade.overlap(player, item, function() {
                     blink(player, item);
-                    player.setAbilitySwap(item);
-                    myTimer = game.time.now;
+                    player.fillAbilitySlot(item);
+                    abilityTimer = game.time.now;
                 });
             });
-
+            
+            if (game.time.now > abilityTimer) {
+                abilityTwoSprite.alpha = 1;
+                abilityOneSprite.alpha = 1;
+                abilityGroup.forEach(function(item) {
+                    item.alpha = 1;
+                });
+            }
 
             projectiles.forEach(function(projectileItem) {
                 // Before checking collide with enemy we check with the layer
@@ -267,15 +264,7 @@ Game.Level.prototype = {
 
             });
 
-            if (game.time.now > myTimer) {
-                abilityTwoSprite.alpha = 1;
-                abilityOneSprite.alpha = 1;
-                abilityGroup.forEach(function(item) {
-                    item.alpha = 1;
-                });
-            }
-
-
+            
             // Checking for player movement
             player.move("stop");
 
@@ -314,16 +303,19 @@ Game.Level.prototype = {
             player.checkRoofCollision(game);
 
         }
+        
+        // This else executes if the player is dead
         else {
-            if (player.y > map.heightInPixels) {
-                game.state.restart();
-            }
+
 
             this.physics.arcade.collide(enemyGroup, layer);
             this.physics.arcade.collide(enemyGroup, collisionLayer);
             enemyGroup.forEach(function(enemyItem) {
                 moveEnemy(enemyItem);
             });
+            
+            restartMap(game);
+
         }
         
     },

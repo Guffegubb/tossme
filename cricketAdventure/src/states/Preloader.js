@@ -11,7 +11,6 @@ Game.Preloader.prototype = {
     preload: function() {
 
         // Load all assets
-        //TODO: Double-check that all assets are used
 
         // load assets for main menu 
         this.load.image('playButton', 'assets/abilities/longJump.png'); // this one should be changed
@@ -23,8 +22,8 @@ Game.Preloader.prototype = {
         this.load.image('level5', 'assets/menu/5.png');
         this.load.image('level6', 'assets/menu/6.png');
         this.load.image('level7', 'assets/menu/7.png');
-        this.load.image('level8', 'assets/menu/8.png');
-        this.load.image('level9', 'assets/menu/9.png');
+/*        this.load.image('level8', 'assets/menu/8.png');
+        this.load.image('level9', 'assets/menu/9.png'); */
         this.load.image('lock', 'assets/menu/lock.png');
 
         // load picture for fading
@@ -93,6 +92,8 @@ Game.Preloader.prototype = {
     },
 
     create: function() {
+        
+        // Fades in the title screen for the player to see. 
         this.intro = this.game.add.sprite(this.world.centerX, this.world.centerY, 'titlescreen');
         this.intro.anchor.setTo(0.5);
         this.intro.alpha = 0;
