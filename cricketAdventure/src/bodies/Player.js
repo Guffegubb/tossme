@@ -420,9 +420,7 @@ var Player = function(game, properties) {
 					player.alpha = 1;
 
 			}, this);
-
 		}
-
 	}
 
 	/**
