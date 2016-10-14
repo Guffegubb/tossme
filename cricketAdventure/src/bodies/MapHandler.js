@@ -40,9 +40,6 @@ function exitToMenu(game) {
 function nextMap(game) {
     changingMap = false;
 
-
-    levelComplete.play();
-
     var counter = chosenMap.slice(-1);
     // NumberSize is used if we have more than 9 maps
     // That is the number takes up more than 1 space

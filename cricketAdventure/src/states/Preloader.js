@@ -87,11 +87,12 @@ Game.Preloader.prototype = {
 
         // load Objects audio
         this.load.audio('breakAudio', 'assets/audio/objects/break.ogg');
-        this.load.audio('levelCompleteAudio', 'assets/audio/objects/levelComplete.ogg')
 
     },
 
-    create: function() {
+    create: function(game) {
+        
+        game.sound.mute = true;
         
         // Fades in the title screen for the player to see. 
         this.intro = this.game.add.sprite(this.world.centerX, this.world.centerY, 'titlescreen');

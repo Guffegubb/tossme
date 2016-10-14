@@ -1,7 +1,3 @@
-// TODO: remove global after code done
-/*global player*/
-/*global Phaser*/
-
 var Player = function(game, properties) {
 
 

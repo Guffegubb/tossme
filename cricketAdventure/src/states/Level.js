@@ -41,9 +41,6 @@ Game.Level.prototype = {
         
         // All the object music is created here for now
         breakAudio = game.add.audio('breakAudio');
-        levelComplete = game.add.audio('levelCompleteAudio');
-        levelComplete.volume = 0.6;
-        game.sound.mute = false;
 
         // Initialize map and tilesets
         this.stage.backgroundColor = '#FFFFFF';
