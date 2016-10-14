@@ -83,7 +83,9 @@ var Player = function(game, properties) {
 			else if (direction == "jump") {
 				if (player.body.onFloor() ||
 					(touchingBreakableBlock(player, 'over', breakableGroup) && player.body.touching.down)) {
-					jumpAudio.play();
+					
+					if (!player.body.touching.up)
+						jumpAudio.play();
 
 					// this prevents the super jump by pressing up + highJump.
 					if (!(controls.abilityOne.isDown || controls.abilityTwo.isDown))

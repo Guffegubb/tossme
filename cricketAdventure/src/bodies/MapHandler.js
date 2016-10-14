@@ -40,13 +40,12 @@ function exitToMenu(game) {
 function nextMap(game) {
     changingMap = false;
 
-    var counter = chosenMap.slice(-1);
+    var counter = chosenMap.slice(3);
     // NumberSize is used if we have more than 9 maps
     // That is the number takes up more than 1 space
     numberSize = counter.length;
     counter = parseInt(counter);
     counter = counter + 1;
-
     if (counter > maps.length) {
         game.state.start('Credits');
     }
