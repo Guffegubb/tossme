@@ -43,7 +43,7 @@ Game.MainMenu.prototype = {
             'level9' */
             ]
         var unlocked = parseInt(localStorage.getItem('unlockedMaps'));
-        console.log(unlocked);
+        
         if (isNaN(unlocked)) {
         localStorage.setItem('unlockedMaps', 0);
         unlocked = 0;
