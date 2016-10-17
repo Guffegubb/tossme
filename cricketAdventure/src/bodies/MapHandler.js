@@ -134,7 +134,7 @@ function restartMap(game) {
  */
 function updateUnlockedMaps() {
     if (parseInt(localStorage.getItem('unlockedMaps')) <= chosenMap) {
-        localStorage.setItem('unlockedMaps', chosenMap + 1);
+        localStorage.setItem('unlockedMaps', parseInt(chosenMap) + 1);
     }
     /*
     if (parseInt(localStorage.getItem('unlockedMaps')) <= parseInt(chosenMap.slice(-1))) {
