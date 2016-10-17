@@ -38,6 +38,19 @@ function exitToMenu(game) {
  * Calls the next map by incrementing the number of the current map
  */
 function nextMap(game) {
+    
+    chosenMap++;
+    
+    if (chosenMap < maps.length) {
+        game.state.start('Level', true, false);
+    }
+    else {
+        game.state.start('Credits');
+    }
+    
+    
+    /*
+    
     changingMap = false;
 
     var counter = chosenMap.slice(3);
@@ -53,6 +66,8 @@ function nextMap(game) {
         chosenMap = chosenMap.substring(0, chosenMap.length - numberSize) + counter;
         game.state.start('Level', true, false);
     }
+    
+    */
 
 };
 
@@ -118,7 +133,11 @@ function restartMap(game) {
  * Updates localStorage on client browser to reflect map progress.
  */
 function updateUnlockedMaps() {
+    if (parseInt(localStorage.getItem('unlockedMaps')) <= chosenMap) {
+        localStorage.setItem('unlockedMaps', chosenMap + 1);
+    }
+    /*
     if (parseInt(localStorage.getItem('unlockedMaps')) <= parseInt(chosenMap.slice(-1))) {
         localStorage.setItem('unlockedMaps', chosenMap.slice(-1));
-    }
+    }*/
 };

@@ -36,7 +36,6 @@ Game.Level.prototype = {
 
     create: function(game) {
         
-        
         changingMap = false;
         
         // All the object music is created here for now
@@ -45,11 +44,12 @@ Game.Level.prototype = {
         // Initialize map and tilesets
         this.stage.backgroundColor = '#FFFFFF';
         
-        map = this.add.tilemap(chosenMap);
+        
+        
+        map = this.add.tilemap(maps[chosenMap]);
         map.addTilesetImage('tileset', 'tileset');
         map.addTilesetImage('enemyTileset', 'enemyTileset');
         collisionLayer = map.createLayer('Enemy Collision Layer')
-        //collisionLayer = map.createLayer('enemyCollisionLayer');
         backgroundLayer = map.createLayer('Background Layer');
         layer = map.createLayer('Tile Layer 1');
 
@@ -65,7 +65,7 @@ Game.Level.prototype = {
         enemyGroup = game.add.group();
         enemyCollisionGroup = game.add.group();
 
-        // variable groups need to have th phaser groups in the same order as the
+        // variable groups need to have the phaser groups in the same order as the
         // objectLayers array below for this solution to work.
         groups = [
             spawnGroup,
@@ -149,6 +149,7 @@ Game.Level.prototype = {
             abilityOne: this.input.keyboard.addKey(Phaser.Keyboard.Z),
             abilityTwo: this.input.keyboard.addKey(Phaser.Keyboard.X),
             muteSound: this.input.keyboard.addKey(Phaser.Keyboard.M),
+            completeMap: this.input.keyboard.addKey(Phaser.Keyboard.W),
         };
 
        
@@ -218,7 +219,10 @@ Game.Level.prototype = {
             
             goalGroup.forEach(function(item) {
                 game.physics.arcade.overlap(player, item, function() {
-                    mapComplete(game);
+                    // To avoid calling mapComplete several times the if
+                    // is implemented (otherwise maps can be skipped)
+                    if (!changingMap)
+                        mapComplete(game);
                 });
             });
             
@@ -295,6 +299,11 @@ Game.Level.prototype = {
             
             if (controls.muteSound.isUp) {
                 preventMultiMute = true;
+            }
+            
+            if (controls.completeMap.isDown) {
+                if (!changingMap)
+                    mapComplete(game);
             }
             
             player.checkRoofCollision(game);

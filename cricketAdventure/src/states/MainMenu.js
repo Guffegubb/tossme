@@ -53,7 +53,6 @@ Game.MainMenu.prototype = {
         // have been unlocked on this computer. 
         for (var map in maps) {
             if (mapCounter <= unlocked) {
-                
                 this.createButton(game, map, levelButtons[map], 128 + ( windowWidth - 192 ) 
                 / numberOfMaps * map, game.world.centerY + windowHeight / 7);
                 mapCounter++;
@@ -69,7 +68,8 @@ Game.MainMenu.prototype = {
 
     createButton: function(game, index, image, x, y) {
         game.add.button(x, y, image, function() {
-            chosenMap = maps[index];
+            //chosenMap = maps[index];
+            chosenMap = index;
             game.state.start('Level', true, false);
         });
     }
