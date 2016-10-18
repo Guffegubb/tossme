@@ -149,7 +149,7 @@ Game.Level.prototype = {
             abilityOne: this.input.keyboard.addKey(Phaser.Keyboard.Z),
             abilityTwo: this.input.keyboard.addKey(Phaser.Keyboard.X),
             muteSound: this.input.keyboard.addKey(Phaser.Keyboard.M),
-            completeMap: this.input.keyboard.addKey(Phaser.Keyboard.W),
+            completeMap: this.input.keyboard.addKey(Phaser.Keyboard.U),
         };
 
        

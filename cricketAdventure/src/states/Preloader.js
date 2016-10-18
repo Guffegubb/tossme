@@ -28,6 +28,10 @@ Game.Preloader.prototype = {
 
         // load picture for fading
         this.load.image('fadeScreen', 'assets/menu/fadeScreen.png');
+        
+        // load picture for next map and winning game
+        this.load.image('nextLevelScreen', 'assets/menu/nextLevel.png');
+        this.load.image('winningScreen', 'assets/menu/winningScreen.png');
 
         // load maps and tilesets
         this.load.tilemap('map1', 'assets/maps/level1.json', null, Phaser.Tilemap.TILED_JSON);

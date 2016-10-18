@@ -47,27 +47,6 @@ function nextMap(game) {
     else {
         game.state.start('Credits');
     }
-    
-    
-    /*
-    
-    changingMap = false;
-
-    var counter = chosenMap.slice(3);
-    // NumberSize is used if we have more than 9 maps
-    // That is the number takes up more than 1 space
-    numberSize = counter.length;
-    counter = parseInt(counter);
-    counter = counter + 1;
-    if (counter > maps.length) {
-        game.state.start('Credits');
-    }
-    else {
-        chosenMap = chosenMap.substring(0, chosenMap.length - numberSize) + counter;
-        game.state.start('Level', true, false);
-    }
-    
-    */
 
 };
 
@@ -82,16 +61,9 @@ function mapComplete(game) {
 
     updateUnlockedMaps();
 
-    var style = {
-        font: "64px Arial",
-        fill: "#413FAD",
-        align: "center"
-    }
-    var t = game.add.text(game.width / 3, game.height / 3,
-        "Level Complete!",
-        style);
-    t.fixedToCamera = true;
-    t.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+
+    var nextLevelScreen = game.add.sprite(0, 0, 'nextLevelScreen');
+    nextLevelScreen.fixedToCamera = true;
 
     var fadeScreen = game.add.sprite(0, 0, 'fadeScreen');
     fadeScreen.fixedToCamera = true;
@@ -103,6 +75,7 @@ function mapComplete(game) {
             },
             3000, Phaser.Easing.Circular.In, true, 0, 0, false);
         fadeScreen.onComplete.add(function() {
+            nextLevelScreen.destroy();
             nextMap(game);
         }, this);
 
@@ -136,8 +109,4 @@ function updateUnlockedMaps() {
     if (parseInt(localStorage.getItem('unlockedMaps')) <= chosenMap) {
         localStorage.setItem('unlockedMaps', parseInt(chosenMap) + 1);
     }
-    /*
-    if (parseInt(localStorage.getItem('unlockedMaps')) <= parseInt(chosenMap.slice(-1))) {
-        localStorage.setItem('unlockedMaps', chosenMap.slice(-1));
-    }*/
 };
